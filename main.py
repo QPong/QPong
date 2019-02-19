@@ -287,13 +287,13 @@ def main():
 
     circuit_grid_model.set_node(0, 1, node_types.B)
 
-    circuit_grid_model.set_node(0, 2, node_types.H)
-    circuit_grid_model.set_node(1, 2, node_types.H)
+    circuit_grid_model.set_node(0, 2, node_types.S)
+    circuit_grid_model.set_node(1, 2, node_types.T)
     circuit_grid_model.set_node(2, 2, node_types.H)
 
-    circuit_grid_model.set_node(0, 3, node_types.X)
-    circuit_grid_model.set_node(1, 3, node_types.X)
-    circuit_grid_model.set_node(2, 3, node_types.X)
+    circuit_grid_model.set_node(0, 3, node_types.SDG)
+    circuit_grid_model.set_node(1, 3, node_types.TDG)
+    circuit_grid_model.set_node(2, 3, node_types.IDEN)
 
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()

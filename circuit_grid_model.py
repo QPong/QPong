@@ -36,7 +36,9 @@ class CircuitGridModel():
             for wire_num in range(self.max_wires):
                 node = self.nodes[wire_num][column_num]
                 if node:
-                    if node.node_type == node_types.X:
+                    if node.node_type == node_types.IDEN:
+                        qc.iden(qr[wire_num])
+                    elif node.node_type == node_types.X:
                         if node.radians == 0:
                             qc.x(qr[wire_num])
                         else:
@@ -51,6 +53,14 @@ class CircuitGridModel():
                             qc.z(qr[wire_num])
                         else:
                             qc.rz(node.radians, qr[wire_num])
+                    elif node.node_type == node_types.S:
+                        qc.s(qr[wire_num])
+                    elif node.node_type == node_types.SDG:
+                        qc.sdg(qr[wire_num])
+                    elif node.node_type == node_types.T:
+                        qc.t(qr[wire_num])
+                    elif node.node_type == node_types.TDG:
+                        qc.tdg(qr[wire_num])
                     elif node.node_type == node_types.H:
                         qc.h(qr[wire_num])
                     elif node.node_type == node_types.B:
