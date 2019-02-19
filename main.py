@@ -326,9 +326,9 @@ def main():
     qsphere = QSphere(circuit)
     statevector_grid = StatevectorGrid(circuit)
 
-    left_sprites = VBox(0, 0, circuit_diagram, qsphere, histogram)
+    left_sprites = VBox(0, 0, circuit_diagram, qsphere)
     # middle_sprites = VBox(600, 0, unitary_grid, histogram)
-    middle_sprites = VBox(600, 0)
+    middle_sprites = VBox(600, 200, histogram)
     right_sprites = VBox(1300, 0, statevector_grid)
 
 
