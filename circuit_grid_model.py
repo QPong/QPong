@@ -19,11 +19,14 @@ class CircuitGridModel():
 
         return 'CircuitGridModel: ' + retval
 
-    def set_node(self, wire_num, column_num, node_type, radians=0):
-        if not self.nodes[wire_num][column_num]:
-            self.nodes[wire_num][column_num] = CircuitGridNode(node_type, radians)
-        else:
-            print('Node ', wire_num, column_num, ' not empty')
+    def set_node(self, wire_num, column_num, node_type, radians=0, ctrl_a=-1, ctrl_b=-1, swap=-1):
+        self.nodes[wire_num][column_num] = CircuitGridNode(node_type, radians, ctrl_a, ctrl_b, swap)
+
+        # TODO: Decide whether to protect as shown below
+        # if not self.nodes[wire_num][column_num]:
+        #     self.nodes[wire_num][column_num] = CircuitGridNode(node_type, radians)
+        # else:
+        #     print('Node ', wire_num, column_num, ' not empty')
 
     def get_node(self, wire_num, column_num):
         return self.nodes[wire_num][column_num]
@@ -33,60 +36,98 @@ class CircuitGridModel():
         qc = QuantumCircuit(qr)
 
         for column_num in range(self.max_columns):
-            # First, handle case in which multi-qubit gates are specified
-            if not self.compute_multi_qubit_gate(qc, qr, column_num):
-                for wire_num in range(self.max_wires):
-                    node = self.nodes[wire_num][column_num]
-                    if node:
-                        if node.node_type == node_types.IDEN:
-                            qc.iden(qr[wire_num])
-                        elif node.node_type == node_types.X:
-                            if node.radians == 0:
+            for wire_num in range(self.max_wires):
+                node = self.nodes[wire_num][column_num]
+                if node:
+                    if node.node_type == node_types.IDEN:
+                        # Identity gate
+                        qc.iden(qr[wire_num])
+                    elif node.node_type == node_types.X:
+                        if node.radians == 0:
+                            if node.ctrl_a != -1:
+                                if node.ctrl_b != -1:
+                                    # Toffoli gate
+                                    qc.ccx(qr[node.ctrl_a], qr[node.ctrl_b], qr[wire_num])
+                                else:
+                                    # Controlled X gate
+                                    qc.cx(qr[node.ctrl_a], qr[wire_num])
+                            else:
+                                # Pauli-X gate
                                 qc.x(qr[wire_num])
+                        else:
+                            # Rotation around X axis
+                            qc.rx(node.radians, qr[wire_num])
+                    elif node.node_type == node_types.Y:
+                        if node.radians == 0:
+                            if node.ctrl_a != -1:
+                                # Controlled Y gate
+                                qc.cy(qr[node.ctrl_a], qr[wire_num])
                             else:
-                                qc.rx(node.radians, qr[wire_num])
-                        elif node.node_type == node_types.Y:
-                            if node.radians == 0:
+                                # Pauli-Y gate
                                 qc.y(qr[wire_num])
+                        else:
+                            # Rotation around Y axis
+                            qc.ry(node.radians, qr[wire_num])
+                    elif node.node_type == node_types.Z:
+                        if node.radians == 0:
+                            if node.ctrl_a != -1:
+                                # Controlled Z gate
+                                qc.cz(qr[node.ctrl_a], qr[wire_num])
                             else:
-                                qc.ry(node.radians, qr[wire_num])
-                        elif node.node_type == node_types.Z:
-                            if node.radians == 0:
+                                # Pauli-Z gate
                                 qc.z(qr[wire_num])
+                        else:
+                            if node.ctrl_a != -1:
+                                # Controlled rotation around the Z axis
+                                qc.crz(node.radians, qr[node.ctrl_a], qr[wire_num])
                             else:
+                                # Rotation around Z axis
                                 qc.rz(node.radians, qr[wire_num])
-                        elif node.node_type == node_types.S:
-                            qc.s(qr[wire_num])
-                        elif node.node_type == node_types.SDG:
-                            qc.sdg(qr[wire_num])
-                        elif node.node_type == node_types.T:
-                            qc.t(qr[wire_num])
-                        elif node.node_type == node_types.TDG:
-                            qc.tdg(qr[wire_num])
-                        elif node.node_type == node_types.H:
+                    elif node.node_type == node_types.S:
+                        # S gate
+                        qc.s(qr[wire_num])
+                    elif node.node_type == node_types.SDG:
+                        # S dagger gate
+                        qc.sdg(qr[wire_num])
+                    elif node.node_type == node_types.T:
+                        # T gate
+                        qc.t(qr[wire_num])
+                    elif node.node_type == node_types.TDG:
+                        # T dagger gate
+                        qc.tdg(qr[wire_num])
+                    elif node.node_type == node_types.H:
+                        if node.ctrl_a != -1:
+                            # Controlled Hadamard
+                            qc.ch(qr[node.ctrl_a], qr[wire_num])
+                        else:
+                            # Hadamard gate
                             qc.h(qr[wire_num])
-                        elif node.node_type == node_types.B:
-                            qc.barrier(qr)
+                    elif node.node_type == node_types.SWAP:
+                        if node.ctrl_a != -1:
+                            # Controlled Swap
+                            qc.cswap(qr[node.ctrl_a], qr[wire_num], qr[node.swap])
+                        else:
+                            # Swap gate
+                            qc.swap(qr[wire_num], qr[node.swap])
+                    elif node.node_type == node_types.B:
+                        # Barrier
+                        qc.barrier(qr)
 
         return qc
 
-    def compute_multi_qubit_gate(self, qc, qr, column_num):
-        print('Column ', column_num, ': ', str(self.nodes[:, column_num]))
-        for wire_num in range(self.max_wires):
-            node = self.nodes[wire_num][column_num]
-            if node:
-                if node.node_type == node_types.C:
-                    qc.cx(qr[0], qr[1])
-                    return True
-        return False
 
 class CircuitGridNode():
     """Represents a node in the circuit grid"""
-    def __init__(self, node_type, radians):
+    def __init__(self, node_type, radians=0.0, ctrl_a=-1, ctrl_b=-1, swap=-1):
         self.node_type = node_type
         self.radians = radians
+        self.ctrl_a = ctrl_a
+        self.ctrl_b = ctrl_b
+        self.swap = swap
 
     def __str__(self):
         string = 'type: ' + str(self.node_type)
         string += ', radians: ' + str(self.radians) if self.radians != 0 else ''
+        string += ', ctrl_a: ' + str(self.ctrl_a) if self.ctrl_a != -1 else ''
+        string += ', ctrl_b: ' + str(self.ctrl_b) if self.ctrl_b != -1 else ''
         return string

@@ -7,5 +7,5 @@ SDG = 5
 T = 6
 TDG = 7
 H = 8
-C = 9
+SWAP = 9
 B = 10
