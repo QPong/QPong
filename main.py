@@ -214,7 +214,7 @@ class UnitaryGrid(pygame.sprite.Sprite):
         result_sim = job_sim.result()
 
         unitary = result_sim.get_unitary(circuit, decimals=3)
-        print('unitary: ', unitary)
+        # print('unitary: ', unitary)
 
         self.image = pygame.Surface([len(unitary) * 50, len(unitary) * 50])
         self.image.fill(WHITE)
@@ -282,8 +282,8 @@ def main():
     circuit_grid_model = CircuitGridModel(3, 6)
 
     circuit_grid_model.set_node(0, 0, node_types.X)
-    circuit_grid_model.set_node(1, 1, node_types.X)
-    circuit_grid_model.set_node(2, 1, node_types.X)
+    circuit_grid_model.set_node(1, 0, node_types.X)
+    circuit_grid_model.set_node(2, 0, node_types.X)
 
     circuit_grid_model.set_node(0, 1, node_types.B)
 
@@ -295,7 +295,7 @@ def main():
     circuit_grid_model.set_node(1, 3, node_types.X)
     circuit_grid_model.set_node(2, 3, node_types.X)
 
-    print("circuit_grid_model.nodes: ", circuit_grid_model.nodes)
+    print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
     # circuit = create_circuit()
 

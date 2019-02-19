@@ -10,6 +10,15 @@ class CircuitGridModel():
         self.nodes = np.empty((max_wires, max_columns),
                                 dtype = CircuitGridNode)
 
+    def __str__(self):
+        retval = ''
+        for wire_num in range(self.max_wires):
+            retval += '\n'
+            for column_num in range(self.max_columns):
+                retval += str(self.nodes[wire_num][column_num]) + ', '
+
+        return 'CircuitGridModel: ' + retval
+
     def set_node(self, wire_num, column_num, node_type, radians=0):
         if not self.nodes[wire_num][column_num]:
             self.nodes[wire_num][column_num] = CircuitGridNode(node_type, radians)
@@ -36,7 +45,7 @@ class CircuitGridModel():
                     elif node.node_type == node_types.H:
                         qc.h(qr[wire_num])
                     elif node.node_type == node_types.B:
-                        qc.barrier(qr[wire_num])
+                        qc.barrier(qr)
 
         return qc
 
@@ -49,5 +58,5 @@ class CircuitGridNode():
         self.radians = radians
 
     def __str__(self):
-        string = 'node_type: ' + str(self.node_type)
+        string = 'type: ' + str(self.node_type)
         return string
