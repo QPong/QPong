@@ -4,7 +4,6 @@ Demonstrates various entangled states
 """
 
 import os, pygame
-import numpy as np
 from pygame.locals import *
 from pygame.compat import geterror
 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
@@ -13,10 +12,10 @@ from qiskit import BasicAer
 from qiskit.tools.visualization import plot_state_qsphere
 from qiskit.tools.visualization import plot_histogram
 
-from circuit_grid_node import *
-import circuit_node_types as node_type
+from circuit_grid_model import *
+import circuit_node_types as node_types
 
-COMP_BASIS_STATES = ['00', '01', '10', '11']
+COMP_BASIS_STATES = ['000', '001', '010', '011', '100', '101', '110', '111']
 
 DEFAULT_NUM_SHOTS = 100
 
@@ -79,24 +78,6 @@ def create_circuit():
     qc.h(qr[0])
     qc.cx(qr[0], qr[1])
     return qc
-
-class CircuitGridModel():
-    """Grid-based model that is built when user interacts with circuit"""
-    def __init__(self, max_wires, max_columns):
-        self.max_wires = max_wires
-        self.max_columns = max_columns
-        self.nodes = np.empty((max_wires, max_columns),
-                              dtype = CircuitGridNode)
-
-    def set_node(self, wire_num, column_num, node_type, radians=0):
-        if not self.nodes[wire_num][column_num]:
-            self.nodes[wire_num][column_num] = CircuitGridNode(node_type, radians)
-        else:
-            print('Node ', wire_num, column_num, ' not empty')
-
-    def get_node(self, wire_num, column_num):
-        return self.nodes[wire_num][column_num]
-
 
 
 class HBox(pygame.sprite.RenderPlain):
@@ -198,7 +179,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
 
         quantum_state = result_sim.get_statevector(circuit, decimals=3)
 
-        self.image = pygame.Surface([150, len(quantum_state) * 50])
+        self.image = pygame.Surface([(circuit.width() + 1) * 50, len(quantum_state) * 50])
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
 
@@ -208,7 +189,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
         for y in range(len(quantum_state)):
             text_surface = ARIAL_30.render(COMP_BASIS_STATES[y], False, (0, 0, 0))
             self.image.blit(text_surface,(x_offset, (y + 1) * block_size + y_offset))
-            rect = pygame.Rect(x_offset + block_size,
+            rect = pygame.Rect(x_offset + circuit.width() * 20,
                                (y + 1) * block_size + y_offset,
                                abs(quantum_state[y]) * block_size,
                                abs(quantum_state[y]) * block_size)
@@ -297,7 +278,26 @@ def main():
 
     # Prepare objects
     clock = pygame.time.Clock()
-    circuit = create_circuit()
+
+    circuit_grid_model = CircuitGridModel(3, 6)
+
+    circuit_grid_model.set_node(0, 0, node_types.X)
+    circuit_grid_model.set_node(1, 1, node_types.X)
+    circuit_grid_model.set_node(2, 1, node_types.X)
+
+    circuit_grid_model.set_node(0, 1, node_types.B)
+
+    circuit_grid_model.set_node(0, 2, node_types.H)
+    circuit_grid_model.set_node(1, 2, node_types.H)
+    circuit_grid_model.set_node(2, 2, node_types.H)
+
+    circuit_grid_model.set_node(0, 3, node_types.X)
+    circuit_grid_model.set_node(1, 3, node_types.X)
+    circuit_grid_model.set_node(2, 3, node_types.X)
+
+    print("circuit_grid_model.nodes: ", circuit_grid_model.nodes)
+    circuit = circuit_grid_model.compute_circuit()
+    # circuit = create_circuit()
 
     circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
@@ -306,14 +306,10 @@ def main():
     statevector_grid = StatevectorGrid(circuit)
 
     left_sprites = VBox(0, 0, circuit_diagram, qsphere)
-    middle_sprites = VBox(600, 0, unitary_grid, histogram)
+    # middle_sprites = VBox(600, 0, unitary_grid, histogram)
+    middle_sprites = VBox(600, 0, histogram)
     right_sprites = VBox(1300, 0, statevector_grid)
 
-    circuit_grid_model = CircuitGridModel(8, 10)
-    print("circuit_grid_model.nodes: ", circuit_grid_model.nodes)
-    circuit_grid_model.set_node(2, 3, node_type.X)
-    print("circuit_grid_model.nodes: ", circuit_grid_model.nodes)
-    print('circuit_grid_model.get_node(2, 3):', circuit_grid_model.get_node(2, 3))
 
     # Main Loop
     going = True
@@ -333,7 +329,8 @@ def main():
                 elif event.key == K_LEFT or event.key == K_UP:
                     index_increment = -1
                 if index_increment != 0:
-                    circuit = create_circuit()
+                    circuit = circuit_grid_model.compute_circuit()
+                    # circuit = create_circuit()
 
                     circuit_diagram.set_circuit(circuit)
                     unitary_grid.set_circuit(circuit)
