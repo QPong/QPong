@@ -281,9 +281,9 @@ def main():
 
     circuit_grid_model = CircuitGridModel(3, 6)
 
-    circuit_grid_model.set_node(0, 0, node_types.X)
-    circuit_grid_model.set_node(1, 0, node_types.X)
-    circuit_grid_model.set_node(2, 0, node_types.X)
+    circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
+    circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
+    circuit_grid_model.set_node(2, 0, node_types.Z, np.pi/4)
 
     circuit_grid_model.set_node(0, 1, node_types.B)
 

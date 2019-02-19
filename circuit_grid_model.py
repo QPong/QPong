@@ -37,18 +37,26 @@ class CircuitGridModel():
                 node = self.nodes[wire_num][column_num]
                 if node:
                     if node.node_type == node_types.X:
-                        qc.x(qr[wire_num])
+                        if node.radians == 0:
+                            qc.x(qr[wire_num])
+                        else:
+                            qc.rx(node.radians, qr[wire_num])
                     elif node.node_type == node_types.Y:
-                        qc.y(qr[wire_num])
+                        if node.radians == 0:
+                            qc.y(qr[wire_num])
+                        else:
+                            qc.ry(node.radians, qr[wire_num])
                     elif node.node_type == node_types.Z:
-                        qc.z(qr[wire_num])
+                        if node.radians == 0:
+                            qc.z(qr[wire_num])
+                        else:
+                            qc.rz(node.radians, qr[wire_num])
                     elif node.node_type == node_types.H:
                         qc.h(qr[wire_num])
                     elif node.node_type == node_types.B:
                         qc.barrier(qr)
 
         return qc
-
 
 
 class CircuitGridNode():
@@ -59,4 +67,5 @@ class CircuitGridNode():
 
     def __str__(self):
         string = 'type: ' + str(self.node_type)
+        string += ', radians: ' + str(self.radians) if self.radians != 0 else ''
         return string
