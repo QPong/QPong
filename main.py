@@ -295,6 +295,12 @@ def main():
     circuit_grid_model.set_node(1, 3, node_types.TDG)
     circuit_grid_model.set_node(2, 3, node_types.IDEN)
 
+    circuit_grid_model.set_node(0, 4, node_types.C)
+    circuit_grid_model.set_node(2, 4, node_types.X)
+
+    circuit_grid_model.set_node(0, 5, node_types.Z, np.pi/8)
+    circuit_grid_model.set_node(1, 5, node_types.C)
+
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
     # circuit = create_circuit()
@@ -305,9 +311,9 @@ def main():
     qsphere = QSphere(circuit)
     statevector_grid = StatevectorGrid(circuit)
 
-    left_sprites = VBox(0, 0, circuit_diagram, qsphere)
+    left_sprites = VBox(0, 0, circuit_diagram, histogram)
     # middle_sprites = VBox(600, 0, unitary_grid, histogram)
-    middle_sprites = VBox(600, 0, histogram)
+    middle_sprites = VBox(600, 0, qsphere)
     right_sprites = VBox(1300, 0, statevector_grid)
 
 
