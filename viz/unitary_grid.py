@@ -16,13 +16,14 @@
 #
 import pygame
 from qiskit import BasicAer, execute
+
 from utils.colors import WHITE, BLACK
-from utils.fonts import ARIAL_30
+from utils.fonts import *
 from utils.states import comp_basis_states
 
 
-class StatevectorGrid(pygame.sprite.Sprite):
-    """Displays a statevector grid"""
+class UnitaryGrid(pygame.sprite.Sprite):
+    """Displays a unitary matrix grid"""
     def __init__(self, circuit):
         pygame.sprite.Sprite.__init__(self)
         self.image = None
@@ -35,25 +36,29 @@ class StatevectorGrid(pygame.sprite.Sprite):
     #     a = 1
 
     def set_circuit(self, circuit):
-        backend_sv_sim = BasicAer.get_backend('statevector_simulator')
-        job_sim = execute(circuit, backend_sv_sim)
+        backend_unit_sim = BasicAer.get_backend('unitary_simulator')
+        job_sim = execute(circuit, backend_unit_sim)
         result_sim = job_sim.result()
 
-        quantum_state = result_sim.get_statevector(circuit, decimals=3)
+        unitary = result_sim.get_unitary(circuit, decimals=3)
+        # print('unitary: ', unitary)
 
-        self.image = pygame.Surface([(circuit.width() + 1) * 50, len(quantum_state) * 50])
+        self.image = pygame.Surface([100 + len(unitary) * 50, 100 + len(unitary) * 50])
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
 
-        block_size = 50
+        block_size = 30
         x_offset = 50
         y_offset = 50
-        for y in range(len(quantum_state)):
-            text_surface = ARIAL_30.render(self.basis_states[y], False, (0, 0, 0))
+        for y in range(len(unitary)):
+            text_surface = ARIAL_16.render(self.basis_states[y], False, (0, 0, 0))
             self.image.blit(text_surface,(x_offset, (y + 1) * block_size + y_offset))
-            rect = pygame.Rect(x_offset + circuit.width() * 20,
-                               (y + 1) * block_size + y_offset,
-                               abs(quantum_state[y]) * block_size,
-                               abs(quantum_state[y]) * block_size)
-            if abs(quantum_state[y]) > 0:
-                pygame.draw.rect(self.image, BLACK, rect, 1)
+            for x in range(len(unitary)):
+                text_surface = ARIAL_16.render(self.basis_states[x], False, (0, 0, 0))
+                self.image.blit(text_surface, ((x + 1) * block_size + x_offset, y_offset))
+                rect = pygame.Rect((x + 1) * block_size + x_offset,
+                                   (y + 1) * block_size + y_offset,
+                                   abs(unitary[y][x]) * block_size,
+                                   abs(unitary[y][x]) * block_size)
+                if abs(unitary[y][x]) > 0:
+                    pygame.draw.rect(self.image, BLACK, rect, 1)

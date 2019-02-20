@@ -18,22 +18,16 @@
 
 import pygame
 from pygame.locals import *
-from qiskit import execute
-from qiskit import BasicAer
-from qiskit.tools.visualization import plot_histogram
 
 from circuit_grid_model import *
 import circuit_node_types as node_types
 from containers.vbox import VBox
-from utils.colors import WHITE, BLACK
-from utils.resources import load_image
+from utils.colors import WHITE
 from viz.circuit_diagram import CircuitDiagram
+from viz.measurements_histogram import MeasurementsHistogram
 from viz.qsphere import QSphere
 from viz.statevector_grid import StatevectorGrid
-
-COMP_BASIS_STATES = ['000', '001', '010', '011', '100', '101', '110', '111']
-
-DEFAULT_NUM_SHOTS = 100
+from viz.unitary_grid import UnitaryGrid
 
 WINDOW_SIZE = 1500, 1200
 
@@ -59,81 +53,6 @@ def create_circuit():
     qc.h(qr[0])
     qc.cx(qr[0], qr[1])
     return qc
-
-
-class UnitaryGrid(pygame.sprite.Sprite):
-    """Displays a unitary matrix grid"""
-    def __init__(self, circuit):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = None
-        self.rect = None
-        self.set_circuit(circuit)
-
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
-    def set_circuit(self, circuit):
-        backend_unit_sim = BasicAer.get_backend('unitary_simulator')
-        job_sim = execute(circuit, backend_unit_sim)
-        result_sim = job_sim.result()
-
-        unitary = result_sim.get_unitary(circuit, decimals=3)
-        # print('unitary: ', unitary)
-
-        self.image = pygame.Surface([len(unitary) * 50, len(unitary) * 50])
-        self.image.fill(WHITE)
-        self.rect = self.image.get_rect()
-
-        block_size = 30
-        x_offset = 50
-        y_offset = 50
-        for y in range(len(unitary)):
-            text_surface = ARIAL_30.render(COMP_BASIS_STATES[y], False, (0, 0, 0))
-            self.image.blit(text_surface,(x_offset, (y + 1) * block_size + y_offset))
-            for x in range(len(unitary)):
-                text_surface = ARIAL_30.render(COMP_BASIS_STATES[x], False, (0, 0, 0))
-                self.image.blit(text_surface, ((x + 1) * block_size + x_offset, y_offset))
-                rect = pygame.Rect((x + 1) * block_size + x_offset,
-                                   (y + 1) * block_size + y_offset,
-                                   abs(unitary[y][x]) * block_size,
-                                   abs(unitary[y][x]) * block_size)
-                if abs(unitary[y][x]) > 0:
-                    pygame.draw.rect(self.image, BLACK, rect, 1)
-
-
-class MeasurementsHistogram(pygame.sprite.Sprite):
-    """Displays a histogram with measurements"""
-    def __init__(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = None
-        self.rect = None
-        self.set_circuit(circuit, num_shots)
-
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
-    def set_circuit(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
-        backend_sim = BasicAer.get_backend('qasm_simulator')
-        qr = QuantumRegister(circuit.width(), 'q')
-        cr = ClassicalRegister(circuit.width(), 'c')
-        meas_circ = QuantumCircuit(qr, cr)
-        meas_circ.barrier(qr)
-        meas_circ.measure(qr, cr)
-        complete_circuit = circuit + meas_circ
-
-        job_sim = execute(complete_circuit, backend_sim, shots=num_shots)
-
-        result_sim = job_sim.result()
-
-        counts = result_sim.get_counts(complete_circuit)
-        print(counts)
-
-        histogram = plot_histogram(counts)
-        histogram.savefig("data/bell_histogram.png")
-
-        self.image, self.rect = load_image('bell_histogram.png', -1)
 
 
 def main():
@@ -194,7 +113,7 @@ def main():
 
     left_sprites = VBox(0, 0, circuit_diagram, qsphere)
     # middle_sprites = VBox(600, 0, unitary_grid, histogram)
-    middle_sprites = VBox(600, 200, histogram)
+    middle_sprites = VBox(600, 200, histogram, unitary_grid)
     right_sprites = VBox(1300, 0, statevector_grid)
 
 

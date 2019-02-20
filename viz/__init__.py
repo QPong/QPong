@@ -17,3 +17,4 @@
 from .circuit_diagram import CircuitDiagram
 from .qsphere import QSphere
 from .statevector_grid import StatevectorGrid
+from .unitary_grid import UnitaryGrid
