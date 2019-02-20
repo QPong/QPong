@@ -31,8 +31,8 @@ class CircuitGridModel():
         for wire_num in range(self.max_wires):
             retval += '\n'
             for column_num in range(self.max_columns):
-                retval += str(self.nodes[wire_num][column_num]) + ', '
-
+                # retval += str(self.nodes[wire_num][column_num]) + ', '
+                retval += str(self.get_node_gate_part(wire_num, column_num)) + ', '
         return 'CircuitGridModel: ' + retval
 
     def set_node(self, wire_num, column_num, node_type, radians=0, ctrl_a=-1, ctrl_b=-1, swap=-1):
@@ -46,6 +46,28 @@ class CircuitGridModel():
 
     def get_node(self, wire_num, column_num):
         return self.nodes[wire_num][column_num]
+
+    def get_node_gate_part(self, wire_num, column_num):
+        requested_node = self.nodes[wire_num][column_num]
+        if requested_node:
+            # Node is occupied so return its gate
+            return requested_node.node_type
+        else:
+            # Check for control nodes from gates in other nodes in this column
+            nodes_in_column = self.nodes[:, column_num]
+            for idx in range(self.max_wires):
+                if idx != column_num:
+                    other_node = nodes_in_column[idx]
+                    if other_node:
+                        if other_node.ctrl_a == wire_num or other_node.ctrl_b == wire_num:
+                            return node_types.CTRL
+                        elif other_node.swap == wire_num:
+                            return node_types.SWAP
+
+        return node_types.EMPTY
+
+    # def avail_types_for_node(self, wire_num, column_num):
+    #
 
     def compute_circuit(self):
         qr = QuantumRegister(self.max_wires, 'q')
@@ -130,7 +152,6 @@ class CircuitGridModel():
                         qc.barrier(qr)
 
         return qc
-
 
 class CircuitGridNode():
     """Represents a node in the circuit grid"""

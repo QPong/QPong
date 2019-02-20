@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+EMPTY = -1
 IDEN = 0
 X = 1
 Y = 2
@@ -24,3 +25,4 @@ TDG = 7
 H = 8
 SWAP = 9
 B = 10
+CTRL = 11
