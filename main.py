@@ -19,8 +19,8 @@
 import pygame
 from pygame.locals import *
 
-from circuit_grid_model import *
-import circuit_node_types as node_types
+from model.circuit_grid_model import *
+from model import circuit_node_types as node_types
 from containers.vbox import VBox
 from utils.colors import WHITE
 from viz.circuit_diagram import CircuitDiagram
@@ -31,8 +31,8 @@ from viz.unitary_grid import UnitaryGrid
 
 WINDOW_SIZE = 1500, 1200
 
-if not pygame.font: print ('Warning, fonts disabled')
-if not pygame.mixer: print ('Warning, sound disabled')
+if not pygame.font: print('Warning, fonts disabled')
+if not pygame.mixer: print('Warning, sound disabled')
 
 pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE)
@@ -42,17 +42,6 @@ background = background.convert()
 background.fill(WHITE)
 
 pygame.font.init()
-ARIAL_30 = pygame.font.SysFont('Arial', 30)
-
-
-def create_circuit():
-    """Create a qiskit circuit from the circuit grid"""
-    qr = QuantumRegister(2, 'q')
-    qc = QuantumCircuit(qr)
-
-    qc.h(qr[0])
-    qc.cx(qr[0], qr[1])
-    return qc
 
 
 def main():
@@ -103,7 +92,6 @@ def main():
 
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
-    # circuit = create_circuit()
 
     circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
@@ -112,7 +100,6 @@ def main():
     statevector_grid = StatevectorGrid(circuit)
 
     left_sprites = VBox(0, 0, circuit_diagram, qsphere)
-    # middle_sprites = VBox(600, 0, unitary_grid, histogram)
     middle_sprites = VBox(600, 200, histogram, unitary_grid)
     right_sprites = VBox(1300, 0, statevector_grid)
 
@@ -136,7 +123,6 @@ def main():
                     index_increment = -1
                 if index_increment != 0:
                     circuit = circuit_grid_model.compute_circuit()
-                    # circuit = create_circuit()
 
                     circuit_diagram.set_circuit(circuit)
                     unitary_grid.set_circuit(circuit)
@@ -148,7 +134,6 @@ def main():
                     middle_sprites.arrange()
                     right_sprites.arrange()
 
-        #Draw Everything
         screen.blit(background, (0, 0))
 
         left_sprites.draw(screen)
@@ -159,9 +144,5 @@ def main():
 
     pygame.quit()
 
-#Game Over
-
-
-#this calls the 'main' function when this script is executed
 if __name__ == '__main__':
     main()

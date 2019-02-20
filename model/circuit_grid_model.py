@@ -14,8 +14,9 @@
 # limitations under the License.
 #
 import numpy as np
-from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
-import circuit_node_types as node_types
+from qiskit import QuantumCircuit, QuantumRegister
+from model import circuit_node_types as node_types
+
 
 class CircuitGridModel():
     """Grid-based model that is built when user interacts with circuit"""
