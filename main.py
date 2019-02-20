@@ -1,28 +1,41 @@
 #!/usr/bin/env python
-"""
-Demonstrates various entangled states
-"""
+#
+# Copyright 2019 the original author or authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+"""Create quantum circuits with Qiskit and Pygame"""
 
-import os, pygame
+import pygame
 from pygame.locals import *
-from pygame.compat import geterror
-from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
 from qiskit import execute
 from qiskit import BasicAer
-from qiskit.tools.visualization import plot_state_qsphere
 from qiskit.tools.visualization import plot_histogram
 
 from circuit_grid_model import *
 import circuit_node_types as node_types
+from containers.vbox import VBox
+from utils.colors import WHITE, BLACK
+from utils.resources import load_image
+from viz.circuit_diagram import CircuitDiagram
+from viz.qsphere import QSphere
+from viz.statevector_grid import StatevectorGrid
 
 COMP_BASIS_STATES = ['000', '001', '010', '011', '100', '101', '110', '111']
 
 DEFAULT_NUM_SHOTS = 100
 
 WINDOW_SIZE = 1500, 1200
-
-WHITE = 255, 255, 255
-BLACK = 0, 0, 0
 
 if not pygame.font: print ('Warning, fonts disabled')
 if not pygame.mixer: print ('Warning, sound disabled')
@@ -37,38 +50,6 @@ background.fill(WHITE)
 pygame.font.init()
 ARIAL_30 = pygame.font.SysFont('Arial', 30)
 
-main_dir = os.path.split(os.path.abspath(__file__))[0]
-data_dir = os.path.join(main_dir, 'data')
-
-
-def load_image(name, colorkey=None):
-    fullname = os.path.join(data_dir, name)
-    try:
-        image = pygame.image.load(fullname)
-    except pygame.error:
-        print ('Cannot load image:', fullname)
-        raise SystemExit(str(geterror()))
-    image = image.convert()
-    if colorkey is not None:
-        if colorkey is -1:
-            colorkey = image.get_at((0,0))
-        image.set_colorkey(colorkey, RLEACCEL)
-    return image, image.get_rect()
-
-
-def load_sound(name):
-    class NoneSound:
-        def play(self): pass
-    if not pygame.mixer or not pygame.mixer.get_init():
-        return NoneSound()
-    fullname = os.path.join(data_dir, name)
-    try:
-        sound = pygame.mixer.Sound(fullname)
-    except pygame.error:
-        print ('Cannot load sound: %s' % fullname)
-        raise SystemExit(str(geterror()))
-    return sound
-
 
 def create_circuit():
     """Create a qiskit circuit from the circuit grid"""
@@ -79,122 +60,6 @@ def create_circuit():
     qc.cx(qr[0], qr[1])
     return qc
 
-
-class HBox(pygame.sprite.RenderPlain):
-    """Arranges sprites horizontally"""
-    def __init__(self, xpos, ypos, *sprites):
-        pygame.sprite.RenderPlain.__init__(self, sprites)
-        self.xpos = xpos
-        self.ypos = ypos
-        self.arrange()
-
-    def arrange(self):
-        next_xpos = self.xpos
-        next_ypos = self.ypos
-        sprite_list = self.sprites()
-        for sprite in sprite_list:
-            sprite.rect.left = next_xpos
-            sprite.rect.top = next_ypos
-            next_xpos += sprite.rect.width
-
-class VBox(pygame.sprite.RenderPlain):
-    """Arranges sprites vertically"""
-    def __init__(self, xpos, ypos, *sprites):
-        pygame.sprite.RenderPlain.__init__(self, sprites)
-        self.xpos = xpos
-        self.ypos = ypos
-        self.arrange()
-
-    def arrange(self):
-        next_xpos = self.xpos
-        next_ypos = self.ypos
-        sprite_list = self.sprites()
-        for sprite in sprite_list:
-            sprite.rect.left = next_xpos
-            sprite.rect.top = next_ypos
-            next_ypos += sprite.rect.height
-
-class CircuitDiagram(pygame.sprite.Sprite):
-    """Displays a circuit diagram"""
-    def __init__(self, circuit):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = None
-        self.rect = None
-        self.set_circuit(circuit)
-
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
-    def set_circuit(self, circuit):
-        circuit_drawing = circuit.draw(output='mpl')
-
-        # TODO: Create a save_fig method that works cross-platform
-        #       and has exception handling
-        circuit_drawing.savefig("data/bell_circuit.png")
-
-        self.image, self.rect = load_image('bell_circuit.png', -1)
-
-
-class QSphere(pygame.sprite.Sprite):
-    """Displays a qsphere"""
-    def __init__(self, circuit):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = None
-        self.rect = None
-        self.set_circuit(circuit)
-
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
-    def set_circuit(self, circuit):
-        backend_sv_sim = BasicAer.get_backend('statevector_simulator')
-        job_sim = execute(circuit, backend_sv_sim)
-        result_sim = job_sim.result()
-
-        quantum_state = result_sim.get_statevector(circuit, decimals=3)
-        qsphere = plot_state_qsphere(quantum_state)
-        qsphere.savefig("data/bell_qsphere.png")
-
-        self.image, self.rect = load_image('bell_qsphere.png', -1)
-        self.rect.inflate_ip(-100, -100)
-
-class StatevectorGrid(pygame.sprite.Sprite):
-    """Displays a statevector grid"""
-    def __init__(self, circuit):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = None
-        self.rect = None
-        self.set_circuit(circuit)
-
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
-    def set_circuit(self, circuit):
-        backend_sv_sim = BasicAer.get_backend('statevector_simulator')
-        job_sim = execute(circuit, backend_sv_sim)
-        result_sim = job_sim.result()
-
-        quantum_state = result_sim.get_statevector(circuit, decimals=3)
-
-        self.image = pygame.Surface([(circuit.width() + 1) * 50, len(quantum_state) * 50])
-        self.image.fill(WHITE)
-        self.rect = self.image.get_rect()
-
-        block_size = 30
-        x_offset = 50
-        y_offset = 50
-        for y in range(len(quantum_state)):
-            text_surface = ARIAL_30.render(COMP_BASIS_STATES[y], False, (0, 0, 0))
-            self.image.blit(text_surface,(x_offset, (y + 1) * block_size + y_offset))
-            rect = pygame.Rect(x_offset + circuit.width() * 20,
-                               (y + 1) * block_size + y_offset,
-                               abs(quantum_state[y]) * block_size,
-                               abs(quantum_state[y]) * block_size)
-            if abs(quantum_state[y]) > 0:
-                pygame.draw.rect(self.image, BLACK, rect, 1)
 
 class UnitaryGrid(pygame.sprite.Sprite):
     """Displays a unitary matrix grid"""
@@ -235,6 +100,7 @@ class UnitaryGrid(pygame.sprite.Sprite):
                                    abs(unitary[y][x]) * block_size)
                 if abs(unitary[y][x]) > 0:
                     pygame.draw.rect(self.image, BLACK, rect, 1)
+
 
 class MeasurementsHistogram(pygame.sprite.Sprite):
     """Displays a histogram with measurements"""

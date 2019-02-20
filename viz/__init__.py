@@ -13,14 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-IDEN = 0
-X = 1
-Y = 2
-Z = 3
-S = 4
-SDG = 5
-T = 6
-TDG = 7
-H = 8
-SWAP = 9
-B = 10
+"""Module for quantum vizualizations"""
+from .circuit_diagram import CircuitDiagram
+from .qsphere import QSphere
+from .statevector_grid import StatevectorGrid
