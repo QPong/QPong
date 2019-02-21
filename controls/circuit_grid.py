@@ -16,6 +16,7 @@
 #
 import pygame
 from utils.colors import *
+from utils.navigation import *
 
 GRID_WIDTH = 66
 GRID_HEIGHT = 66
@@ -27,6 +28,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
     def __init__(self, xpos, ypos, circuit_grid_model):
         self.xpos = xpos
         self.ypos = ypos
+        self.circuit_grid_model = circuit_grid_model
         self.cur_wire = 0
         self.cur_column = 0
         self.circuit_grid_background = CircuitGridBackground(circuit_grid_model)
@@ -45,6 +47,18 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.cur_column + 1)
         self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.cur_wire + 0.5)
 
+    def move_to_adjacent_node(self, direction):
+        if direction == MOVE_LEFT and self.cur_column > 0:
+            self.cur_column -= 1
+        elif direction == MOVE_RIGHT and self.cur_column < self.circuit_grid_model.max_columns - 1:
+            self.cur_column += 1
+        elif direction == MOVE_UP and self.cur_wire > 0:
+            self.cur_wire -= 1
+        elif direction == MOVE_DOWN and self.cur_wire < self.circuit_grid_model.max_wires - 1:
+            self.cur_wire += 1
+
+        self.set_cur_node(self.cur_wire, self.cur_column)
+
 
 class CircuitGridBackground(pygame.sprite.Sprite):
     """Background for circuit grid"""
@@ -53,6 +67,7 @@ class CircuitGridBackground(pygame.sprite.Sprite):
 
         self.image = pygame.Surface([GRID_WIDTH * (circuit_grid_model.max_columns + 2),
                                      GRID_HEIGHT * (circuit_grid_model.max_wires + 1)])
+        self.image.convert()
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         pygame.draw.rect(self.image, BLACK, self.rect, LINE_WIDTH)
@@ -69,6 +84,7 @@ class CircuitGridCursor(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([GRID_WIDTH, GRID_HEIGHT])
+        self.image.convert()
         self.image.fill(WHITE)
         # self.image.set_alpha(0)
 

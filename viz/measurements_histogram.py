@@ -54,3 +54,4 @@ class MeasurementsHistogram(pygame.sprite.Sprite):
         histogram.savefig("utils/data/bell_histogram.png")
 
         self.image, self.rect = load_image('bell_histogram.png', -1)
+        self.image.convert()

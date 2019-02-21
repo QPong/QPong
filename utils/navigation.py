@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from .resources import load_image
-from .resources import load_sound
-from .states import comp_basis_states
+MOVE_LEFT = 1
+MOVE_RIGHT = 2
+MOVE_UP = 3
+MOVE_DOWN = 4
+

@@ -25,6 +25,7 @@ from model.circuit_grid_model import *
 from model import circuit_node_types as node_types
 from containers.vbox import VBox
 from utils.colors import WHITE
+from utils.navigation import *
 from viz.circuit_diagram import CircuitDiagram
 from viz.measurements_histogram import MeasurementsHistogram
 from viz.qsphere import QSphere
@@ -97,6 +98,7 @@ def main():
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
 
+
     circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
     histogram = MeasurementsHistogram(circuit)
@@ -108,8 +110,17 @@ def main():
     right_sprites = VBox(1300, 0, statevector_grid)
 
     circuit_grid = CircuitGrid(10, 700, circuit_grid_model)
-    # screen.blit(circuit_grid.image,
-    #             (0, screen.get_height() - circuit_grid.rect.height))
+    screen.blit(background, (0, 0))
+
+    # pygame.display.flip()
+
+
+
+    # screen.blit(background, (0, 0))
+    left_sprites.draw(screen)
+    middle_sprites.draw(screen)
+    right_sprites.draw(screen)
+    circuit_grid.draw(screen)
     pygame.display.flip()
 
     # Main Loop
@@ -125,11 +136,24 @@ def main():
                 index_increment = 0
                 if event.key == K_ESCAPE:
                     going = False
-                elif event.key == K_RIGHT or event.key == K_DOWN:
-                    index_increment = 1
-                elif event.key == K_LEFT or event.key == K_UP:
-                    index_increment = -1
-                if index_increment != 0:
+                elif event.key == K_LEFT:
+                    circuit_grid.move_to_adjacent_node(MOVE_LEFT)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_RIGHT:
+                    circuit_grid.move_to_adjacent_node(MOVE_RIGHT)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_UP:
+                    circuit_grid.move_to_adjacent_node(MOVE_UP)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_DOWN:
+                    circuit_grid.move_to_adjacent_node(MOVE_DOWN)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_SPACE:
+                    screen.blit(background, (0, 0))
                     circuit = circuit_grid_model.compute_circuit()
 
                     circuit_diagram.set_circuit(circuit)
@@ -142,19 +166,20 @@ def main():
                     middle_sprites.arrange()
                     right_sprites.arrange()
 
-        screen.blit(background, (0, 0))
+                    left_sprites.draw(screen)
+                    middle_sprites.draw(screen)
+                    right_sprites.draw(screen)
 
-        left_sprites.draw(screen)
-        middle_sprites.draw(screen)
-        right_sprites.draw(screen)
+                    circuit_grid.draw(screen)
 
-        # circuit_grid = CircuitGrid(circuit_grid_model)
-        circuit_grid.draw(screen)
+                    pygame.display.flip()
 
-        # screen.blit(circuit_grid.image,
-        #             (0, screen.get_height() - circuit_grid.rect.height))
-
-        pygame.display.flip()
+        # screen.blit(background, (0, 0))
+        # left_sprites.draw(screen)
+        # middle_sprites.draw(screen)
+        # right_sprites.draw(screen)
+        # circuit_grid.draw(screen)
+        # pygame.display.flip()
 
     pygame.quit()
 

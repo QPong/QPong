@@ -44,3 +44,4 @@ class QSphere(pygame.sprite.Sprite):
 
         self.image, self.rect = load_image('bell_qsphere.png', -1)
         self.rect.inflate_ip(-100, -100)
+        self.image.convert()

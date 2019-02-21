@@ -44,6 +44,7 @@ class UnitaryGrid(pygame.sprite.Sprite):
         # print('unitary: ', unitary)
 
         self.image = pygame.Surface([100 + len(unitary) * 50, 100 + len(unitary) * 50])
+        self.image.convert()
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
 

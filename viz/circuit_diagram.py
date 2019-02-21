@@ -39,3 +39,4 @@ class CircuitDiagram(pygame.sprite.Sprite):
         circuit_drawing.savefig("utils/data/bell_circuit.png")
 
         self.image, self.rect = load_image('bell_circuit.png', -1)
+        self.image.convert()
