@@ -17,7 +17,7 @@
 import pygame
 from qiskit import BasicAer, execute
 
-from utils.colors import WHITE, BLACK
+from utils.colors import *
 from utils.fonts import *
 from utils.states import comp_basis_states
 

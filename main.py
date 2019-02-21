@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# TODO: Use the convert() method to improve performance?
+#
 """Create quantum circuits with Qiskit and Pygame"""
 
 import pygame
@@ -28,8 +30,9 @@ from viz.measurements_histogram import MeasurementsHistogram
 from viz.qsphere import QSphere
 from viz.statevector_grid import StatevectorGrid
 from viz.unitary_grid import UnitaryGrid
+from controls.circuit_grid import *
 
-WINDOW_SIZE = 1500, 1200
+WINDOW_SIZE = 1500, 1000
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -104,6 +107,10 @@ def main():
     middle_sprites = VBox(600, 200, histogram, unitary_grid)
     right_sprites = VBox(1300, 0, statevector_grid)
 
+    circuit_grid = CircuitGrid(10, 700, circuit_grid_model)
+    # screen.blit(circuit_grid.image,
+    #             (0, screen.get_height() - circuit_grid.rect.height))
+    pygame.display.flip()
 
     # Main Loop
     going = True
@@ -140,6 +147,12 @@ def main():
         left_sprites.draw(screen)
         middle_sprites.draw(screen)
         right_sprites.draw(screen)
+
+        # circuit_grid = CircuitGrid(circuit_grid_model)
+        circuit_grid.draw(screen)
+
+        # screen.blit(circuit_grid.image,
+        #             (0, screen.get_height() - circuit_grid.rect.height))
 
         pygame.display.flip()
 

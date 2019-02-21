@@ -41,7 +41,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
 
         quantum_state = result_sim.get_statevector(circuit, decimals=3)
 
-        self.image = pygame.Surface([(circuit.width() + 1) * 50, len(quantum_state) * 50])
+        self.image = pygame.Surface([(circuit.width() + 1) * 50, 100 + len(quantum_state) * 50])
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
 
