@@ -71,7 +71,8 @@ def main():
     circuit_grid_model.set_node(1, 3, node_types.TDG)
     circuit_grid_model.set_node(2, 3, node_types.IDEN)
 
-    circuit_grid_model.set_node(0, 4, node_types.X, 0, 1)
+    circuit_grid_model.set_node(0, 4, node_types.X, 0, 2)
+    circuit_grid_model.set_node(1, 4, node_types.TRACE)
 
     # circuit_grid_model.set_node(0, 5, node_types.Z, np.pi/8)
     circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)

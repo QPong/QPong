@@ -44,8 +44,8 @@ class CircuitGridModel():
         # else:
         #     print('Node ', wire_num, column_num, ' not empty')
 
-    def get_node(self, wire_num, column_num):
-        return self.nodes[wire_num][column_num]
+    # def get_node(self, wire_num, column_num):
+    #     return self.nodes[wire_num][column_num]
 
     def get_node_gate_part(self, wire_num, column_num):
         requested_node = self.nodes[wire_num][column_num]
@@ -56,7 +56,7 @@ class CircuitGridModel():
             # Check for control nodes from gates in other nodes in this column
             nodes_in_column = self.nodes[:, column_num]
             for idx in range(self.max_wires):
-                if idx != column_num:
+                if idx != wire_num:
                     other_node = nodes_in_column[idx]
                     if other_node:
                         if other_node.ctrl_a == wire_num or other_node.ctrl_b == wire_num:
@@ -66,8 +66,12 @@ class CircuitGridModel():
 
         return node_types.EMPTY
 
-    # def avail_types_for_node(self, wire_num, column_num):
-    #
+    # def avail_gate_parts_for_node(self, wire_num, column_num):
+    #     retval = np.empty(0, dtype = np.int8)
+    #     node_gate_part = self.get_node_gate_part(wire_num, column_num)
+    #     if node_gate_part == node_types.EMPTY:
+    #         # No gate part in this node
+
 
     def compute_circuit(self):
         qr = QuantumRegister(self.max_wires, 'q')
