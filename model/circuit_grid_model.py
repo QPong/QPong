@@ -44,8 +44,8 @@ class CircuitGridModel():
         # else:
         #     print('Node ', wire_num, column_num, ' not empty')
 
-    # def get_node(self, wire_num, column_num):
-    #     return self.nodes[wire_num][column_num]
+    def get_node(self, wire_num, column_num):
+        return self.nodes[wire_num][column_num]
 
     def get_node_gate_part(self, wire_num, column_num):
         requested_node = self.nodes[wire_num][column_num]
@@ -156,6 +156,7 @@ class CircuitGridModel():
                         qc.barrier(qr)
 
         return qc
+
 
 class CircuitGridNode():
     """Represents a node in the circuit grid"""

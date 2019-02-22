@@ -17,6 +17,7 @@
 import pygame
 from utils.colors import *
 from utils.navigation import *
+from model import circuit_node_types as node_types
 
 GRID_WIDTH = 66
 GRID_HEIGHT = 66
@@ -29,8 +30,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         self.xpos = xpos
         self.ypos = ypos
         self.circuit_grid_model = circuit_grid_model
-        self.cur_wire = 0
-        self.cur_column = 0
+        self.selected_wire = 0
+        self.selected_column = 0
         self.circuit_grid_background = CircuitGridBackground(circuit_grid_model)
         self.circuit_grid_cursor = CircuitGridCursor()
         pygame.sprite.RenderPlain.__init__(self, self.circuit_grid_background,
@@ -39,25 +40,54 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         self.circuit_grid_background.rect.left = self.xpos
         self.circuit_grid_background.rect.top = self.ypos
 
-        self.set_cur_node(self.cur_wire, self.cur_column)
+        self.highlight_selected_node(self.selected_wire, self.selected_column)
 
-    def set_cur_node(self, wire_num, column_num):
-        self.cur_wire = wire_num
-        self.cur_column = column_num
-        self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.cur_column + 1)
-        self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.cur_wire + 0.5)
+    def highlight_selected_node(self, wire_num, column_num):
+        self.selected_wire = wire_num
+        self.selected_column = column_num
+        self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)
+        self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)
 
     def move_to_adjacent_node(self, direction):
-        if direction == MOVE_LEFT and self.cur_column > 0:
-            self.cur_column -= 1
-        elif direction == MOVE_RIGHT and self.cur_column < self.circuit_grid_model.max_columns - 1:
-            self.cur_column += 1
-        elif direction == MOVE_UP and self.cur_wire > 0:
-            self.cur_wire -= 1
-        elif direction == MOVE_DOWN and self.cur_wire < self.circuit_grid_model.max_wires - 1:
-            self.cur_wire += 1
+        if direction == MOVE_LEFT and self.selected_column > 0:
+            self.selected_column -= 1
+        elif direction == MOVE_RIGHT and self.selected_column < self.circuit_grid_model.max_columns - 1:
+            self.selected_column += 1
+        elif direction == MOVE_UP and self.selected_wire > 0:
+            self.selected_wire -= 1
+        elif direction == MOVE_DOWN and self.selected_wire < self.circuit_grid_model.max_wires - 1:
+            self.selected_wire += 1
 
-        self.set_cur_node(self.cur_wire, self.cur_column)
+        self.highlight_selected_node(self.selected_wire, self.selected_column)
+
+    def get_selected_node_gate_part(self):
+        return self.circuit_grid_model.get_node_gate_part(self.selected_wire, self.selected_column)
+
+    def handle_input_x(self):
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        print('In handle_input_x, node_type in selected node is: ', selected_node_gate_part)
+        if selected_node_gate_part == node_types.EMPTY or \
+                selected_node_gate_part == node_types.B:
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.X)
+
+    def handle_input_delete(self):
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        print('In handle_input_delete, node_type in selected node is: ', selected_node_gate_part)
+        if selected_node_gate_part == node_types.X or \
+            selected_node_gate_part == node_types.Y or \
+                selected_node_gate_part == node_types.Z or \
+                selected_node_gate_part == node_types.H:
+            if self.circuit_grid_model.get_node(self.selected_wire, self.selected_column).ctrl_a != -1:
+                # TODO: If this is a controlled gate, remove the connecting TRACE parts between the gate and the control
+                #       and replace with placeholders (IDEN for now?)
+                print("TODO: Remove the connecting TRACE parts between the gate and the control")
+
+        if selected_node_gate_part != node_types.IDEN and \
+                selected_node_gate_part != node_types.SWAP and \
+                selected_node_gate_part != node_types.CTRL and \
+                selected_node_gate_part != node_types.TRACE and \
+                selected_node_gate_part != node_types.EMPTY:
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.IDEN)
 
 
 class CircuitGridBackground(pygame.sprite.Sprite):

@@ -199,6 +199,10 @@ def main():
                     circuit_grid.move_to_adjacent_node(MOVE_DOWN)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
+                elif event.key == K_x:
+                    circuit_grid.handle_input_x()
+                elif event.key == K_d:
+                    circuit_grid.handle_input_delete()
                 elif event.key == K_SPACE:
                     screen.blit(background, (0, 0))
                     circuit = circuit_grid_model.compute_circuit()
