@@ -81,12 +81,21 @@ class CircuitGrid(pygame.sprite.RenderPlain):
             if control_wire_num != -1:
                 # TODO: If this is a controlled gate, remove the connecting TRACE parts between the gate and the control
                 #       and replace with placeholders (IDEN for now?)
+                # ALSO: Refactor with similar code in this method
                 for wire_idx in range(min(self.selected_wire, control_wire_num),
                                       max(self.selected_wire, control_wire_num) + 1):
                     print("Replacing wire ", wire_idx, " in column ",  self.selected_column)
                     self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
 
-        if selected_node_gate_part != node_types.IDEN and \
+        if selected_node_gate_part == node_types.CTRL:
+            gate_wire_num = \
+                self.circuit_grid_model.get_gate_wire_for_control_node(self.selected_wire,
+                                                                       self.selected_column)
+            for wire_idx in range(min(self.selected_wire, gate_wire_num),
+                                  max(self.selected_wire, gate_wire_num) + 1):
+                print("Replacing wire ", wire_idx, " in column ", self.selected_column)
+                self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
+        elif selected_node_gate_part != node_types.IDEN and \
                 selected_node_gate_part != node_types.SWAP and \
                 selected_node_gate_part != node_types.CTRL and \
                 selected_node_gate_part != node_types.TRACE:

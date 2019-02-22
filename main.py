@@ -97,6 +97,7 @@ def main():
     circuit_grid_model.set_node(2, 8, node_types.IDEN)
 
     circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
+    circuit_grid_model.set_node(1, 9, node_types.TRACE)
 
     circuit_grid_model.set_node(0, 10, node_types.IDEN)
     circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)

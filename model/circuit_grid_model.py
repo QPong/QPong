@@ -66,6 +66,22 @@ class CircuitGridModel():
 
         return node_types.EMPTY
 
+    def get_gate_wire_for_control_node(self, control_wire_num, column_num):
+        """Get wire for gate that belongs to a control node on the given wire"""
+        gate_wire_num = -1
+        nodes_in_column = self.nodes[:, column_num]
+        for wire_idx in range(self.max_wires):
+            if wire_idx != control_wire_num:
+                other_node = nodes_in_column[wire_idx]
+                if other_node:
+                    if other_node.ctrl_a == control_wire_num or \
+                            other_node.ctrl_b == control_wire_num:
+                        gate_wire_num =  wire_idx
+                        print("Found gate: ",
+                              self.get_node_gate_part(gate_wire_num, column_num),
+                              " on wire: " , gate_wire_num)
+        return gate_wire_num
+
     # def avail_gate_parts_for_node(self, wire_num, column_num):
     #     retval = np.empty(0, dtype = np.int8)
     #     node_gate_part = self.get_node_gate_part(wire_num, column_num)
