@@ -151,9 +151,6 @@ class CircuitGridModel():
                         else:
                             # Swap gate
                             qc.swap(qr[wire_num], qr[node.swap])
-                    elif node.node_type == node_types.B:
-                        # Barrier
-                        qc.barrier(qr)
 
         return qc
 

@@ -85,22 +85,23 @@ def main():
     circuit_grid_model.set_node(0, 4, node_types.X, 0, 2)
     circuit_grid_model.set_node(1, 4, node_types.TRACE)
 
-    # circuit_grid_model.set_node(0, 5, node_types.Z, np.pi/8)
+    circuit_grid_model.set_node(0, 5, node_types.IDEN)
     circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)
 
     circuit_grid_model.set_node(2, 6, node_types.X, 0, 0, 1)
 
-    circuit_grid_model.set_node(0, 7, node_types.B)
+    circuit_grid_model.set_node(1, 7, node_types.H, 0, 2)
+    circuit_grid_model.set_node(0, 7, node_types.IDEN)
 
-    circuit_grid_model.set_node(1, 8, node_types.H, 0, 2)
+    circuit_grid_model.set_node(1, 8, node_types.Y, 0, 0)
+    circuit_grid_model.set_node(2, 8, node_types.IDEN)
 
-    circuit_grid_model.set_node(1, 9, node_types.Y, 0, 0)
+    circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
 
-    circuit_grid_model.set_node(2, 10, node_types.Z, 0, 0)
+    circuit_grid_model.set_node(0, 10, node_types.IDEN)
+    circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)
 
-    circuit_grid_model.set_node(1, 11, node_types.SWAP, 0, -1, -1, 2)
-
-    circuit_grid_model.set_node(2, 12, node_types.SWAP, 0, 1, -1, 0)
+    circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
 
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()

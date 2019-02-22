@@ -67,7 +67,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         selected_node_gate_part = self.get_selected_node_gate_part()
         print('In handle_input_x, node_type in selected node is: ', selected_node_gate_part)
         if selected_node_gate_part == node_types.EMPTY or \
-                selected_node_gate_part == node_types.B:
+                selected_node_gate_part == node_types.IDEN:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.X)
 
     def handle_input_delete(self):
@@ -77,16 +77,19 @@ class CircuitGrid(pygame.sprite.RenderPlain):
             selected_node_gate_part == node_types.Y or \
                 selected_node_gate_part == node_types.Z or \
                 selected_node_gate_part == node_types.H:
-            if self.circuit_grid_model.get_node(self.selected_wire, self.selected_column).ctrl_a != -1:
+            control_wire_num = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column).ctrl_a
+            if control_wire_num != -1:
                 # TODO: If this is a controlled gate, remove the connecting TRACE parts between the gate and the control
                 #       and replace with placeholders (IDEN for now?)
-                print("TODO: Remove the connecting TRACE parts between the gate and the control")
+                for wire_idx in range(min(self.selected_wire, control_wire_num),
+                                      max(self.selected_wire, control_wire_num) + 1):
+                    print("Replacing wire ", wire_idx, " in column ",  self.selected_column)
+                    self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
 
         if selected_node_gate_part != node_types.IDEN and \
                 selected_node_gate_part != node_types.SWAP and \
                 selected_node_gate_part != node_types.CTRL and \
-                selected_node_gate_part != node_types.TRACE and \
-                selected_node_gate_part != node_types.EMPTY:
+                selected_node_gate_part != node_types.TRACE:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.IDEN)
 
 
