@@ -39,6 +39,13 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 pygame.init()
+
+pygame.joystick.init()
+num_joysticks = pygame.joystick.get_count()
+if num_joysticks > 0:
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
+
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
 background = pygame.Surface(screen.get_size())
@@ -130,8 +137,28 @@ def main():
 
         # Handle Input Events
         for event in pygame.event.get():
+            # print("event: ", event)
             if event.type == QUIT:
                 going = False
+            elif event.type == JOYHATMOTION:
+                if event.hat == 0:
+                    if event.value == (-1, 0):
+                        circuit_grid.move_to_adjacent_node(MOVE_LEFT)
+                        circuit_grid.draw(screen)
+                        pygame.display.flip()
+                    elif event.value == (1, 0):
+                        circuit_grid.move_to_adjacent_node(MOVE_RIGHT)
+                        circuit_grid.draw(screen)
+                        pygame.display.flip()
+                    elif event.value == (0, 1):
+                        circuit_grid.move_to_adjacent_node(MOVE_UP)
+                        circuit_grid.draw(screen)
+                        pygame.display.flip()
+                    elif event.value == (0, -1):
+                        circuit_grid.move_to_adjacent_node(MOVE_DOWN)
+                        circuit_grid.draw(screen)
+                        pygame.display.flip()
+
             elif event.type == KEYDOWN:
                 index_increment = 0
                 if event.key == K_ESCAPE:
