@@ -130,34 +130,54 @@ def main():
     circuit_grid.draw(screen)
     pygame.display.flip()
 
+    gamepad_repeat_delay = 100
+    gamepad_neutral = True
+    gamepad_pressed_timer = 0
+    gamepad_last_update = pygame.time.get_ticks()
+
     # Main Loop
     going = True
     while going:
-        clock.tick(60)
+        clock.tick(30)
+
+        pygame.time.wait(10)
+
+        gamepad_move = False
+        joystick_hat = joystick.get_hat(0)
+
+        if joystick_hat == (0, 0):
+            gamepad_neutral = True
+            gamepad_pressed_timer = 0
+        else:
+            if gamepad_neutral:
+                gamepad_move = True
+                gamepad_neutral = False
+            else:
+                gamepad_pressed_timer += pygame.time.get_ticks() - gamepad_last_update
+        if gamepad_pressed_timer > gamepad_repeat_delay:
+            gamepad_move = True
+            gamepad_pressed_timer -= gamepad_repeat_delay
+        if gamepad_move:
+            if joystick_hat == (-1, 0):
+                move_update_circuit_grid_display(circuit_grid, MOVE_LEFT)
+            elif joystick_hat == (1, 0):
+                move_update_circuit_grid_display(circuit_grid, MOVE_RIGHT)
+            elif joystick_hat == (0, 1):
+                move_update_circuit_grid_display(circuit_grid, MOVE_UP)
+            elif joystick_hat == (0, -1):
+                move_update_circuit_grid_display(circuit_grid, MOVE_DOWN)
+        gamepad_last_update = pygame.time.get_ticks()
+
+        # Check left thumbstick position
+        left_thumb_x = joystick.get_axis(0)
+        left_thumb_y = joystick.get_axis(1)
 
         # Handle Input Events
         for event in pygame.event.get():
+            pygame.event.pump()
             # print("event: ", event)
             if event.type == QUIT:
                 going = False
-            elif event.type == JOYHATMOTION:
-                if event.hat == 0:
-                    if event.value == (-1, 0):
-                        circuit_grid.move_to_adjacent_node(MOVE_LEFT)
-                        circuit_grid.draw(screen)
-                        pygame.display.flip()
-                    elif event.value == (1, 0):
-                        circuit_grid.move_to_adjacent_node(MOVE_RIGHT)
-                        circuit_grid.draw(screen)
-                        pygame.display.flip()
-                    elif event.value == (0, 1):
-                        circuit_grid.move_to_adjacent_node(MOVE_UP)
-                        circuit_grid.draw(screen)
-                        pygame.display.flip()
-                    elif event.value == (0, -1):
-                        circuit_grid.move_to_adjacent_node(MOVE_DOWN)
-                        circuit_grid.draw(screen)
-                        pygame.display.flip()
 
             elif event.type == KEYDOWN:
                 index_increment = 0
@@ -201,14 +221,17 @@ def main():
 
                     pygame.display.flip()
 
-        # screen.blit(background, (0, 0))
-        # left_sprites.draw(screen)
-        # middle_sprites.draw(screen)
-        # right_sprites.draw(screen)
-        # circuit_grid.draw(screen)
-        # pygame.display.flip()
+            # else:
+            #     print("event: ", event)
 
     pygame.quit()
+
+
+def move_update_circuit_grid_display(circuit_grid, direction):
+    circuit_grid.move_to_adjacent_node(direction)
+    circuit_grid.draw(screen)
+    pygame.display.flip()
+
 
 if __name__ == '__main__':
     main()
