@@ -77,46 +77,49 @@ class CircuitGrid(pygame.sprite.RenderPlain):
             selected_node_gate_part == node_types.Y or \
                 selected_node_gate_part == node_types.Z or \
                 selected_node_gate_part == node_types.H:
-            control_a_wire_num = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column).ctrl_a
-            control_b_wire_num = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column).ctrl_b
-
-            # Choose the control wire (if any exist) furthest away from the gate wire
-            control_a_wire_distance = 0
-            control_b_wire_distance = 0
-            if control_a_wire_num >= 0:
-                control_a_wire_distance = abs(control_a_wire_num - self.selected_wire)
-            if control_b_wire_num >= 0:
-                control_b_wire_distance = abs(control_b_wire_num - self.selected_wire)
-
-            control_wire_num = -1
-            if control_a_wire_distance > control_b_wire_distance:
-                control_wire_num = control_a_wire_num
-            elif control_a_wire_distance < control_b_wire_distance:
-                control_wire_num = control_b_wire_num
-
-            if control_wire_num >= 0:
-                # TODO: If this is a controlled gate, remove the connecting TRACE parts between the gate and the control
-                #       and replace with placeholders (IDEN for now?)
-                # ALSO: Refactor with similar code in this method
-                for wire_idx in range(min(self.selected_wire, control_wire_num),
-                                      max(self.selected_wire, control_wire_num) + 1):
-                    print("Replacing wire ", wire_idx, " in column ",  self.selected_column)
-                    self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
+            self.delete_controls_for_gate(self.selected_wire, self.selected_column)
 
         if selected_node_gate_part == node_types.CTRL:
             gate_wire_num = \
                 self.circuit_grid_model.get_gate_wire_for_control_node(self.selected_wire,
                                                                        self.selected_column)
             if gate_wire_num >= 0:
-                for wire_idx in range(min(self.selected_wire, gate_wire_num),
-                                      max(self.selected_wire, gate_wire_num) + 1):
-                    print("Replacing wire ", wire_idx, " in column ", self.selected_column)
-                    self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
+                self.delete_controls_for_gate(gate_wire_num, self.selected_column)                # for wire_idx in range(min(self.selected_wire, gate_wire_num),
+                #                       max(self.selected_wire, gate_wire_num) + 1):
+                #     print("Replacing wire ", wire_idx, " in column ", self.selected_column)
+                #     self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
         elif selected_node_gate_part != node_types.IDEN and \
                 selected_node_gate_part != node_types.SWAP and \
                 selected_node_gate_part != node_types.CTRL and \
                 selected_node_gate_part != node_types.TRACE:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.IDEN)
+
+    def delete_controls_for_gate(self, gate_wire_num, column_num):
+        control_a_wire_num = self.circuit_grid_model.get_node(gate_wire_num, column_num).ctrl_a
+        control_b_wire_num = self.circuit_grid_model.get_node(gate_wire_num, column_num).ctrl_b
+
+        # Choose the control wire (if any exist) furthest away from the gate wire
+        control_a_wire_distance = 0
+        control_b_wire_distance = 0
+        if control_a_wire_num >= 0:
+            control_a_wire_distance = abs(control_a_wire_num - gate_wire_num)
+        if control_b_wire_num >= 0:
+            control_b_wire_distance = abs(control_b_wire_num - gate_wire_num)
+
+        control_wire_num = -1
+        if control_a_wire_distance > control_b_wire_distance:
+            control_wire_num = control_a_wire_num
+        elif control_a_wire_distance < control_b_wire_distance:
+            control_wire_num = control_b_wire_num
+
+        if control_wire_num >= 0:
+            # TODO: If this is a controlled gate, remove the connecting TRACE parts between the gate and the control
+            #       and replace with placeholders (IDEN for now?)
+            # ALSO: Refactor with similar code in this method
+            for wire_idx in range(min(gate_wire_num, control_wire_num),
+                                  max(gate_wire_num, control_wire_num) + 1):
+                print("Replacing wire ", wire_idx, " in column ", column_num)
+                self.circuit_grid_model.set_node(wire_idx, column_num, node_types.IDEN)
 
 
 class CircuitGridBackground(pygame.sprite.Sprite):
