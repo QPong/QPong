@@ -68,7 +68,6 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
         self.highlight_selected_node(self.selected_wire, self.selected_column)
 
-
     def highlight_selected_node(self, wire_num, column_num):
         self.selected_wire = wire_num
         self.selected_column = column_num
@@ -95,6 +94,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         print('In handle_input_x, node_type in selected node is: ', selected_node_gate_part)
         if selected_node_gate_part == node_types.EMPTY:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.X)
+        self.update()
 
     def handle_input_delete(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
@@ -187,6 +187,12 @@ class CircuitGridGate(pygame.sprite.Sprite):
 
         if node_type == node_types.H:
             self.image, self.rect = load_image('gate_images/h_gate.png', -1)
+        elif node_type == node_types.X:
+            self.image, self.rect = load_image('gate_images/x_gate.png', -1)
+        elif node_type == node_types.Y:
+            self.image, self.rect = load_image('gate_images/y_gate.png', -1)
+        elif node_type == node_types.Z:
+            self.image, self.rect = load_image('gate_images/z_gate.png', -1)
         else:
             self.image = pygame.Surface([GATE_TILE_WIDTH, GATE_TILE_HEIGHT])
             self.image.set_alpha(0)
@@ -199,10 +205,10 @@ class CircuitGridCursor(pygame.sprite.Sprite):
     """Cursor to highlight current grid node"""
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([GRID_WIDTH, GRID_HEIGHT])
-        self.image.convert()
-        self.image.fill(WHITE)
+        self.image = pygame.Surface([GRID_WIDTH, LINE_WIDTH * 4])
         # self.image.set_alpha(0)
+        self.image.convert()
+        # self.image.fill(WHITE)
 
         self.rect = self.image.get_rect()
         pygame.draw.rect(self.image, GREEN, self.rect, LINE_WIDTH * 4)

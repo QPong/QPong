@@ -64,7 +64,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(3, 5)
+    circuit_grid_model = CircuitGridModel(3, 12)
 
     circuit_grid_model.set_node(0, 1, node_types.H)
 
