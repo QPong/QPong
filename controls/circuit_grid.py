@@ -57,10 +57,10 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
         for row_idx in range(self.circuit_grid_model.max_wires):
             for col_idx in range(self.circuit_grid_model.max_columns):
-                self.gate_tiles[row_idx][col_idx].rect.left = \
-                    self.xpos + GRID_WIDTH * (col_idx + 1)
-                self.gate_tiles[row_idx][col_idx].rect.top = \
-                    self.ypos + GRID_HEIGHT * (row_idx + 0.5)
+                self.gate_tiles[row_idx][col_idx].rect.centerx = \
+                    self.xpos + GRID_WIDTH * (col_idx + 1.5)
+                self.gate_tiles[row_idx][col_idx].rect.centery = \
+                    self.ypos + GRID_HEIGHT * (row_idx + 1.0)
 
         self.highlight_selected_node(self.selected_wire, self.selected_column)
 
