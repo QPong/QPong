@@ -23,6 +23,10 @@ from model import circuit_node_types as node_types
 
 GRID_WIDTH = 66
 GRID_HEIGHT = 66
+
+GATE_TILE_WIDTH = 43
+GATE_TILE_HEIGHT = 45
+
 LINE_WIDTH = 1
 
 
@@ -45,11 +49,18 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                 self.gate_tiles[row_idx][col_idx] = CircuitGridGate()
 
         pygame.sprite.RenderPlain.__init__(self, self.circuit_grid_background,
-                                           self.circuit_grid_cursor,
-                                           self.gate_tiles[row_idx][col_idx])
+                                           self.gate_tiles,
+                                           self.circuit_grid_cursor)
 
         self.circuit_grid_background.rect.left = self.xpos
         self.circuit_grid_background.rect.top = self.ypos
+
+        for row_idx in range(self.circuit_grid_model.max_wires):
+            for col_idx in range(self.circuit_grid_model.max_columns):
+                self.gate_tiles[row_idx][col_idx].rect.left = \
+                    self.xpos + GRID_WIDTH * (col_idx + 1)
+                self.gate_tiles[row_idx][col_idx].rect.top = \
+                    self.ypos + GRID_HEIGHT * (row_idx + 0.5)
 
         self.highlight_selected_node(self.selected_wire, self.selected_column)
 
