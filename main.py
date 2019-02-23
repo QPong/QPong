@@ -66,47 +66,47 @@ def main():
 
     circuit_grid_model = CircuitGridModel(3, 12)
 
-    circuit_grid_model.set_node(0, 1, node_types.H)
+    # circuit_grid_model.set_node(0, 1, node_types.H)
+    #
+    # circuit_grid_model.set_node(1, 2, node_types.X, 0, 0)
 
-    circuit_grid_model.set_node(1, 2, node_types.X, 0, 0)
+    circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
+    circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
+    circuit_grid_model.set_node(2, 0, node_types.Z, np.pi/4)
 
-    # circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
-    # circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
-    # circuit_grid_model.set_node(2, 0, node_types.Z, np.pi/4)
-    #
-    # circuit_grid_model.set_node(0, 1, node_types.X)
-    # circuit_grid_model.set_node(1, 1, node_types.Y)
-    # circuit_grid_model.set_node(2, 1, node_types.Z)
-    #
-    # circuit_grid_model.set_node(0, 2, node_types.S)
-    # circuit_grid_model.set_node(1, 2, node_types.T)
-    # circuit_grid_model.set_node(2, 2, node_types.H)
-    #
-    # circuit_grid_model.set_node(0, 3, node_types.SDG)
-    # circuit_grid_model.set_node(1, 3, node_types.TDG)
-    # circuit_grid_model.set_node(2, 3, node_types.IDEN)
-    #
-    # circuit_grid_model.set_node(0, 4, node_types.X, 0, 2)
-    # circuit_grid_model.set_node(1, 4, node_types.TRACE)
-    #
-    # circuit_grid_model.set_node(0, 5, node_types.IDEN)
-    # circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)
-    #
-    # circuit_grid_model.set_node(2, 6, node_types.X, 0, 0, 1)
-    #
-    # circuit_grid_model.set_node(1, 7, node_types.H, 0, 2)
-    # circuit_grid_model.set_node(0, 7, node_types.IDEN)
-    #
-    # circuit_grid_model.set_node(1, 8, node_types.Y, 0, 0)
-    # circuit_grid_model.set_node(2, 8, node_types.IDEN)
-    #
-    # circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
-    # circuit_grid_model.set_node(1, 9, node_types.TRACE)
-    #
-    # circuit_grid_model.set_node(0, 10, node_types.IDEN)
-    # circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)
-    #
-    # circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
+    circuit_grid_model.set_node(0, 1, node_types.X)
+    circuit_grid_model.set_node(1, 1, node_types.Y)
+    circuit_grid_model.set_node(2, 1, node_types.Z)
+
+    circuit_grid_model.set_node(0, 2, node_types.S)
+    circuit_grid_model.set_node(1, 2, node_types.T)
+    circuit_grid_model.set_node(2, 2, node_types.H)
+
+    circuit_grid_model.set_node(0, 3, node_types.SDG)
+    circuit_grid_model.set_node(1, 3, node_types.TDG)
+    circuit_grid_model.set_node(2, 3, node_types.IDEN)
+
+    circuit_grid_model.set_node(0, 4, node_types.X, 0, 2)
+    circuit_grid_model.set_node(1, 4, node_types.TRACE)
+
+    circuit_grid_model.set_node(0, 5, node_types.IDEN)
+    circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)
+
+    circuit_grid_model.set_node(2, 6, node_types.X, 0, 0, 1)
+
+    circuit_grid_model.set_node(1, 7, node_types.H, 0, 2)
+    circuit_grid_model.set_node(0, 7, node_types.IDEN)
+
+    circuit_grid_model.set_node(1, 8, node_types.Y, 0, 0)
+    circuit_grid_model.set_node(2, 8, node_types.IDEN)
+
+    circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
+    circuit_grid_model.set_node(1, 9, node_types.TRACE)
+
+    circuit_grid_model.set_node(0, 10, node_types.IDEN)
+    circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)
+
+    circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
 
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()

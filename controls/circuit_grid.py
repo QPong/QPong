@@ -187,7 +187,7 @@ class CircuitGridGate(pygame.sprite.Sprite):
         # self.image.convert()
         #
         # self.rect = self.image.get_rect()
-        # pygame.draw.rect(self.image, GREEN, self.rect, LINE_WIDTH * 4)
+        # pygame.draw.rect(self.image, BLUE, self.rect, LINE_WIDTH * 4)
 
     def update(self):
         node_type = self.circuit_grid_model.get_node_gate_part(self.wire_num, self.column_num)
@@ -195,11 +195,30 @@ class CircuitGridGate(pygame.sprite.Sprite):
         if node_type == node_types.H:
             self.image, self.rect = load_image('gate_images/h_gate.png', -1)
         elif node_type == node_types.X:
-            self.image, self.rect = load_image('gate_images/x_gate.png', -1)
+            node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
+            if node.ctrl_a >= 0 or node.ctrl_b >= 0:
+                self.image, self.rect = load_image('gate_images/not_gate.png', -1)
+            elif node.radians != 0:
+                self.image, self.rect = load_image('gate_images/rx_gate.png', -1)
+            else:
+                self.image, self.rect = load_image('gate_images/x_gate.png', -1)
         elif node_type == node_types.Y:
             self.image, self.rect = load_image('gate_images/y_gate.png', -1)
         elif node_type == node_types.Z:
             self.image, self.rect = load_image('gate_images/z_gate.png', -1)
+        elif node_type == node_types.S:
+            self.image, self.rect = load_image('gate_images/s_gate.png', -1)
+        elif node_type == node_types.SDG:
+            self.image, self.rect = load_image('gate_images/sdg_gate.png', -1)
+        elif node_type == node_types.T:
+            self.image, self.rect = load_image('gate_images/t_gate.png', -1)
+        elif node_type == node_types.TDG:
+            self.image, self.rect = load_image('gate_images/tdg_gate.png', -1)
+        elif node_type == node_types.IDEN:
+            self.image, self.rect = load_image('gate_images/iden_gate.png', -1)
+        elif node_type == node_types.CTRL:
+            self.image, self.rect = load_image('gate_images/ctrl_gate.png', -1)
+
         else:
             self.image = pygame.Surface([GATE_TILE_WIDTH, GATE_TILE_HEIGHT])
             self.image.set_alpha(0)
@@ -218,6 +237,6 @@ class CircuitGridCursor(pygame.sprite.Sprite):
         # self.image.fill(WHITE)
 
         self.rect = self.image.get_rect()
-        pygame.draw.rect(self.image, GREEN, self.rect, LINE_WIDTH * 4)
+        pygame.draw.rect(self.image, BLUE, self.rect, LINE_WIDTH * 4)
 
 
