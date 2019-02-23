@@ -203,9 +203,17 @@ class CircuitGridGate(pygame.sprite.Sprite):
             else:
                 self.image, self.rect = load_image('gate_images/x_gate.png', -1)
         elif node_type == node_types.Y:
-            self.image, self.rect = load_image('gate_images/y_gate.png', -1)
+            node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
+            if node.radians != 0:
+                self.image, self.rect = load_image('gate_images/ry_gate.png', -1)
+            else:
+                self.image, self.rect = load_image('gate_images/y_gate.png', -1)
         elif node_type == node_types.Z:
-            self.image, self.rect = load_image('gate_images/z_gate.png', -1)
+            node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
+            if node.radians != 0:
+                self.image, self.rect = load_image('gate_images/rz_gate.png', -1)
+            else:
+                self.image, self.rect = load_image('gate_images/z_gate.png', -1)
         elif node_type == node_types.S:
             self.image, self.rect = load_image('gate_images/s_gate.png', -1)
         elif node_type == node_types.SDG:
@@ -218,7 +226,10 @@ class CircuitGridGate(pygame.sprite.Sprite):
             self.image, self.rect = load_image('gate_images/iden_gate.png', -1)
         elif node_type == node_types.CTRL:
             self.image, self.rect = load_image('gate_images/ctrl_gate.png', -1)
-
+        elif node_type == node_types.TRACE:
+            self.image, self.rect = load_image('gate_images/trace_gate.png', -1)
+        elif node_type == node_types.SWAP:
+            self.image, self.rect = load_image('gate_images/swap_gate.png', -1)
         else:
             self.image = pygame.Surface([GATE_TILE_WIDTH, GATE_TILE_HEIGHT])
             self.image.set_alpha(0)
