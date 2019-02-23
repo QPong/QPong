@@ -189,13 +189,28 @@ def main():
 
             elif event.type == JOYBUTTONDOWN:
                 if event.button == 1:
+                    # X button / place X gate
                     circuit_grid.handle_input_x()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 elif event.button == 9:
+                    # Option button / delete
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
+                # elif event.button == 11:
+                    # Right joystick pressed / place CTRL
+                    # TODO: Create method to place CTRL
+                    # circuit_grid.handle_input_delete()
+                    # circuit_grid.draw(screen)
+                    # pygame.display.flip()
+
+            elif event.type == JOYAXISMOTION:
+                print("event: ", event)
+                if event.axis == 5:
+                    if joystick.get_axis(4) >= 0.5 and joystick.get_axis(5) >= 0.5  :
+                        print("NUCLEAR DELETION")
+
             elif event.type == KEYDOWN:
                 index_increment = 0
                 if event.key == K_ESCAPE:
