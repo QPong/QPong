@@ -46,12 +46,16 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
         for row_idx in range(self.circuit_grid_model.max_wires):
             for col_idx in range(self.circuit_grid_model.max_columns):
-                self.gate_tiles[row_idx][col_idx] = CircuitGridGate()
+                self.gate_tiles[row_idx][col_idx] = \
+                    CircuitGridGate(circuit_grid_model, row_idx, col_idx)
 
         pygame.sprite.RenderPlain.__init__(self, self.circuit_grid_background,
                                            self.gate_tiles,
                                            self.circuit_grid_cursor)
+        self.update()
 
+    def update(self, *args):
+        print("in CircuitGrid#update()")
         self.circuit_grid_background.rect.left = self.xpos
         self.circuit_grid_background.rect.top = self.ypos
 
@@ -63,23 +67,6 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                     self.ypos + GRID_HEIGHT * (row_idx + 1.0)
 
         self.highlight_selected_node(self.selected_wire, self.selected_column)
-
-        # self.update()
-
-    # def update(self, *args):
-    #     self.circuit_grid_background.rect.left = self.xpos
-    #     self.circuit_grid_background.rect.top = self.ypos
-    #
-    #     self.highlight_selected_node(self.selected_wire, self.selected_column)
-    #
-    #     for row_idx in range(self.circuit_grid_model.max_wires):
-    #         for col_idx in range(self.circuit_grid_model.max_columns):
-    #             self.gate_tiles[row_idx][col_idx] = CircuitGridGate()
-    #             pygame.sprite.RenderPlain.__init__(self, self.circuit_grid_background,
-    #                                                self.circuit_grid_cursor,
-    #                                                self.gate_tiles[row_idx][col_idx])
-    #             self.gate_tiles[row_idx][col_idx].rect.top = row_idx * GRID_HEIGHT
-    #             self.gate_tiles[row_idx][col_idx].rect.left = col_idx * GRID_WIDTH
 
 
     def highlight_selected_node(self, wire_num, column_num):
@@ -182,14 +169,30 @@ class CircuitGridBackground(pygame.sprite.Sprite):
 
 class CircuitGridGate(pygame.sprite.Sprite):
     """Images for nodes"""
-    def __init__(self):
+    def __init__(self, circuit_grid_model, wire_num, column_num):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('gate_images/h_gate.png', -1)
-        # self.rect.inflate_ip(-100, -100)
-        self.image.convert()
+        self.circuit_grid_model = circuit_grid_model
+        self.wire_num = wire_num
+        self.column_num = column_num
 
-        self.rect = self.image.get_rect()
+        self.update()
+        # self.image, self.rect = load_image('gate_images/h_gate.png', -1)
+        # self.image.convert()
+        #
+        # self.rect = self.image.get_rect()
         # pygame.draw.rect(self.image, GREEN, self.rect, LINE_WIDTH * 4)
+
+    def update(self):
+        node_type = self.circuit_grid_model.get_node_gate_part(self.wire_num, self.column_num)
+
+        if node_type == node_types.H:
+            self.image, self.rect = load_image('gate_images/h_gate.png', -1)
+        else:
+            self.image = pygame.Surface([GATE_TILE_WIDTH, GATE_TILE_HEIGHT])
+            self.image.set_alpha(0)
+            self.rect = self.image.get_rect()
+
+        self.image.convert()
 
 
 class CircuitGridCursor(pygame.sprite.Sprite):
