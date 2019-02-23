@@ -56,6 +56,11 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
     def update(self, *args):
         print("in CircuitGrid#update()")
+
+        sprite_list = self.sprites()
+        for sprite in sprite_list:
+            sprite.update()
+
         self.circuit_grid_background.rect.left = self.xpos
         self.circuit_grid_background.rect.top = self.ypos
 
@@ -119,6 +124,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                 selected_node_gate_part != node_types.CTRL and \
                 selected_node_gate_part != node_types.TRACE:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.EMPTY)
+
+        self.update()
 
     def delete_controls_for_gate(self, gate_wire_num, column_num):
         control_a_wire_num = self.circuit_grid_model.get_node(gate_wire_num, column_num).ctrl_a

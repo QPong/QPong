@@ -207,8 +207,12 @@ def main():
                     pygame.display.flip()
                 elif event.key == K_x:
                     circuit_grid.handle_input_x()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
                 elif event.key == K_d:
                     circuit_grid.handle_input_delete()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
                 elif event.key == K_SPACE:
                     screen.blit(background, (0, 0))
                     circuit = circuit_grid_model.compute_circuit()
