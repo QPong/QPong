@@ -187,6 +187,15 @@ def main():
             if event.type == QUIT:
                 going = False
 
+            elif event.type == JOYBUTTONDOWN:
+                if event.button == 1:
+                    circuit_grid.handle_input_x()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.button == 9:
+                    circuit_grid.handle_input_delete()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
             elif event.type == KEYDOWN:
                 index_increment = 0
                 if event.key == K_ESCAPE:

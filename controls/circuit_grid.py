@@ -119,8 +119,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                 #                       max(self.selected_wire, gate_wire_num) + 1):
                 #     print("Replacing wire ", wire_idx, " in column ", self.selected_column)
                 #     self.circuit_grid_model.set_node(wire_idx, self.selected_column, node_types.IDEN)
-        elif selected_node_gate_part != node_types.IDEN and \
-                selected_node_gate_part != node_types.SWAP and \
+        elif selected_node_gate_part != node_types.SWAP and \
                 selected_node_gate_part != node_types.CTRL and \
                 selected_node_gate_part != node_types.TRACE:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.EMPTY)
