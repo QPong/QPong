@@ -241,7 +241,12 @@ class CircuitGridGate(pygame.sprite.Sprite):
         elif node_type == node_types.IDEN:
             self.image, self.rect = load_image('gate_images/iden_gate.png', -1)
         elif node_type == node_types.CTRL:
-            self.image, self.rect = load_image('gate_images/ctrl_gate.png', -1)
+            if self.wire_num == 0:
+                self.image, self.rect = load_image('gate_images/ctrl_gate_top_wire.png', -1)
+            elif self.wire_num == self.circuit_grid_model.max_wires - 1:
+                self.image, self.rect = load_image('gate_images/ctrl_gate_bottom_wire.png', -1)
+            else:
+                self.image, self.rect = load_image('gate_images/ctrl_gate.png', -1)
         elif node_type == node_types.TRACE:
             self.image, self.rect = load_image('gate_images/trace_gate.png', -1)
         elif node_type == node_types.SWAP:
