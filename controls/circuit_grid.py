@@ -213,7 +213,12 @@ class CircuitGridGate(pygame.sprite.Sprite):
         elif node_type == node_types.X:
             node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
             if node.ctrl_a >= 0 or node.ctrl_b >= 0:
-                self.image, self.rect = load_image('gate_images/not_gate.png', -1)
+                # This is a control-X gate or Toffoli gate
+                # TODO: Handle Toffoli gates more completely
+                if self.wire_num > max(node.ctrl_a, node.ctrl_b):
+                    self.image, self.rect = load_image('gate_images/not_gate_below_ctrl.png', -1)
+                else:
+                    self.image, self.rect = load_image('gate_images/not_gate_above_ctrl.png', -1)
             elif node.radians != 0:
                 self.image, self.rect = load_image('gate_images/rx_gate.png', -1)
             else:
@@ -241,12 +246,12 @@ class CircuitGridGate(pygame.sprite.Sprite):
         elif node_type == node_types.IDEN:
             self.image, self.rect = load_image('gate_images/iden_gate.png', -1)
         elif node_type == node_types.CTRL:
-            if self.wire_num == 0:
-                self.image, self.rect = load_image('gate_images/ctrl_gate_top_wire.png', -1)
-            elif self.wire_num == self.circuit_grid_model.max_wires - 1:
+            # TODO: Handle Toffoli gates correctly
+            if self.wire_num > \
+                    self.circuit_grid_model.get_gate_wire_for_control_node(self.wire_num, self.column_num):
                 self.image, self.rect = load_image('gate_images/ctrl_gate_bottom_wire.png', -1)
             else:
-                self.image, self.rect = load_image('gate_images/ctrl_gate.png', -1)
+                self.image, self.rect = load_image('gate_images/ctrl_gate_top_wire.png', -1)
         elif node_type == node_types.TRACE:
             self.image, self.rect = load_image('gate_images/trace_gate.png', -1)
         elif node_type == node_types.SWAP:

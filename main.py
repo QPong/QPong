@@ -65,7 +65,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(3, 13)
+    circuit_grid_model = CircuitGridModel(5, 13)
 
     # circuit_grid_model.set_node(0, 1, node_types.H)
     #
@@ -87,7 +87,7 @@ def main():
     circuit_grid_model.set_node(1, 3, node_types.TDG)
     circuit_grid_model.set_node(2, 3, node_types.IDEN)
 
-    circuit_grid_model.set_node(0, 4, node_types.X, 0, 2)
+    circuit_grid_model.set_node(2, 4, node_types.X, 0, 0)
     circuit_grid_model.set_node(1, 4, node_types.TRACE)
 
     circuit_grid_model.set_node(0, 5, node_types.IDEN)
@@ -109,7 +109,7 @@ def main():
 
     circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
 
-    circuit_grid_model.set_node(1, 12, node_types.X, 0, 0, 2)
+    circuit_grid_model.set_node(0, 12, node_types.X, 0, 1, 2)
 
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
