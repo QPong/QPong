@@ -17,10 +17,10 @@
 #
 """Gamepad button and axis mappings, currently specific to PS4 gamepads"""
 
-BTN_X = 3  # PS4 gamepad is 3, PS3 gamepad is 2
-BTN_Y = 0
-BTN_A = 2  # PS4 gamepad is 2, PS3 gamepad is 3
-BTN_B = 1
+BTN_X = 0  # PS4 gamepad is 3, PS3 gamepad is 2
+BTN_Y = 3
+BTN_A = 1  # PS4 gamepad is 1, PS3 gamepad is 3
+BTN_B = 2
 
 BTN_LEFT_BUMPER = 4
 BTN_RIGHT_BUMPER = 5

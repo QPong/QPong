@@ -96,9 +96,26 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
     def handle_input_x(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
-        print('In handle_input_x, node_type in selected node is: ', selected_node_gate_part)
         if selected_node_gate_part == node_types.EMPTY:
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.X)
+        self.update()
+
+    def handle_input_y(self):
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        if selected_node_gate_part == node_types.EMPTY:
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.Y)
+        self.update()
+
+    def handle_input_z(self):
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        if selected_node_gate_part == node_types.EMPTY:
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.Z)
+        self.update()
+
+    def handle_input_h(self):
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        if selected_node_gate_part == node_types.EMPTY:
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.H)
         self.update()
 
     def handle_input_delete(self):
