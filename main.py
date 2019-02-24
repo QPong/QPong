@@ -195,24 +195,6 @@ def main():
                     # Place X gate
                     circuit_grid.handle_input_x()
                     circuit_grid.draw(screen)
-
-                    # TODO: Refactor following code into methods, etc.
-                    screen.blit(background, (0, 0))
-                    circuit = circuit_grid_model.compute_circuit()
-                    circuit_diagram.set_circuit(circuit)
-                    unitary_grid.set_circuit(circuit)
-                    qsphere.set_circuit(circuit)
-                    histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit)
-                    left_sprites.arrange()
-                    middle_sprites.arrange()
-                    right_sprites.arrange()
-                    left_sprites.draw(screen)
-                    middle_sprites.draw(screen)
-                    right_sprites.draw(screen)
-                    circuit_grid.draw(screen)
-                    # END OF TODO REFACTOR
-
                     pygame.display.flip()
                 elif event.button == BTN_X:
                     # Place Y gate
@@ -232,6 +214,24 @@ def main():
                 elif event.button == BTN_RIGHT_TRIGGER:
                     # Delete gate
                     circuit_grid.handle_input_delete()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.button == BTN_LEFT_BUMPER:
+                    # Update visualizations
+                    # TODO: Refactor following code into methods, etc.
+                    screen.blit(background, (0, 0))
+                    circuit = circuit_grid_model.compute_circuit()
+                    circuit_diagram.set_circuit(circuit)
+                    unitary_grid.set_circuit(circuit)
+                    qsphere.set_circuit(circuit)
+                    histogram.set_circuit(circuit)
+                    statevector_grid.set_circuit(circuit)
+                    left_sprites.arrange()
+                    middle_sprites.arrange()
+                    right_sprites.arrange()
+                    left_sprites.draw(screen)
+                    middle_sprites.draw(screen)
+                    right_sprites.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 # elif event.button == BTN_RIGHT_THUMB:
