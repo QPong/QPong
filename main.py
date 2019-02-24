@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# TODO: Use the convert() method to improve performance?
+# TODO: Create viz that displays generated Qiskit code for circuit
 #
 """Create quantum circuits with Qiskit and Pygame"""
 
@@ -183,7 +183,9 @@ def main():
         # Handle Input Events
         for event in pygame.event.get():
             pygame.event.pump()
-            # print("event: ", event)
+
+            # if event.type != MOUSEMOTION:
+            #     print("event: ", event)
             if event.type == QUIT:
                 going = False
 
