@@ -258,12 +258,7 @@ class CircuitGridCursor(pygame.sprite.Sprite):
     """Cursor to highlight current grid node"""
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([GRID_WIDTH, LINE_WIDTH * 4])
-        # self.image.set_alpha(0)
-        self.image.convert()
-        # self.image.fill(WHITE)
-
-        self.rect = self.image.get_rect()
-        pygame.draw.rect(self.image, BLUE, self.rect, LINE_WIDTH * 4)
+        self.image, self.rect = load_image('images/circuit-grid-cursor.png', -1)
+        self.image.convert_alpha()
 
 
