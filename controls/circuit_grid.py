@@ -169,9 +169,9 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                 self.update()
             else:
                 # Attempt to place a control qubit beginning with the wire above
-                if self.selected_wire > 0:
+                if self.selected_wire >= 0:
                     if self.place_ctrl_qubit(self.selected_wire, self.selected_wire - 1) == -1:
-                        if self.selected_wire < self.circuit_grid_model.max_wires -1:
+                        if self.selected_wire < self.circuit_grid_model.max_wires:
                             if self.place_ctrl_qubit(self.selected_wire, self.selected_wire + 1) == -1:
                                 print("Can't place control qubit")
                                 self.display_exceptional_condition()
@@ -206,6 +206,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         """Attempt to place a control qubit on a wire.
         If successful, return the wire number. If not, return -1
         """
+        if candidate_ctrl_wire_num < 0 or candidate_ctrl_wire_num >= self.circuit_grid_model.max_wires:
+            return -1
         candidate_wire_gate_part = \
             self.circuit_grid_model.get_node_gate_part(candidate_ctrl_wire_num,
                                                        self.selected_column)
