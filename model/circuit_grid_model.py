@@ -35,8 +35,14 @@ class CircuitGridModel():
                 retval += str(self.get_node_gate_part(wire_num, column_num)) + ', '
         return 'CircuitGridModel: ' + retval
 
-    def set_node(self, wire_num, column_num, node_type, radians=0, ctrl_a=-1, ctrl_b=-1, swap=-1):
-        self.nodes[wire_num][column_num] = CircuitGridNode(node_type, radians, ctrl_a, ctrl_b, swap)
+    # def set_node(self, wire_num, column_num, node_type, radians=0, ctrl_a=-1, ctrl_b=-1, swap=-1):
+    def set_node(self, wire_num, column_num, circuit_grid_node):
+        self.nodes[wire_num][column_num] = \
+            CircuitGridNode(circuit_grid_node.node_type,
+                            circuit_grid_node.radians,
+                            circuit_grid_node.ctrl_a,
+                            circuit_grid_node.ctrl_b,
+                            circuit_grid_node.swap)
 
         # TODO: Decide whether to protect as shown below
         # if not self.nodes[wire_num][column_num]:
@@ -49,7 +55,7 @@ class CircuitGridModel():
 
     def get_node_gate_part(self, wire_num, column_num):
         requested_node = self.nodes[wire_num][column_num]
-        if requested_node:
+        if requested_node and requested_node.node_type != node_types.EMPTY:
             # Node is occupied so return its gate
             return requested_node.node_type
         else:

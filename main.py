@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 # TODO: Create viz that displays generated Qiskit code for circuit
+# TODO: Prevent error from occurring when circuit is empty
 #
 """Create quantum circuits with Qiskit and Pygame"""
 
@@ -65,51 +66,51 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(5, 13)
+    circuit_grid_model = CircuitGridModel(3, 13)
 
-    # circuit_grid_model.set_node(0, 1, node_types.H)
+    circuit_grid_model.set_node(0, 1, CircuitGridNode(node_types.H))
+
+    circuit_grid_model.set_node(1, 2, CircuitGridNode(node_types.X, 0, 0))
+
+    # circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
+    # circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
+    # circuit_grid_model.set_node(2, 0, node_types.Z, np.pi/4)
     #
-    # circuit_grid_model.set_node(1, 2, node_types.X, 0, 0)
-
-    circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
-    circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
-    circuit_grid_model.set_node(2, 0, node_types.Z, np.pi/4)
-
-    circuit_grid_model.set_node(0, 1, node_types.X)
-    circuit_grid_model.set_node(1, 1, node_types.Y)
-    circuit_grid_model.set_node(2, 1, node_types.Z)
-
-    circuit_grid_model.set_node(0, 2, node_types.S)
-    circuit_grid_model.set_node(1, 2, node_types.T)
-    circuit_grid_model.set_node(2, 2, node_types.H)
-
-    circuit_grid_model.set_node(0, 3, node_types.SDG)
-    circuit_grid_model.set_node(1, 3, node_types.TDG)
-    circuit_grid_model.set_node(2, 3, node_types.IDEN)
-
-    circuit_grid_model.set_node(2, 4, node_types.X, 0, 0)
-    circuit_grid_model.set_node(1, 4, node_types.TRACE)
-
-    circuit_grid_model.set_node(0, 5, node_types.IDEN)
-    circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)
-
-    circuit_grid_model.set_node(2, 6, node_types.X, 0, 0, 1)
-
-    circuit_grid_model.set_node(1, 7, node_types.H, 0, 2)
-    circuit_grid_model.set_node(0, 7, node_types.IDEN)
-
-    circuit_grid_model.set_node(1, 8, node_types.Y, 0, 0)
-    circuit_grid_model.set_node(2, 8, node_types.IDEN)
-
-    circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
-    circuit_grid_model.set_node(1, 9, node_types.TRACE)
-
-    circuit_grid_model.set_node(0, 10, node_types.IDEN)
-    circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)
-
-    circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
-
-    circuit_grid_model.set_node(0, 12, node_types.X, 0, 1, 2)
+    # circuit_grid_model.set_node(0, 1, node_types.X)
+    # circuit_grid_model.set_node(1, 1, node_types.Y)
+    # circuit_grid_model.set_node(2, 1, node_types.Z)
+    #
+    # circuit_grid_model.set_node(0, 2, node_types.S)
+    # circuit_grid_model.set_node(1, 2, node_types.T)
+    # circuit_grid_model.set_node(2, 2, node_types.H)
+    #
+    # circuit_grid_model.set_node(0, 3, node_types.SDG)
+    # circuit_grid_model.set_node(1, 3, node_types.TDG)
+    # circuit_grid_model.set_node(2, 3, node_types.IDEN)
+    #
+    # circuit_grid_model.set_node(2, 4, node_types.X, 0, 0)
+    # circuit_grid_model.set_node(1, 4, node_types.TRACE)
+    #
+    # circuit_grid_model.set_node(0, 5, node_types.IDEN)
+    # circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)
+    #
+    # circuit_grid_model.set_node(2, 6, node_types.X, 0, 0, 1)
+    #
+    # circuit_grid_model.set_node(1, 7, node_types.H, 0, 2)
+    # circuit_grid_model.set_node(0, 7, node_types.IDEN)
+    #
+    # circuit_grid_model.set_node(1, 8, node_types.Y, 0, 0)
+    # circuit_grid_model.set_node(2, 8, node_types.IDEN)
+    #
+    # circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
+    # circuit_grid_model.set_node(1, 9, node_types.TRACE)
+    #
+    # circuit_grid_model.set_node(0, 10, node_types.IDEN)
+    # circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)
+    #
+    # circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
+    #
+    # circuit_grid_model.set_node(0, 12, node_types.X, 0, 1, 2)
 
     print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
@@ -216,6 +217,11 @@ def main():
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
+                elif event.button == BTN_RIGHT_THUMB:
+                    # Add or remove a control
+                    circuit_grid.handle_input_ctrl()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
                 elif event.button == BTN_LEFT_BUMPER:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
@@ -234,15 +240,9 @@ def main():
                     right_sprites.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                # elif event.button == BTN_RIGHT_THUMB:
-                    # Right joystick pressed / place CTRL
-                    # TODO: Create method to place CTRL
-                    # circuit_grid.handle_input_delete()
-                    # circuit_grid.draw(screen)
-                    # pygame.display.flip()
 
             elif event.type == JOYAXISMOTION:
-                print("event: ", event)
+                # print("event: ", event)
                 if event.axis == 5:
                     if joystick.get_axis(4) >= 0.5 and joystick.get_axis(5) >= 0.5  :
                         print("NUCLEAR DELETION")
@@ -271,30 +271,44 @@ def main():
                     circuit_grid.handle_input_x()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
+                elif event.key == K_y:
+                    circuit_grid.handle_input_y()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_z:
+                    circuit_grid.handle_input_z()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_h:
+                    circuit_grid.handle_input_h()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
                 elif event.key == K_d:
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
+                elif event.key == K_c:
+                    # Add or remove a control
+                    circuit_grid.handle_input_ctrl()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
                 elif event.key == K_SPACE:
+                    # Update visualizations
+                    # TODO: Refactor following code into methods, etc.
                     screen.blit(background, (0, 0))
                     circuit = circuit_grid_model.compute_circuit()
-
                     circuit_diagram.set_circuit(circuit)
                     unitary_grid.set_circuit(circuit)
                     qsphere.set_circuit(circuit)
                     histogram.set_circuit(circuit)
                     statevector_grid.set_circuit(circuit)
-
                     left_sprites.arrange()
                     middle_sprites.arrange()
                     right_sprites.arrange()
-
                     left_sprites.draw(screen)
                     middle_sprites.draw(screen)
                     right_sprites.draw(screen)
-
                     circuit_grid.draw(screen)
-
                     pygame.display.flip()
 
             # else:

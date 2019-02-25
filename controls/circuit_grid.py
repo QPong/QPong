@@ -19,6 +19,7 @@ import numpy as np
 from utils.colors import *
 from utils.navigation import *
 from utils.resources import *
+from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
 GRID_WIDTH = 66
@@ -79,6 +80,10 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)
         self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)
 
+    def display_exceptional_condition(self):
+        # TODO: Make cursor appearance indicate condition such as unable to place a gate
+        return
+
     def move_to_adjacent_node(self, direction):
         if direction == MOVE_LEFT and self.selected_column > 0:
             self.selected_column -= 1
@@ -97,25 +102,29 @@ class CircuitGrid(pygame.sprite.RenderPlain):
     def handle_input_x(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part == node_types.EMPTY:
-            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.X)
+            circuit_grid_node = CircuitGridNode(node_types.X)
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
         self.update()
 
     def handle_input_y(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part == node_types.EMPTY:
-            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.Y)
+            circuit_grid_node = CircuitGridNode(node_types.Y)
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
         self.update()
 
     def handle_input_z(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part == node_types.EMPTY:
-            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.Z)
+            circuit_grid_node = CircuitGridNode(node_types.Z)
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
         self.update()
 
     def handle_input_h(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part == node_types.EMPTY:
-            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.H)
+            circuit_grid_node = CircuitGridNode(node_types.H)
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
         self.update()
 
     def handle_input_delete(self):
@@ -139,9 +148,39 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         elif selected_node_gate_part != node_types.SWAP and \
                 selected_node_gate_part != node_types.CTRL and \
                 selected_node_gate_part != node_types.TRACE:
-            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, node_types.EMPTY)
+            circuit_grid_node = CircuitGridNode(node_types.EMPTY)
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
 
         self.update()
+
+    def handle_input_ctrl(self):
+        # TODO: Handle Toffoli gates. For now, control qubit is assumed to be in ctrl_a variable
+        #       with ctrl_b variable reserved for Toffoli gates
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        if selected_node_gate_part == node_types.X or \
+            selected_node_gate_part == node_types.Y or \
+                selected_node_gate_part == node_types.Z or \
+                selected_node_gate_part == node_types.H:
+            circuit_grid_node = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column)
+            if circuit_grid_node.ctrl_a >= 0:
+                # Gate already has a control qubit so remove it
+                circuit_grid_node.ctrl_a = -1
+                self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+                self.update()
+            else:
+                # Attempt to place a control qubit beginning with the wire above
+                if self.selected_wire > 0:
+                    other_wire_gate_part = \
+                        self.circuit_grid_model.get_node_gate_part(self.selected_wire - 1,
+                                                                                      self.selected_column)
+                    if other_wire_gate_part == node_types.EMPTY:
+                        circuit_grid_node = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column)
+                        circuit_grid_node.ctrl_a = self.selected_wire - 1
+                        self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+                        self.update()
+                    else:
+                        print("Can't place control qubit")
+                        self.display_exceptional_condition()
 
     def delete_controls_for_gate(self, gate_wire_num, column_num):
         control_a_wire_num = self.circuit_grid_model.get_node(gate_wire_num, column_num).ctrl_a
@@ -163,12 +202,12 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
         if control_wire_num >= 0:
             # TODO: If this is a controlled gate, remove the connecting TRACE parts between the gate and the control
-            #       and replace with placeholders (IDEN for now?)
             # ALSO: Refactor with similar code in this method
             for wire_idx in range(min(gate_wire_num, control_wire_num),
                                   max(gate_wire_num, control_wire_num) + 1):
                 print("Replacing wire ", wire_idx, " in column ", column_num)
-                self.circuit_grid_model.set_node(wire_idx, column_num, node_types.EMPTY)
+                circuit_grid_node = CircuitGridNode(node_types.EMPTY)
+                self.circuit_grid_model.set_node(wire_idx, column_num, circuit_grid_node)
 
 
 class CircuitGridBackground(pygame.sprite.Sprite):
