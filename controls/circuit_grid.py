@@ -171,10 +171,36 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                 # Attempt to place a control qubit beginning with the wire above
                 if self.selected_wire > 0:
                     if self.place_ctrl_qubit(self.selected_wire, self.selected_wire - 1) == -1:
-                        if self.selected_wire < self.circuit_grid_model.max_wires - 1:
+                        if self.selected_wire < self.circuit_grid_model.max_wires -1:
                             if self.place_ctrl_qubit(self.selected_wire, self.selected_wire + 1) == -1:
                                 print("Can't place control qubit")
                                 self.display_exceptional_condition()
+
+    def handle_input_move_ctrl(self, direction):
+        # TODO: Handle Toffoli gates. For now, control qubit is assumed to be in ctrl_a variable
+        #       with ctrl_b variable reserved for Toffoli gates
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        if selected_node_gate_part == node_types.X or \
+            selected_node_gate_part == node_types.Y or \
+                selected_node_gate_part == node_types.Z or \
+                selected_node_gate_part == node_types.H:
+            circuit_grid_node = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column)
+            if 0 <= circuit_grid_node.ctrl_a < self.circuit_grid_model.max_wires:
+                # Gate already has a control qubit so try to move it
+                if direction == MOVE_UP:
+                    candidate_wire_num = circuit_grid_node.ctrl_a - 1
+                    if candidate_wire_num == self.selected_wire:
+                        candidate_wire_num -= 1
+                else:
+                    candidate_wire_num = circuit_grid_node.ctrl_a + 1
+                    if candidate_wire_num == self.selected_wire:
+                        candidate_wire_num += 1
+                if 0 <= candidate_wire_num < self.circuit_grid_model.max_wires:
+                    if self.place_ctrl_qubit(self.selected_wire, candidate_wire_num) == candidate_wire_num:
+                        print("control qubit successfully placed on wire ", candidate_wire_num)
+                        self.update()
+                    else:
+                        print("control qubit could not be placed on wire ", candidate_wire_num)
 
     def place_ctrl_qubit(self, gate_wire_num, candidate_ctrl_wire_num):
         """Attempt to place a control qubit on a wire.

@@ -251,19 +251,19 @@ def main():
                 index_increment = 0
                 if event.key == K_ESCAPE:
                     going = False
-                elif event.key == K_LEFT:
+                elif event.key == K_a:
                     circuit_grid.move_to_adjacent_node(MOVE_LEFT)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                elif event.key == K_RIGHT:
+                elif event.key == K_d:
                     circuit_grid.move_to_adjacent_node(MOVE_RIGHT)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                elif event.key == K_UP:
+                elif event.key == K_w:
                     circuit_grid.move_to_adjacent_node(MOVE_UP)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                elif event.key == K_DOWN:
+                elif event.key == K_s:
                     circuit_grid.move_to_adjacent_node(MOVE_DOWN)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
@@ -283,13 +283,23 @@ def main():
                     circuit_grid.handle_input_h()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                elif event.key == K_d:
+                elif event.key == K_BACKSLASH:
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 elif event.key == K_c:
                     # Add or remove a control
                     circuit_grid.handle_input_ctrl()
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_UP:
+                    # Move a control up
+                    circuit_grid.handle_input_move_ctrl(MOVE_UP)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_DOWN:
+                    # Move a control down
+                    circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 elif event.key == K_SPACE:
