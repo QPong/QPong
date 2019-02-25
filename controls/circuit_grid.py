@@ -170,17 +170,28 @@ class CircuitGrid(pygame.sprite.RenderPlain):
             else:
                 # Attempt to place a control qubit beginning with the wire above
                 if self.selected_wire > 0:
-                    other_wire_gate_part = \
-                        self.circuit_grid_model.get_node_gate_part(self.selected_wire - 1,
-                                                                                      self.selected_column)
-                    if other_wire_gate_part == node_types.EMPTY:
-                        circuit_grid_node = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column)
-                        circuit_grid_node.ctrl_a = self.selected_wire - 1
-                        self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
-                        self.update()
-                    else:
-                        print("Can't place control qubit")
-                        self.display_exceptional_condition()
+                    if self.place_ctrl_qubit(self.selected_wire, self.selected_wire - 1) == -1:
+                        if self.selected_wire < self.circuit_grid_model.max_wires - 1:
+                            if self.place_ctrl_qubit(self.selected_wire, self.selected_wire + 1) == -1:
+                                print("Can't place control qubit")
+                                self.display_exceptional_condition()
+
+    def place_ctrl_qubit(self, gate_wire_num, candidate_ctrl_wire_num):
+        """Attempt to place a control qubit on a wire.
+        If successful, return the wire number. If not, return -1
+        """
+        candidate_wire_gate_part = \
+            self.circuit_grid_model.get_node_gate_part(candidate_ctrl_wire_num,
+                                                       self.selected_column)
+        if candidate_wire_gate_part == node_types.EMPTY:
+            circuit_grid_node = self.circuit_grid_model.get_node(gate_wire_num, self.selected_column)
+            circuit_grid_node.ctrl_a = candidate_ctrl_wire_num
+            self.circuit_grid_model.set_node(gate_wire_num, self.selected_column, circuit_grid_node)
+            self.update()
+            return candidate_ctrl_wire_num
+        else:
+            print("Can't place control qubit on wire: ", candidate_ctrl_wire_num)
+            return -1
 
     def delete_controls_for_gate(self, gate_wire_num, column_num):
         control_a_wire_num = self.circuit_grid_model.get_node(gate_wire_num, column_num).ctrl_a
