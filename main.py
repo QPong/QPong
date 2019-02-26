@@ -115,7 +115,7 @@ def main():
     #
     # circuit_grid_model.set_node(0, 12, node_types.X, 0, 1, 2)
 
-    print("str(circuit_grid_model): ", str(circuit_grid_model))
+    # print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
 
 
@@ -191,8 +191,8 @@ def main():
         for event in pygame.event.get():
             pygame.event.pump()
 
-            if event.type != MOUSEMOTION:
-                print("event: ", event)
+            # if event.type != MOUSEMOTION:
+            #     print("event: ", event)
             if event.type == QUIT:
                 going = False
 
@@ -227,7 +227,7 @@ def main():
                     circuit_grid.handle_input_ctrl()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                elif event.button == BTN_LEFT_TRIGGER:
+                elif event.button == BTN_LEFT_BUMPER:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
                     screen.blit(background, (0, 0))
@@ -248,12 +248,20 @@ def main():
 
             elif event.type == JOYAXISMOTION:
                 # print("event: ", event)
-                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.5:
+                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.95:
                     circuit_grid.handle_input_rotate(np.pi / 8)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.5:
+                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.95:
                     circuit_grid.handle_input_rotate(-np.pi / 8)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) <= -0.95:
+                    circuit_grid.handle_input_move_ctrl(MOVE_UP)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) >= 0.95:
+                    circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
