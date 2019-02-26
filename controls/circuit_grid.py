@@ -329,18 +329,24 @@ class CircuitGridGate(pygame.sprite.Sprite):
                     self.image, self.rect = load_image('gate_images/not_gate_above_ctrl.png', -1)
             elif node.radians != 0:
                 self.image, self.rect = load_image('gate_images/rx_gate.png', -1)
+                self.rect = self.image.get_rect()
+                pygame.draw.arc(self.image, MAGENTA, self.rect, 0, node.radians % (2 * np.pi), 6)
             else:
                 self.image, self.rect = load_image('gate_images/x_gate.png', -1)
         elif node_type == node_types.Y:
             node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
             if node.radians != 0:
                 self.image, self.rect = load_image('gate_images/ry_gate.png', -1)
+                self.rect = self.image.get_rect()
+                pygame.draw.arc(self.image, MAGENTA, self.rect, 0, node.radians % (2 * np.pi), 6)
             else:
                 self.image, self.rect = load_image('gate_images/y_gate.png', -1)
         elif node_type == node_types.Z:
             node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
             if node.radians != 0:
                 self.image, self.rect = load_image('gate_images/rz_gate.png', -1)
+                self.rect = self.image.get_rect()
+                pygame.draw.arc(self.image, MAGENTA, self.rect, 0, node.radians % (2 * np.pi), 6)
             else:
                 self.image, self.rect = load_image('gate_images/z_gate.png', -1)
         elif node_type == node_types.S:
