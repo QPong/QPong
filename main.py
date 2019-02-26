@@ -70,7 +70,8 @@ def main():
 
     circuit_grid_model.set_node(0, 1, CircuitGridNode(node_types.H))
 
-    circuit_grid_model.set_node(1, 2, CircuitGridNode(node_types.X, 0, 0))
+    circuit_grid_model.set_node(2, 2, CircuitGridNode(node_types.X, 0, 0))
+    circuit_grid_model.set_node(1, 2, CircuitGridNode(node_types.TRACE))
 
     # circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
     # circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
