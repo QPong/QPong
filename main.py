@@ -66,12 +66,14 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(3, 13)
+    circuit_grid_model = CircuitGridModel(4, 18)
 
-    circuit_grid_model.set_node(0, 1, CircuitGridNode(node_types.H))
+    circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
-    circuit_grid_model.set_node(2, 2, CircuitGridNode(node_types.X, 0, 0))
-    circuit_grid_model.set_node(1, 2, CircuitGridNode(node_types.TRACE))
+    # circuit_grid_model.set_node(0, 1, CircuitGridNode(node_types.H))
+
+    # circuit_grid_model.set_node(2, 2, CircuitGridNode(node_types.X, 0, 0))
+    # circuit_grid_model.set_node(1, 2, CircuitGridNode(node_types.TRACE))
 
     # circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
     # circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
@@ -123,11 +125,13 @@ def main():
     qsphere = QSphere(circuit)
     statevector_grid = StatevectorGrid(circuit)
 
-    left_sprites = VBox(0, 0, circuit_diagram, qsphere)
-    middle_sprites = VBox(600, 200, histogram, unitary_grid)
+    # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
+    left_sprites = VBox(0, 0, qsphere)
+    # middle_sprites = VBox(600, 100, histogram, unitary_grid)
+    middle_sprites = VBox(600, 100, histogram)
     right_sprites = VBox(1300, 0, statevector_grid)
 
-    circuit_grid = CircuitGrid(10, 700, circuit_grid_model)
+    circuit_grid = CircuitGrid(10, 600, circuit_grid_model)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
@@ -223,7 +227,7 @@ def main():
                     circuit_grid.handle_input_ctrl()
                     circuit_grid.draw(screen)
                     pygame.display.flip()
-                elif event.button == BTN_LEFT_BUMPER:
+                elif event.button == BTN_LEFT_TRIGGER:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
                     screen.blit(background, (0, 0))
@@ -244,9 +248,14 @@ def main():
 
             elif event.type == JOYAXISMOTION:
                 # print("event: ", event)
-                if event.axis == 5:
-                    if joystick.get_axis(4) >= 0.5 and joystick.get_axis(5) >= 0.5  :
-                        print("NUCLEAR DELETION")
+                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.5:
+                    circuit_grid.handle_input_rotate(np.pi / 8)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.5:
+                    circuit_grid.handle_input_rotate(-np.pi / 8)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
 
             elif event.type == KEYDOWN:
                 index_increment = 0
