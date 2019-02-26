@@ -312,11 +312,6 @@ class CircuitGridGate(pygame.sprite.Sprite):
         self.column_num = column_num
 
         self.update()
-        # self.image, self.rect = load_image('gate_images/h_gate.png', -1)
-        # self.image.convert()
-        #
-        # self.rect = self.image.get_rect()
-        # pygame.draw.rect(self.image, BLUE, self.rect, LINE_WIDTH * 4)
 
     def update(self):
         node_type = self.circuit_grid_model.get_node_gate_part(self.wire_num, self.column_num)
