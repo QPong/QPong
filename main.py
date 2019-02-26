@@ -294,13 +294,23 @@ def main():
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 elif event.key == K_UP:
-                    # Move a control up
+                    # Move a control qubit up
                     circuit_grid.handle_input_move_ctrl(MOVE_UP)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 elif event.key == K_DOWN:
-                    # Move a control down
+                    # Move a control qubit down
                     circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_LEFT:
+                    # Rotate a gate
+                    circuit_grid.handle_input_rotate(-np.pi/8)
+                    circuit_grid.draw(screen)
+                    pygame.display.flip()
+                elif event.key == K_RIGHT:
+                    # Rotate a gate
+                    circuit_grid.handle_input_rotate(np.pi / 8)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
                 elif event.key == K_SPACE:

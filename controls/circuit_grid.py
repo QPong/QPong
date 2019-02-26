@@ -223,6 +223,17 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                     else:
                         print("control qubit could not be placed on wire ", candidate_wire_num)
 
+    def handle_input_rotate(self, radians):
+        selected_node_gate_part = self.get_selected_node_gate_part()
+        if selected_node_gate_part == node_types.X or \
+            selected_node_gate_part == node_types.Y or \
+                selected_node_gate_part == node_types.Z:
+            circuit_grid_node = self.circuit_grid_model.get_node(self.selected_wire, self.selected_column)
+            circuit_grid_node.radians = (circuit_grid_node.radians + radians) % (2 * np.pi)
+            self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+
+        self.update()
+
     def place_ctrl_qubit(self, gate_wire_num, candidate_ctrl_wire_num):
         """Attempt to place a control qubit on a wire.
         If successful, return the wire number. If not, return -1
