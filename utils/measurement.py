@@ -28,6 +28,7 @@ from utils.colors import WHITE, BLACK
 from utils.fonts import ARIAL_30
 from utils.states import comp_basis_states
 
+DEFAULT_NUM_SHOTS = 1
 class Measurement():
     """Measure the state"""
 
