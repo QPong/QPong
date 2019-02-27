@@ -34,6 +34,7 @@ from viz.qsphere import QSphere
 from viz.statevector_grid import StatevectorGrid
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
+from utils.ball import *
 
 WINDOW_SIZE = 900, 1000
 if not pygame.font: print('Warning, fonts disabled')
@@ -142,6 +143,13 @@ def main():
     #middle_sprites.draw(screen)
     right_sprites.draw(screen)
     circuit_grid.draw(screen)
+
+    ball = Ball()
+    movingsprites = pygame.sprite.Group()
+    movingsprites.add(ball)
+    movingsprites.draw(screen)
+
+    ball.ball_reset()
     pygame.display.flip()
 
     gamepad_repeat_delay = 100
@@ -155,6 +163,8 @@ def main():
         clock.tick(30)
 
         pygame.time.wait(10)
+
+        ball.update()
 
         gamepad_move = False
         joystick_hat = joystick.get_hat(0)
