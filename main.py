@@ -35,8 +35,7 @@ from viz.statevector_grid import StatevectorGrid
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
 
-WINDOW_SIZE = 1500, 1000
-
+WINDOW_SIZE = 900, 1000
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
@@ -58,7 +57,7 @@ pygame.font.init()
 
 
 def main():
-    pygame.display.set_caption('Quantum Circuit Game')
+    pygame.display.set_caption('QPong')
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
@@ -130,6 +129,7 @@ def main():
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
     # middle_sprites = VBox(600, 100, histogram)
     right_sprites = VBox(1300, 0, statevector_grid)
+    left_sprite_computer = VBox(1300, 0, statevector_grid)
 
     circuit_grid = CircuitGrid(10, 600, circuit_grid_model)
     screen.blit(background, (0, 0))
@@ -142,6 +142,7 @@ def main():
     #left_sprites.draw(screen)
     #middle_sprites.draw(screen)
     right_sprites.draw(screen)
+    left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     pygame.display.flip()
 
@@ -240,9 +241,11 @@ def main():
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
+                    left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
@@ -343,9 +346,11 @@ def main():
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
+                    left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
