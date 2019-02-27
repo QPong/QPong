@@ -35,7 +35,7 @@ from viz.statevector_grid import StatevectorGrid
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
 
-WINDOW_SIZE = 1000, 1000
+WINDOW_SIZE = 900, 1000
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
