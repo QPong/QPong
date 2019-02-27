@@ -88,11 +88,13 @@
       <list>
         <option value="$PROJECT_DIR$/viz/statevector_grid.py" />
         <option value="$PROJECT_DIR$/controls/circuit_grid.py" />
+        <option value="$PROJECT_DIR$/viz/computer.py" />
+        <option value="$PROJECT_DIR$/statevector_grid_1.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="46" />
     <option name="y" value="23" />
     <option name="width" value="1234" />
@@ -103,32 +105,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
+              <item name="QPong" type="b2602c69:ProjectViewProjectNode" />
+              <item name="QPong" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="controls" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
+              <item name="QPong" type="b2602c69:ProjectViewProjectNode" />
+              <item name="QPong" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QPong" type="b2602c69:ProjectViewProjectNode" />
+              <item name="QPong" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QPong" type="b2602c69:ProjectViewProjectNode" />
+              <item name="QPong" type="462c0819:PsiDirectoryNode" />
+              <item name="viz" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
@@ -144,12 +142,16 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/viz" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -171,9 +173,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
@@ -202,10 +204,18 @@
       <option name="presentableId" value="Default" />
       <updated>1551288615793</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added left_sprite_computer">
+      <created>1551299078711</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1551299078711</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="23" width="1234" height="777" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="823" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26677853" />
@@ -213,12 +223,12 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.329927" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32968536" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.30916554" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
@@ -229,11 +239,15 @@
       <window_info anchor="right" id="R Packages" order="4" />
     </layout>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added left_sprite_computer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added left_sprite_computer" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/model/circuit_grid_model.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/circuit_node_types.py">
+    <entry file="file://$PROJECT_DIR$/utils/states.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/model/__init__.py">
@@ -250,14 +264,19 @@
         <state relative-caret-position="-188" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/bell_histogram.png">
-      <provider selected="true" editor-type-id="images" />
+    <entry file="file://$PROJECT_DIR$/viz/computer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="33" lean-forward="true" selection-end-line="38" selection-end-column="64" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controls/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/viz/circuit_diagram.py">
       <provider selected="true" editor-type-id="text-editor">
+
         <state relative-caret-position="-278" />
       </provider>
     </entry>
