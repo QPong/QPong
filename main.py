@@ -129,6 +129,7 @@ def main():
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
     # middle_sprites = VBox(600, 100, histogram)
     right_sprites = VBox(1300, 0, statevector_grid)
+    left_sprite_computer = VBox(1300, 0, statevector_grid)
 
     circuit_grid = CircuitGrid(10, 600, circuit_grid_model)
     screen.blit(background, (0, 0))
@@ -141,6 +142,7 @@ def main():
     #left_sprites.draw(screen)
     #middle_sprites.draw(screen)
     right_sprites.draw(screen)
+    left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     pygame.display.flip()
 
@@ -239,9 +241,11 @@ def main():
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
+                    left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
@@ -342,9 +346,11 @@ def main():
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
+                    left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
