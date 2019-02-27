@@ -22,8 +22,8 @@ from utils.resources import *
 from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
-GRID_WIDTH = 66
-GRID_HEIGHT = 66
+GRID_WIDTH = 50
+GRID_HEIGHT = 30
 
 GATE_TILE_WIDTH = 43
 GATE_TILE_HEIGHT = 45

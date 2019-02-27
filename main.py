@@ -35,8 +35,7 @@ from viz.statevector_grid import StatevectorGrid
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
 
-WINDOW_SIZE = 1500, 1000
-
+WINDOW_SIZE = 1200, 1000
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
@@ -58,7 +57,7 @@ pygame.font.init()
 
 
 def main():
-    pygame.display.set_caption('Quantum Circuit Game')
+    pygame.display.set_caption('QPong')
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
