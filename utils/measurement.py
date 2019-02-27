@@ -40,7 +40,7 @@ class Measurement():
         self.set_circuit(circuit)
 
     # set up the circuit and do measurement
-    def set_circuit(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
+    def get_position(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
         backend_sim = BasicAer.get_backend('qasm_simulator')
         qr = QuantumRegister(circuit.width(), 'q')
         cr = ClassicalRegister(circuit.width(), 'c')
@@ -56,3 +56,5 @@ class Measurement():
         result = list(counts.keys())
         # convert measurement result to a position number
         position = int(result[0], 2)
+        return position
+
