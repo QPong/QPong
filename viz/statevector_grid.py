@@ -41,14 +41,15 @@ class StatevectorGrid(pygame.sprite.Sprite):
 
         quantum_state = result_sim.get_statevector(circuit, decimals=3)
 
-        self.image = pygame.Surface([(circuit.width() + 1) * 50, 100 + len(quantum_state) * 50])
+        # This square represent the probability of state after measurement
+        self.image = pygame.Surface([(circuit.width() + 1) * 40, 100 + len(quantum_state) * 40])
         self.image.convert()
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
 
-        block_size = 50
-        x_offset = 50
-        y_offset = 50
+        block_size = 30
+        x_offset = 10
+        y_offset = 10
         for y in range(len(quantum_state)):
             text_surface = ARIAL_30.render(self.basis_states[y], False, (0, 0, 0))
             self.image.blit(text_surface,(x_offset, (y + 1) * block_size + y_offset))

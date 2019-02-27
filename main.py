@@ -35,7 +35,9 @@ from viz.statevector_grid import StatevectorGrid
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
 
-WINDOW_SIZE = 900, 1000
+WINDOW_WIDTH=1200
+WINDOW_HEIGHT=1000
+WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
@@ -65,7 +67,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(4, 18)
+    circuit_grid_model = CircuitGridModel(2, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
@@ -128,9 +130,9 @@ def main():
     #left_sprites = VBox(0, 0, qsphere)
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
     # middle_sprites = VBox(600, 100, histogram)
-    right_sprites = VBox(1300, 0, statevector_grid)
+    right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
 
-    circuit_grid = CircuitGrid(10, 600, circuit_grid_model)
+    circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
