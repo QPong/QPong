@@ -128,8 +128,8 @@ def main():
     # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
     #left_sprites = VBox(0, 0, qsphere)
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
-    middle_sprites = VBox(600, 100, histogram)
-    #right_sprites = VBox(1300, 0, statevector_grid)
+    # middle_sprites = VBox(600, 100, histogram)
+    right_sprites = VBox(1300, 0, statevector_grid)
 
     circuit_grid = CircuitGrid(10, 600, circuit_grid_model)
     screen.blit(background, (0, 0))
