@@ -14,7 +14,7 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.image().pygame.Surface([10, 10])
+        self.image = pygame.Surface([10, 10])
 
         self.image.fill(GREEN)
 
