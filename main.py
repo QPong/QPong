@@ -39,7 +39,6 @@ from controls.ball_screen import *
 from utils.ball import *
 from utils.removeball import *
 from utils.measurement import *
-from utils.collapse_paddle import *
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
