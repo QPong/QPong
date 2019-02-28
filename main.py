@@ -66,7 +66,7 @@ background.fill(WHITE)
 
 pygame.font.init()
 
-QUBIT_NUM=1
+QUBIT_NUM=3
 
 
 def main():
