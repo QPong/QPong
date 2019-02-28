@@ -79,9 +79,9 @@ class Ball(pygame.sprite.Sprite):
 
     # 1 = comp, 2 = player, none = 0
     def if_edge(self):
-        if self.x < LEFT_EDGE+5:
+        if self.x < LEFT_EDGE+8:
             return 1
-        if self.x > self.RIGHT_EDGE-5:
+        if self.x > self.RIGHT_EDGE-8:
             return 2
         else:
             return 0

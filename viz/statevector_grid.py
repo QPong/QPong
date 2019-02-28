@@ -48,9 +48,9 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
 
-        block_size = int(round(500 / 2 ** qubit_num))
+        block_size = int(round(505 / 2 ** qubit_num))
         x_offset = 50
-        y_offset = 15
+        y_offset = 12
 
 
         self.paddle = pygame.Surface([10, block_size])
@@ -86,9 +86,9 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
 
-        block_size = int(round(500 / 2 ** qubit_num))
+        block_size = int(round(505 / 2 ** qubit_num))
         x_offset = 50
-        y_offset = 15
+        y_offset = 12
 
 
         self.paddle = pygame.Surface([10, block_size])
@@ -106,4 +106,6 @@ class StatevectorGrid(pygame.sprite.Sprite):
         print(counts.keys())
         print(int(list(counts.keys())[0],2))
         self.image.blit(self.paddle,(80,int(list(counts.keys())[0],2) * block_size))
+        text_surface = ARIAL_30.render("|" + list(counts.keys())[0] + ">", False, (255, 255, 255))
         pygame.time.wait(100)
+        self.image.blit(text_surface, (120,int(list(counts.keys())[0],2) * block_size + y_offset))
