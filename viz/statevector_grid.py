@@ -106,4 +106,5 @@ class StatevectorGrid(pygame.sprite.Sprite):
         print(counts.keys())
         print(int(list(counts.keys())[0],2))
         self.image.blit(self.paddle,(80,int(list(counts.keys())[0],2) * block_size))
-        pygame.time.wait(100)
+        #pygame.time.wait(100)
+        return int(list(counts.keys())[0],2)

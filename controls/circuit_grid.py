@@ -23,7 +23,7 @@ from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
 GRID_WIDTH = 58
-GRID_HEIGHT = 40
+GRID_HEIGHT = 58
 
 GATE_TILE_WIDTH = 43
 GATE_TILE_HEIGHT = 45
@@ -77,8 +77,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
     def highlight_selected_node(self, wire_num, column_num):
         self.selected_wire = wire_num
         self.selected_column = column_num
-        self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)
-        self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)
+        self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)+1
+        self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)+2
 
     def display_exceptional_condition(self):
         # TODO: Make cursor appearance indicate condition such as unable to place a gate
@@ -385,7 +385,7 @@ class CircuitGridCursor(pygame.sprite.Sprite):
     """Cursor to highlight current grid node"""
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('images/circuit-grid-cursor.png', -1)
+        self.image, self.rect = load_image('images/circuit-grid-cursor-medium.png', -1)
         self.image.convert_alpha()
 
 
