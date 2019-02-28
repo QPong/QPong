@@ -40,9 +40,9 @@ class Ball(pygame.sprite.Sprite):
         self.y -= self.speed * math.cos(radians)
 
         if self.x < 0:
-            self.reset()
+            self.ball_reset()
         if self.x > self.screenwidth:
-            self.reset()
+            self.ball_reset()
 
         # Update ball position
         self.rect.x = self.x

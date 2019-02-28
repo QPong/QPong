@@ -163,8 +163,10 @@ def main():
         clock.tick(30)
 
         pygame.time.wait(10)
-
+        screen.fill(BLACK)
         ball.update()
+        movingsprites.draw(screen)
+        pygame.display.flip()
 
         gamepad_move = False
         joystick_hat = joystick.get_hat(0)
