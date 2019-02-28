@@ -42,6 +42,7 @@ from utils.removeball import *
 from utils.measurement import *
 from utils.collapse_paddle import *
 from utils.score import *
+import random
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
@@ -103,6 +104,8 @@ def main():
 
     # Prepare objects
     clock = pygame.time.Clock()
+    oldclock = pygame.time.get_ticks()
+    newclock = pygame.time.get_ticks()
 
     circuit_grid_model = CircuitGridModel(QUBIT_NUM, 18)
 
@@ -417,13 +420,15 @@ def main():
             # measurement process
 
         left_box = pygame.sprite.Sprite()
-        left_box.image = pygame.Surface([10, 500])
+        left_box.image = pygame.Surface([10, 150])
         left_box.image.fill((255, 255, 255))
         left_box.image.set_alpha(255)
 
         left_box.rect = left_box.image.get_rect()
         left_box.rect.x = 80
-        left_box.rect.y = 0
+        if pygame.time.get_ticks() - oldclock > 2000:
+            left_box.rect.y = random.randint(0,400)
+            oldclock=pygame.time.get_ticks()
         # update
         lbox = pygame.sprite.Group()
         lbox.add(left_box)
@@ -462,15 +467,14 @@ def main():
         if ball.if_edge() ==2:
             if pygame.sprite.spritecollide(right_box, balls, False):
                 ball.bounce_edge()
-            else:
-                score.update(0)
-                #ball.ball_reset()
+                score.update(1)
+
 
         if ball.if_edge() ==1:
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
-            else:
                 score.update(0)
+
                 #ball.ball_reset()
 
 

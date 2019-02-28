@@ -57,7 +57,7 @@ class Ball(pygame.sprite.Sprite):
             self.direction = (180-self.direction) % 360
 
     def ball_reset(self):
-        self.x = LEFT_EDGE+50
+        self.x = LEFT_EDGE+random.randint(100,200)
         self.y = self.screenheight/2
 
         self.speed = 8.0
@@ -80,7 +80,7 @@ class Ball(pygame.sprite.Sprite):
     def if_edge(self):
         if LEFT_EDGE+30 >self.x > LEFT_EDGE+20:
             return 5
-        if self.x < LEFT_EDGE+15:
+        if self.x < LEFT_EDGE+40:
             return 1
         if self.x > self.RIGHT_EDGE-15:
             return 2
