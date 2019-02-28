@@ -24,6 +24,8 @@ class Ball(pygame.sprite.Sprite):
         self.screenheight = 500
         self.screenwidth = 1000
 
+        self.RIGHT_EDGE = self.screenwidth + LEFT_EDGE
+
         self.height = 10
         self.width = 10
 
@@ -42,7 +44,7 @@ class Ball(pygame.sprite.Sprite):
 
         if self.x < LEFT_EDGE:
             self.ball_reset()
-        if self.x > self.screenwidth:
+        if self.x > self.RIGHT_EDGE:
             self.ball_reset()
 
         # Update ball position
@@ -65,10 +67,18 @@ class Ball(pygame.sprite.Sprite):
         self.direction = (360-self.direction) % 360
         self.direction -= diff
 
+    def if_edge(self):
+        if self.x == LEFT_EDGE:
+            return 1
+        if self.x == self.RIGHT_EDGE:
+            return 2
+        else:
+            return 0
+
     def check_score(self):
         if self.x < LEFT_EDGE:
             return 1
-        if self.x > self.screenwidth:
+        if self.x > self.RIGHT_EDGE:
             return 2
         else:
             return 0
