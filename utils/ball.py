@@ -51,9 +51,9 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
-        if self.y <= TOP_EDGE:
+        if self.y <= TOP_EDGE + self.height:
             self.direction = (180-self.direction) % 360
-        if self.y > self.screenheight - self.height:
+        if self.y > self.screenheight - 2*self.height:
             self.direction = (180-self.direction) % 360
 
     def ball_reset(self):
@@ -61,11 +61,13 @@ class Ball(pygame.sprite.Sprite):
         self.y = self.screenheight/2
 
         self.speed = 8.0
-        self.direction = random.randrange(0, 90)
+        self.direction = random.randrange(1, 89)
 
-    def bounce_vert(self, diff):
+    def bounce_edge(self, diff):
         self.direction = (360-self.direction) % 360
         self.direction -= diff
+
+        self.speed *= 1.1
 
     def get_xpos(self):
         xpos = self.x
@@ -75,6 +77,7 @@ class Ball(pygame.sprite.Sprite):
         ypos = self.y
         return ypos
 
+    # 1 = comp, 2 = player, none = 0
     def if_edge(self):
         if self.x == LEFT_EDGE:
             return 1
