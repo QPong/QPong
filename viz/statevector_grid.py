@@ -16,7 +16,7 @@
 #
 import pygame
 from qiskit import BasicAer, execute
-from utils.colors import WHITE, BLACK
+from utils.colors import *
 from utils.fonts import ARIAL_30
 from utils.states import comp_basis_states
 
@@ -42,20 +42,19 @@ class StatevectorGrid(pygame.sprite.Sprite):
         quantum_state = result_sim.get_statevector(circuit, decimals=3)
 
         # This square represent the probability of state after measurement
-        self.image = pygame.Surface([(circuit.width() + 1) * 40, 100 + len(quantum_state) * 40])
+        self.image = pygame.Surface([(circuit.width()+1) * 50, 500])
         self.image.convert()
-        self.image.fill(WHITE)
+        self.image.fill(BLACK)
         self.rect = self.image.get_rect()
 
-        block_size = 30
-        x_offset = 10
-        y_offset = 10
+        block_size = 62
+        x_offset = 50
+        y_offset = 15
+
         for y in range(len(quantum_state)):
             text_surface = ARIAL_30.render(self.basis_states[y], False, (0, 0, 0))
-            self.image.blit(text_surface,(x_offset, (y + 1) * block_size + y_offset))
-            rect = pygame.Rect(x_offset + circuit.width() * 20,
-                               (y + 1) * block_size + y_offset,
-                               abs(quantum_state[y]) * block_size,
-                               abs(quantum_state[y]) * block_size)
+            self.image.blit(text_surface,(120, y * block_size + y_offset))
+            rect = pygame.Rect(80,y * block_size,10,block_size)
             if abs(quantum_state[y]) > 0:
-                pygame.draw.rect(self.image, BLACK, rect, 1)
+                pygame.draw.rect(self.image, WHITE, rect, 0)
+

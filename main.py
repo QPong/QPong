@@ -65,7 +65,7 @@ pygame.font.init()
 
 
 def main():
-    pygame.display.set_caption('Quantum Circuit Game')
+    pygame.display.set_caption('QPong')
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
@@ -93,10 +93,10 @@ def main():
     # middle_sprites = VBox(600, 100, histogram)
 
     right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
-    left_sprite_computer = VBox(0, 0, statevector_grid_1)
+    left_sprite_computer = VBox(0,0, statevector_grid_1)
 
     circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
-    ball_screen = BallScreen(WINDOW_WIDTH*0.05, WINDOW_HEIGHT*0)
+    ball_screen = BallScreen(0, 0)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
@@ -106,10 +106,11 @@ def main():
     # screen.blit(background, (0, 0))
     #left_sprites.draw(screen)
     #middle_sprites.draw(screen)
-    right_sprites.draw(screen)
-    left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     ball_screen.draw(screen)
+    right_sprites.draw(screen)
+    left_sprite_computer.draw(screen)
+
 
     ball = Ball()
     removeball = RemoveBall(ball.x, ball.y)
@@ -241,10 +242,10 @@ def main():
                     left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
+                    ball_screen.draw(screen)
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
-                    ball_screen.draw(screen)
                     pygame.display.flip()
 
             elif event.type == JOYAXISMOTION:
