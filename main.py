@@ -35,6 +35,7 @@ from viz.statevector_grid import StatevectorGrid
 from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
+from controls.ball_screen import *
 from utils.ball import *
 
 WINDOW_WIDTH=1200
@@ -138,6 +139,7 @@ def main():
     left_sprite_computer = VBox(0, 0, statevector_grid_1)
 
     circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
+    ball_screen = BallScreen(WINDOW_WIDTH*0.1, WINDOW_HEIGHT*0)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
@@ -150,6 +152,7 @@ def main():
     right_sprites.draw(screen)
     left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
+    ball_screen.draw(screen)
 
     ball = Ball()
     movingsprites = pygame.sprite.Group()
@@ -170,7 +173,7 @@ def main():
         clock.tick(30)
 
         pygame.time.wait(10)
-        screen.fill(BLACK)
+        #screen.fill(BLACK)
         ball.update()
         movingsprites.draw(screen)
         pygame.display.flip()
