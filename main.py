@@ -35,7 +35,11 @@ from viz.statevector_grid import StatevectorGrid
 from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
+from controls.ball_screen import *
 from utils.ball import *
+from utils.removeball import *
+from utils.measurement import *
+from utils.collapse_paddle import *
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
@@ -69,60 +73,14 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(2, 18)
+    circuit_grid_model = CircuitGridModel(3, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
-    # circuit_grid_model.set_node(0, 1, CircuitGridNode(node_types.H))
-
-    # circuit_grid_model.set_node(2, 2, CircuitGridNode(node_types.X, 0, 0))
-    # circuit_grid_model.set_node(1, 2, CircuitGridNode(node_types.TRACE))
-
-    # circuit_grid_model.set_node(0, 0, node_types.X, np.pi/8)
-    # circuit_grid_model.set_node(1, 0, node_types.Y, np.pi/6)
-    # circuit_grid_model.set_node(2, 0, node_types.Z, np.pi/4)
-    #
-    # circuit_grid_model.set_node(0, 1, node_types.X)
-    # circuit_grid_model.set_node(1, 1, node_types.Y)
-    # circuit_grid_model.set_node(2, 1, node_types.Z)
-    #
-    # circuit_grid_model.set_node(0, 2, node_types.S)
-    # circuit_grid_model.set_node(1, 2, node_types.T)
-    # circuit_grid_model.set_node(2, 2, node_types.H)
-    #
-    # circuit_grid_model.set_node(0, 3, node_types.SDG)
-    # circuit_grid_model.set_node(1, 3, node_types.TDG)
-    # circuit_grid_model.set_node(2, 3, node_types.IDEN)
-    #
-    # circuit_grid_model.set_node(2, 4, node_types.X, 0, 0)
-    # circuit_grid_model.set_node(1, 4, node_types.TRACE)
-    #
-    # circuit_grid_model.set_node(0, 5, node_types.IDEN)
-    # circuit_grid_model.set_node(2, 5, node_types.Z, np.pi/4, 1)
-    #
-    # circuit_grid_model.set_node(2, 6, node_types.X, 0, 0, 1)
-    #
-    # circuit_grid_model.set_node(1, 7, node_types.H, 0, 2)
-    # circuit_grid_model.set_node(0, 7, node_types.IDEN)
-    #
-    # circuit_grid_model.set_node(1, 8, node_types.Y, 0, 0)
-    # circuit_grid_model.set_node(2, 8, node_types.IDEN)
-    #
-    # circuit_grid_model.set_node(2, 9, node_types.Z, 0, 0)
-    # circuit_grid_model.set_node(1, 9, node_types.TRACE)
-    #
-    # circuit_grid_model.set_node(0, 10, node_types.IDEN)
-    # circuit_grid_model.set_node(1, 10, node_types.SWAP, 0, -1, -1, 2)
-    #
-    # circuit_grid_model.set_node(2, 11, node_types.SWAP, 0, 1, -1, 0)
-    #
-    # circuit_grid_model.set_node(0, 12, node_types.X, 0, 1, 2)
-
-    # print("str(circuit_grid_model): ", str(circuit_grid_model))
     circuit = circuit_grid_model.compute_circuit()
 
 
-    # circuit_diagram = CircuitDiagram(circuit)
+    circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
     # histogram = MeasurementsHistogram(circuit)
     # qsphere = QSphere(circuit)
@@ -138,6 +96,7 @@ def main():
     left_sprite_computer = VBox(0, 0, statevector_grid_1)
 
     circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
+    ball_screen = BallScreen(WINDOW_WIDTH*0.05, WINDOW_HEIGHT*0)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
@@ -150,11 +109,18 @@ def main():
     right_sprites.draw(screen)
     left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
+    ball_screen.draw(screen)
 
     ball = Ball()
+    removeball = RemoveBall(ball.x, ball.y)
     movingsprites = pygame.sprite.Group()
+    movingsprites.add(removeball)
     movingsprites.add(ball)
-    movingsprites.draw(screen)
+
+    measure = Measurement(circuit)
+    collapse = Collapse(1)
+
+    #movingsprites.draw(screen)
 
     ball.ball_reset()
     pygame.display.flip()
@@ -170,8 +136,20 @@ def main():
         clock.tick(30)
 
         pygame.time.wait(10)
-        screen.fill(BLACK)
+        #screen.fill(BLACK)
+        removeball.update(ball.get_xpos(), ball.get_ypos())
         ball.update()
+
+        # measurement process
+
+        # player measurement
+        if ball.if_edge() == 2:
+            pos = measure.get_position(circuit)
+            collapse.position(3, pos)
+
+        # computer measurement
+
+        movingsprites.add(ball)
         movingsprites.draw(screen)
         pygame.display.flip()
 
@@ -264,6 +242,7 @@ def main():
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
+                    ball_screen.draw(screen)
                     pygame.display.flip()
 
             elif event.type == JOYAXISMOTION:
