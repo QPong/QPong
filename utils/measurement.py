@@ -23,7 +23,7 @@
 # limitations under the License.
 #
 import pygame
-from qiskit import BasicAer, execute
+from qiskit import *
 from utils.colors import WHITE, BLACK
 from utils.fonts import ARIAL_30
 from utils.states import comp_basis_states
@@ -37,7 +37,7 @@ class Measurement():
         self.image = None
         self.rect = None
         self.basis_states = comp_basis_states(circuit.width())
-        #self.set_circuit(circuit)
+        self.set_circuit(circuit)
 
     # set up the circuit and do measurement
     def get_position(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
@@ -58,3 +58,18 @@ class Measurement():
         position = int(result[0], 2)
         return position
 
+    def set_circuit(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
+        backend_sim = BasicAer.get_backend('qasm_simulator')
+        qr = QuantumRegister(circuit.width(), 'q')
+        cr = ClassicalRegister(circuit.width(), 'c')
+        meas_circ = QuantumCircuit(qr, cr)
+        meas_circ.barrier(qr)
+        meas_circ.measure(qr, cr)
+        complete_circuit = circuit + meas_circ
+
+        job_sim = execute(complete_circuit, backend_sim, shots=num_shots)
+
+        result_sim = job_sim.result()
+
+        counts = result_sim.get_counts(complete_circuit)
+        print(counts)

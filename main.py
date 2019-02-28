@@ -73,7 +73,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(3, 18)
+    circuit_grid_model = CircuitGridModel(1, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
@@ -121,6 +121,8 @@ def main():
     measure = Measurement(circuit)
     collapse = Collapse(1)
 
+    movingsprites.add(collapse)
+
     #movingsprites.draw(screen)
 
     ball.ball_reset()
@@ -146,7 +148,7 @@ def main():
         # player measurement
         if ball.if_edge() == 2:
             pos = measure.get_position(circuit)
-            collapse.position(3, pos)
+            collapse.position(1, pos)
 
         # computer measurement
 
