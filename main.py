@@ -38,6 +38,8 @@ from controls.circuit_grid import *
 from controls.ball_screen import *
 from utils.ball import *
 from utils.removeball import *
+from utils.measurement import *
+from utils.collapse_paddle import *
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
@@ -71,7 +73,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(2, 18)
+    circuit_grid_model = CircuitGridModel(3, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
@@ -115,6 +117,9 @@ def main():
     movingsprites.add(removeball)
     movingsprites.add(ball)
 
+    measure = Measurement(circuit)
+    collapse = Collapse(1)
+
     #movingsprites.draw(screen)
 
     ball.ball_reset()
@@ -134,6 +139,16 @@ def main():
         #screen.fill(BLACK)
         removeball.update(ball.get_xpos(), ball.get_ypos())
         ball.update()
+
+        # measurement process
+
+        # player measurement
+        if ball.if_edge() == 2:
+            pos = measure.get_position(circuit)
+            collapse.position(3, pos)
+
+        # computer measurement
+
         movingsprites.add(ball)
         movingsprites.draw(screen)
         pygame.display.flip()
