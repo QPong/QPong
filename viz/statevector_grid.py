@@ -19,7 +19,7 @@ from qiskit import BasicAer, execute
 from utils.colors import *
 from utils.fonts import ARIAL_30
 from utils.states import comp_basis_states
-
+#from utils.paddle import *
 
 class StatevectorGrid(pygame.sprite.Sprite):
     """Displays a statevector grid"""
@@ -51,10 +51,16 @@ class StatevectorGrid(pygame.sprite.Sprite):
         x_offset = 50
         y_offset = 15
 
+        self.paddle = pygame.Surface([10, block_size])
+        self.paddle.convert()
+
+
         for y in range(len(quantum_state)):
             text_surface = ARIAL_30.render(self.basis_states[y], False, (0, 0, 0))
             self.image.blit(text_surface,(120, y * block_size + y_offset))
-            rect = pygame.Rect(80,y * block_size,10,block_size)
             if abs(quantum_state[y]) > 0:
-                pygame.draw.rect(self.image, WHITE, rect, 0)
+                #pygame.draw.rect(self.image, WHITE, rect, 0)
+                self.paddle.fill(WHITE)
+                self.paddle.set_alpha(int(round(abs(quantum_state[y])*255)))
+                self.image.blit(self.paddle,(80,y * block_size))
 
