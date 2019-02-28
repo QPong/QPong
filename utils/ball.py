@@ -63,9 +63,8 @@ class Ball(pygame.sprite.Sprite):
         self.speed = 8.0
         self.direction = random.randrange(30, 60)
 
-    def bounce_edge(self, diff):
+    def bounce_edge(self):
         self.direction = (360-self.direction) % 360
-        self.direction -= diff
 
         self.speed *= 1.1
 
