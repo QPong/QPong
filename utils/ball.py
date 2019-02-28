@@ -8,7 +8,8 @@ from utils.resources import *
 from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
-
+LEFT_EDGE=100
+TOP_EDGE=0
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
@@ -39,7 +40,7 @@ class Ball(pygame.sprite.Sprite):
         self.x += self.speed * math.sin(radians)
         self.y -= self.speed * math.cos(radians)
 
-        if self.x < 0:
+        if self.x < LEFT_EDGE:
             self.ball_reset()
         if self.x > self.screenwidth:
             self.ball_reset()
@@ -48,13 +49,13 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
-        if self.y <= 0:
+        if self.y <= TOP_EDGE:
             self.direction = (180-self.direction) % 360
         if self.y > self.screenheight - self.height:
             self.direction = (180-self.direction) % 360
 
     def ball_reset(self):
-        self.x = 50
+        self.x = LEFT_EDGE+50
         self.y = self.screenheight/2
 
         self.speed = 8.0
@@ -65,7 +66,7 @@ class Ball(pygame.sprite.Sprite):
         self.direction -= diff
 
     def check_score(self):
-        if self.x < 0:
+        if self.x < LEFT_EDGE:
             return 1
         if self.x > self.screenwidth:
             return 2

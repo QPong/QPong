@@ -139,7 +139,7 @@ def main():
     left_sprite_computer = VBox(0, 0, statevector_grid_1)
 
     circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
-    ball_screen = BallScreen(WINDOW_WIDTH*0.1, WINDOW_HEIGHT*0)
+    ball_screen = BallScreen(WINDOW_WIDTH*0.3, WINDOW_HEIGHT*0)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
