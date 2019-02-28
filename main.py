@@ -64,7 +64,7 @@ background.fill(WHITE)
 
 pygame.font.init()
 
-QUBIT_NUM=3
+QUBIT_NUM=1
 
 
 def main():
@@ -352,13 +352,34 @@ def main():
             circuit = circuit_grid_model.compute_circuit()
             circuit_diagram.set_circuit(circuit)
             unitary_grid.set_circuit(circuit)
-            statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
+            pos = statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
             right_sprites.arrange()
             left_sprite_computer.arrange()
             right_sprites.draw(screen)
             left_sprite_computer.draw(screen)
             circuit_grid.draw(screen)
             pygame.display.flip()
+
+            balls = pygame.sprite.Group()
+            balls.add(ball)
+
+            right_box = pygame.sprite.Sprite()
+            right_box.image = pygame.Surface([10, int(round(500 / 2 ** QUBIT_NUM))])
+            right_box.image.fill((255, 0, 255))
+            right_box.image.set_alpha(0)
+
+            right_box.rect = right_box.image.get_rect()
+            right_box.rect.x = right_sprites.xpos + 75
+            right_box.rect.y = pos * 500/(2**QUBIT_NUM)
+
+            box = pygame.sprite.Group()
+            box.add(right_box)
+            box.draw(screen)
+
+            if pygame.sprite.spritecollide(right_box, balls, False):
+                ball.bounce_edge()
+            else:
+                score.update(0)
 
             # else:
             #     print("event: ", event)
