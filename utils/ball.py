@@ -67,6 +67,10 @@ class Ball(pygame.sprite.Sprite):
         self.direction = (360-self.direction) % 360
         self.direction -= diff
 
+    def get_pos(self):
+        pos = (self.x, self.y)
+        return pos
+
     def if_edge(self):
         if self.x == LEFT_EDGE:
             return 1
