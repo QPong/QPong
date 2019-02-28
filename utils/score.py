@@ -11,5 +11,5 @@ class Score(pygame.sprite.Sprite):
         if score == 1:
             self.player += 1
 
-        if score ==2:
+        if score == 2:
             self.computer += 1
