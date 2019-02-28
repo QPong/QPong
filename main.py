@@ -86,7 +86,7 @@ def main():
     unitary_grid = UnitaryGrid(circuit)
     # histogram = MeasurementsHistogram(circuit)
     # qsphere = QSphere(circuit)
-    statevector_grid = StatevectorGrid(circuit, QUBIT_NUM)
+    statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
     statevector_grid_1 = StatevectorGrid1(circuit)
 
     # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
@@ -120,11 +120,6 @@ def main():
     movingsprites.add(removeball)
     movingsprites.add(ball)
 
-    measure = Measurement(circuit)
-    collapse = Collapse(QUBIT_NUM)
-
-    movingsprites.add(collapse)
-
     #movingsprites.draw(screen)
 
     ball.ball_reset()
@@ -144,13 +139,6 @@ def main():
         #screen.fill(BLACK)
         removeball.update(ball.get_xpos(), ball.get_ypos())
         ball.update()
-
-        # measurement process
-
-        # player measurement
-        if ball.if_edge() == 2:
-            pos = measure.get_position(circuit)
-            collapse.position(1, pos)
 
         # computer measurement
 
@@ -237,7 +225,7 @@ def main():
                     unitary_grid.set_circuit(circuit)
                     # qsphere.set_circuit(circuit)
                      # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit, QUBIT_NUM)
+                    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
@@ -343,7 +331,7 @@ def main():
                     unitary_grid.set_circuit(circuit)
                     # qsphere.set_circuit(circuit)
                     # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit, QUBIT_NUM)
+                    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
@@ -351,9 +339,24 @@ def main():
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
-                    left_sprite_computer.draw(scren)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
+
+            # measurement process
+
+        # player measurement
+        if ball.if_edge() == 2:
+            circuit = circuit_grid_model.compute_circuit()
+            circuit_diagram.set_circuit(circuit)
+            unitary_grid.set_circuit(circuit)
+            statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
+            right_sprites.arrange()
+            left_sprite_computer.arrange()
+            right_sprites.draw(screen)
+            left_sprite_computer.draw(screen)
+            circuit_grid.draw(screen)
+            pygame.display.flip()
 
             # else:
             #     print("event: ", event)
