@@ -35,6 +35,7 @@ from viz.statevector_grid import StatevectorGrid
 from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
+
 from controls.ball_screen import *
 from utils.ball import *
 from utils.removeball import *
@@ -45,6 +46,7 @@ from utils.score import *
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
 WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
+
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
@@ -110,6 +112,7 @@ def main():
     # screen.blit(background, (0, 0))
     #left_sprites.draw(screen)
     #middle_sprites.draw(screen)
+
     circuit_grid.draw(screen)
     ball_screen.draw(screen)
     right_sprites.draw(screen)
