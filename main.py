@@ -39,6 +39,8 @@ from controls.ball_screen import *
 from utils.ball import *
 from utils.removeball import *
 from utils.measurement import *
+from utils.collapse_paddle import *
+from utils.score import *
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
@@ -88,6 +90,7 @@ def main():
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
     statevector_grid_1 = StatevectorGrid1(circuit)
 
+    score=Score()
     # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
     #left_sprites = VBox(0, 0, qsphere)
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
@@ -359,6 +362,17 @@ def main():
 
             # else:
             #     print("event: ", event)
+
+        # Print the score
+        scoreprint = "Computer: " + str(score.get_score(0))
+        text = ARIAL_30.render(scoreprint, 1, WHITE)
+        textpos = (300, 0)
+        screen.blit(text, textpos)
+
+        scoreprint = "Player: " + str(score.get_score(1))
+        text = ARIAL_30.render(scoreprint, 1, WHITE)
+        textpos = (700, 0)
+        screen.blit(text, textpos)
 
     pygame.quit()
 
