@@ -23,7 +23,7 @@ from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
 
-LINE_WIDTH = 1
+LINE_WIDTH = 0
 
 class BallScreen(pygame.sprite.RenderPlain):
     """Make a screen for the ball"""
@@ -51,11 +51,11 @@ class BallScreenBackground(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.Surface([1000, 500])
+        self.image = pygame.Surface([1300, 500])
         self.image.convert()
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
-        pygame.draw.rect(self.image, WHITE, self.rect, LINE_WIDTH)
+        pygame.draw.rect(self.image, BLACK, self.rect, LINE_WIDTH)
 
 
 

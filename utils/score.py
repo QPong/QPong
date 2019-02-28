@@ -9,14 +9,14 @@ class Score(pygame.sprite.Sprite):
 
     # Player = 0, Comp = 1
     def update(self, score):
+        if score == 0:
+            self.computer += 1
+
         if score == 1:
             self.player += 1
 
-        if score == 2:
-            self.computer += 1
-
     def get_score(self, player):
         if player == 0:
-            return self.player
-        if player == 1:
             return self.computer
+        if player == 1:
+            return self.player

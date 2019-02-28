@@ -40,6 +40,7 @@ from utils.ball import *
 from utils.removeball import *
 from utils.measurement import *
 from utils.collapse_paddle import *
+from utils.score import *
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
@@ -63,9 +64,11 @@ background.fill(WHITE)
 
 pygame.font.init()
 
+QUBIT_NUM=3
+
 
 def main():
-    pygame.display.set_caption('Quantum Circuit Game')
+    pygame.display.set_caption('QPong')
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
@@ -73,7 +76,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(3, 18)
+    circuit_grid_model = CircuitGridModel(QUBIT_NUM, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
@@ -84,19 +87,20 @@ def main():
     unitary_grid = UnitaryGrid(circuit)
     # histogram = MeasurementsHistogram(circuit)
     # qsphere = QSphere(circuit)
-    statevector_grid = StatevectorGrid(circuit)
+    statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
     statevector_grid_1 = StatevectorGrid1(circuit)
 
+    score=Score()
     # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
     #left_sprites = VBox(0, 0, qsphere)
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
     # middle_sprites = VBox(600, 100, histogram)
 
     right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
-    left_sprite_computer = VBox(0, 0, statevector_grid_1)
+    left_sprite_computer = VBox(0,0, statevector_grid_1)
 
     circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
-    ball_screen = BallScreen(WINDOW_WIDTH*0.05, WINDOW_HEIGHT*0)
+    ball_screen = BallScreen(0, 0)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
@@ -106,19 +110,17 @@ def main():
     # screen.blit(background, (0, 0))
     #left_sprites.draw(screen)
     #middle_sprites.draw(screen)
-    right_sprites.draw(screen)
-    left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     ball_screen.draw(screen)
+    right_sprites.draw(screen)
+    left_sprite_computer.draw(screen)
+
 
     ball = Ball()
     removeball = RemoveBall(ball.x, ball.y)
     movingsprites = pygame.sprite.Group()
     movingsprites.add(removeball)
     movingsprites.add(ball)
-
-    measure = Measurement(circuit)
-    collapse = Collapse(1)
 
     #movingsprites.draw(screen)
 
@@ -139,13 +141,6 @@ def main():
         #screen.fill(BLACK)
         removeball.update(ball.get_xpos(), ball.get_ypos())
         ball.update()
-
-        # measurement process
-
-        # player measurement
-        if ball.if_edge() == 2:
-            pos = measure.get_position(circuit)
-            collapse.position(3, pos)
 
         # computer measurement
 
@@ -232,17 +227,17 @@ def main():
                     unitary_grid.set_circuit(circuit)
                     # qsphere.set_circuit(circuit)
                      # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit)
+                    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
                     left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
+                    ball_screen.draw(screen)
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
-                    ball_screen.draw(screen)
                     pygame.display.flip()
 
             elif event.type == JOYAXISMOTION:
@@ -338,7 +333,7 @@ def main():
                     unitary_grid.set_circuit(circuit)
                     # qsphere.set_circuit(circuit)
                     # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit)
+                    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
@@ -346,12 +341,38 @@ def main():
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
-                    left_sprite_computer.draw(scren)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
+            # measurement process
+
+        # player measurement
+        if ball.if_edge() == 2:
+            circuit = circuit_grid_model.compute_circuit()
+            circuit_diagram.set_circuit(circuit)
+            unitary_grid.set_circuit(circuit)
+            statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
+            right_sprites.arrange()
+            left_sprite_computer.arrange()
+            right_sprites.draw(screen)
+            left_sprite_computer.draw(screen)
+            circuit_grid.draw(screen)
+            pygame.display.flip()
+
             # else:
             #     print("event: ", event)
+
+        # Print the score
+        scoreprint = "Computer: " + str(score.get_score(0))
+        text = ARIAL_30.render(scoreprint, 1, WHITE)
+        textpos = (300, 0)
+        screen.blit(text, textpos)
+
+        scoreprint = "Player: " + str(score.get_score(1))
+        text = ARIAL_30.render(scoreprint, 1, WHITE)
+        textpos = (700, 0)
+        screen.blit(text, textpos)
 
     pygame.quit()
 
