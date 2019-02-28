@@ -16,7 +16,7 @@ class Ball(pygame.sprite.Sprite):
 
         self.image = pygame.Surface([10, 10])
 
-        self.image.fill(GREEN)
+        self.image.fill(WHITE)
 
         self.rect = self.image.get_rect()
 
@@ -49,9 +49,9 @@ class Ball(pygame.sprite.Sprite):
         self.rect.y = self.y
 
         if self.y <= 0:
-            self.direction = (360-self.direction) % 360
+            self.direction = (180-self.direction) % 360
         if self.y > self.screenheight - self.height:
-            self.direction = (360-self.direction) % 360
+            self.direction = (180-self.direction) % 360
 
     def ball_reset(self):
         self.x = 50
@@ -61,7 +61,7 @@ class Ball(pygame.sprite.Sprite):
         self.direction = random.randrange(-45, 45)
 
     def bounce_vert(self, diff):
-        self.direction = (180-self.direction) % 360
+        self.direction = (360-self.direction) % 360
         self.direction -= diff
 
     def check_score(self):
