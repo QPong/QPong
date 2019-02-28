@@ -35,9 +35,9 @@ class StatevectorGrid(pygame.sprite.Sprite):
     #     # Nothing yet
     #     a = 1
 
-    def set_circuit(self, circuit, qubit_num):
+    def set_circuit(self, circuit, qubit_num, shot_num):
         backend_sv_sim = BasicAer.get_backend('statevector_simulator')
-        job_sim = execute(circuit, backend_sv_sim)
+        job_sim = execute(circuit, backend_sv_sim, shot_num)
         result_sim = job_sim.result()
 
         quantum_state = result_sim.get_statevector(circuit, decimals=3)
