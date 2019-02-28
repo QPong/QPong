@@ -80,7 +80,7 @@ def main():
     circuit = circuit_grid_model.compute_circuit()
 
 
-    # circuit_diagram = CircuitDiagram(circuit)
+    circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
     # histogram = MeasurementsHistogram(circuit)
     # qsphere = QSphere(circuit)
@@ -242,6 +242,7 @@ def main():
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
+                    ball_screen.draw(screen)
                     pygame.display.flip()
 
             elif event.type == JOYAXISMOTION:
