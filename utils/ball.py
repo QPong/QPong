@@ -84,7 +84,7 @@ class Ball(pygame.sprite.Sprite):
             return 1
         if self.x > self.RIGHT_EDGE-15:
             return 2
-        if self.RIGHT_EDGE-30 < self.x < self.RIGHT_EDGE-20:
+        if self.RIGHT_EDGE-30 < self.x < self.RIGHT_EDGE-15:
             return 3
         else:
             return 0
