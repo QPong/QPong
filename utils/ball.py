@@ -24,7 +24,7 @@ class Ball(pygame.sprite.Sprite):
         self.screenheight = 500
         self.screenwidth = 1000
 
-        self.RIGHT_EDGE = self.screenwidth + LEFT_EDGE
+        self.RIGHT_EDGE = self.screenwidth + LEFT_EDGE - 17
 
         self.height = 10
         self.width = 10
@@ -63,9 +63,8 @@ class Ball(pygame.sprite.Sprite):
         self.speed = 8.0
         self.direction = random.randrange(30, 60)
 
-    def bounce_edge(self, diff):
+    def bounce_edge(self):
         self.direction = (360-self.direction) % 360
-        self.direction -= diff
 
         self.speed *= 1.1
 
