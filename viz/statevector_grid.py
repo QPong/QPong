@@ -58,7 +58,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
 
 
         for y in range(len(quantum_state)):
-            text_surface = ARIAL_30.render(self.basis_states[y], False, (0, 0, 0))
+            text_surface = ARIAL_30.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
             self.image.blit(text_surface,(120, y * block_size + y_offset))
             if abs(quantum_state[y]) > 0:
                 #pygame.draw.rect(self.image, WHITE, rect, 0)
