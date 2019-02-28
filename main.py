@@ -32,11 +32,14 @@ from viz.circuit_diagram import CircuitDiagram
 from viz.measurements_histogram import MeasurementsHistogram
 from viz.qsphere import QSphere
 from viz.statevector_grid import StatevectorGrid
+from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
 from utils.ball import *
 
-WINDOW_SIZE = 900, 1000
+WINDOW_WIDTH=1200
+WINDOW_HEIGHT=1000
+WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
@@ -58,7 +61,7 @@ pygame.font.init()
 
 
 def main():
-    pygame.display.set_caption('QPong')
+    pygame.display.set_caption('Quantum Circuit Game')
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
@@ -66,7 +69,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(4, 18)
+    circuit_grid_model = CircuitGridModel(2, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
@@ -124,14 +127,17 @@ def main():
     # histogram = MeasurementsHistogram(circuit)
     # qsphere = QSphere(circuit)
     statevector_grid = StatevectorGrid(circuit)
+    statevector_grid_1 = StatevectorGrid1(circuit)
 
     # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
     #left_sprites = VBox(0, 0, qsphere)
     # middle_sprites = VBox(600, 100, histogram, unitary_grid)
     # middle_sprites = VBox(600, 100, histogram)
-    right_sprites = VBox(1300, 0, statevector_grid)
 
-    circuit_grid = CircuitGrid(10, 600, circuit_grid_model)
+    right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
+    left_sprite_computer = VBox(0, 0, statevector_grid_1)
+
+    circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
     screen.blit(background, (0, 0))
 
     # pygame.display.flip()
@@ -142,6 +148,7 @@ def main():
     #left_sprites.draw(screen)
     #middle_sprites.draw(screen)
     right_sprites.draw(screen)
+    left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
 
     ball = Ball()
@@ -251,9 +258,11 @@ def main():
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
+                    left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
+                    left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
@@ -354,9 +363,11 @@ def main():
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
+                    left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
                     right_sprites.draw(screen)
+                    left_sprite_computer.draw(scren)
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
