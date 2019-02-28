@@ -5,7 +5,7 @@ class Collapse(pygame.sprite.Sprite):
     def __init__(self, qubit_num):
         super().__init__()
 
-        self.image = pygame.Surface([20, 500/2**qubit_num])
+        self.image = pygame.Surface([10, 500/2**qubit_num])
         self.image.fill((255,0,255, 0))
 
         #self.image.blit()

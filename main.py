@@ -63,6 +63,8 @@ background.fill(WHITE)
 
 pygame.font.init()
 
+QUBIT_NUM=3
+
 
 def main():
     pygame.display.set_caption('QPong')
@@ -73,7 +75,7 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
 
-    circuit_grid_model = CircuitGridModel(1, 18)
+    circuit_grid_model = CircuitGridModel(QUBIT_NUM, 18)
 
     circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
 
@@ -84,7 +86,7 @@ def main():
     unitary_grid = UnitaryGrid(circuit)
     # histogram = MeasurementsHistogram(circuit)
     # qsphere = QSphere(circuit)
-    statevector_grid = StatevectorGrid(circuit)
+    statevector_grid = StatevectorGrid(circuit, QUBIT_NUM)
     statevector_grid_1 = StatevectorGrid1(circuit)
 
     # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
@@ -119,7 +121,7 @@ def main():
     movingsprites.add(ball)
 
     measure = Measurement(circuit)
-    collapse = Collapse(1)
+    collapse = Collapse(QUBIT_NUM)
 
     movingsprites.add(collapse)
 
@@ -235,7 +237,7 @@ def main():
                     unitary_grid.set_circuit(circuit)
                     # qsphere.set_circuit(circuit)
                      # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit)
+                    statevector_grid.set_circuit(circuit, QUBIT_NUM)
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()
@@ -341,7 +343,7 @@ def main():
                     unitary_grid.set_circuit(circuit)
                     # qsphere.set_circuit(circuit)
                     # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit)
+                    statevector_grid.set_circuit(circuit, QUBIT_NUM)
                     # left_sprites.arrange()
                     # middle_sprites.arrange()
                     right_sprites.arrange()

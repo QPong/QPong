@@ -23,18 +23,19 @@ from utils.states import comp_basis_states
 
 class StatevectorGrid(pygame.sprite.Sprite):
     """Displays a statevector grid"""
-    def __init__(self, circuit):
+    def __init__(self, circuit, qubit_num):
         pygame.sprite.Sprite.__init__(self)
         self.image = None
         self.rect = None
         self.basis_states = comp_basis_states(circuit.width())
-        self.set_circuit(circuit)
+        self.set_circuit(circuit, qubit_num)
+
 
     # def update(self):
     #     # Nothing yet
     #     a = 1
 
-    def set_circuit(self, circuit):
+    def set_circuit(self, circuit, qubit_num):
         backend_sv_sim = BasicAer.get_backend('statevector_simulator')
         job_sim = execute(circuit, backend_sv_sim)
         result_sim = job_sim.result()
@@ -47,9 +48,10 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
 
-        block_size = 62
+        block_size = int(round(500 / 2 ** qubit_num))
         x_offset = 50
         y_offset = 15
+
 
         self.paddle = pygame.Surface([10, block_size])
         self.paddle.convert()
