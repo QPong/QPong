@@ -8,7 +8,7 @@ from utils.resources import *
 from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
-LEFT_EDGE=100
+LEFT_EDGE=50
 TOP_EDGE=0
 
 class Ball(pygame.sprite.Sprite):

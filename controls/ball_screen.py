@@ -33,6 +33,7 @@ class BallScreen(pygame.sprite.RenderPlain):
         self.ball_screen_background = BallScreenBackground()
 
         pygame.sprite.RenderPlain.__init__(self, self.ball_screen_background)
+        self.update()
 
     def update(self, *args):
         print("in CircuitGrid#update()")
@@ -50,7 +51,7 @@ class BallScreenBackground(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.Surface([800, 500])
+        self.image = pygame.Surface([1000, 500])
         self.image.convert()
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
