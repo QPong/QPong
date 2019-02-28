@@ -101,7 +101,7 @@ def main():
     right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
     left_sprite_computer = VBox(0,0, statevector_grid_1)
 
-    circuit_grid = CircuitGrid(10, WINDOW_HEIGHT*0.55, circuit_grid_model)
+    circuit_grid = CircuitGrid(20, WINDOW_HEIGHT*0.51, circuit_grid_model)
     ball_screen = BallScreen(0, 0)
     screen.blit(background, (0, 0))
 
