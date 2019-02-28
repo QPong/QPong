@@ -286,18 +286,26 @@ def main():
                 if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.95:
                     circuit_grid.handle_input_rotate(np.pi / 8)
                     circuit_grid.draw(screen)
+                    update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                                  circuit_grid, statevector_grid)
                     pygame.display.flip()
                 if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.95:
                     circuit_grid.handle_input_rotate(-np.pi / 8)
                     circuit_grid.draw(screen)
+                    update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                                  circuit_grid, statevector_grid)
                     pygame.display.flip()
                 if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) <= -0.95:
                     circuit_grid.handle_input_move_ctrl(MOVE_UP)
                     circuit_grid.draw(screen)
+                    update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                                  circuit_grid, statevector_grid)
                     pygame.display.flip()
                 if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) >= 0.95:
                     circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
                     circuit_grid.draw(screen)
+                    update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                                  circuit_grid, statevector_grid)
                     pygame.display.flip()
 
             elif event.type == KEYDOWN:
@@ -421,7 +429,6 @@ def main():
         lbox.add(left_box)
         lbox.draw(screen)
 
-
         # player measurement
         if ball.if_edge() == 3:
             circuit = circuit_grid_model.compute_circuit()
@@ -441,7 +448,7 @@ def main():
             right_box = pygame.sprite.Sprite()
             right_box.image = pygame.Surface([15, int(round(500 / 2 ** QUBIT_NUM))])
             right_box.image.fill((255, 0, 255))
-            right_box.image.set_alpha(255)
+            right_box.image.set_alpha(0)
 
             right_box.rect = right_box.image.get_rect()
             right_box.rect.x = right_sprites.xpos + 75
@@ -466,7 +473,10 @@ def main():
                 score.update(0)
                 #ball.ball_reset()
 
+
+
         # Print the score
+        #screen.fill(BLACK)
         scoreprint = "Computer: " + str(score.get_score(0))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
         textpos = (300, 0)
