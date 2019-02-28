@@ -37,7 +37,7 @@ class Measurement():
         self.image = None
         self.rect = None
         self.basis_states = comp_basis_states(circuit.width())
-        self.set_circuit(circuit)
+        #self.set_circuit(circuit)
 
     # set up the circuit and do measurement
     def get_position(self, circuit, num_shots=DEFAULT_NUM_SHOTS):
