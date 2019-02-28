@@ -6,7 +6,7 @@ class Collapse(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.Surface([20, 500/qubit_num])
-        self.image.fill(WHITE, 0)
+        self.image.fill((255,255,255, 0))
 
         self.rect = self.image.get_rect()
 
@@ -16,7 +16,8 @@ class Collapse(pygame.sprite.Sprite):
         self.y = 0
 
     def position(self, qubit_num, measurement):
-        self.image.fill(WHITE)
+        # self.image.fill(WHITE)
+        self.image.fill(BLACK)
 
         self.y = self.screenheight*measurement / qubit_num
 
