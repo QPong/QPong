@@ -58,7 +58,7 @@ class Ball(pygame.sprite.Sprite):
         self.y = self.screenheight/2
 
         self.speed = 8.0
-        self.direction = random.randrange(-45, 45)
+        self.direction = random.randrange(0, 90)
 
     def bounce_vert(self, diff):
         self.direction = (360-self.direction) % 360
