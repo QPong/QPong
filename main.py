@@ -374,6 +374,7 @@ def main():
             right_box.rect = right_box.image.get_rect()
             right_box.rect.x = right_sprites.xpos + 75
             right_box.rect.y = pos * 500/(2**QUBIT_NUM)
+            #update
 
             box = pygame.sprite.Group()
             box.add(right_box)
