@@ -35,6 +35,7 @@ from viz.statevector_grid import StatevectorGrid
 from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
+from utils.ball import *
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
@@ -149,6 +150,13 @@ def main():
     right_sprites.draw(screen)
     left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
+
+    ball = Ball()
+    movingsprites = pygame.sprite.Group()
+    movingsprites.add(ball)
+    movingsprites.draw(screen)
+
+    ball.ball_reset()
     pygame.display.flip()
 
     gamepad_repeat_delay = 100
@@ -162,6 +170,10 @@ def main():
         clock.tick(30)
 
         pygame.time.wait(10)
+        screen.fill(BLACK)
+        ball.update()
+        movingsprites.draw(screen)
+        pygame.display.flip()
 
         gamepad_move = False
         joystick_hat = joystick.get_hat(0)
