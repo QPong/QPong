@@ -72,8 +72,6 @@ QUBIT_NUM=3
 def main():
     pygame.display.set_caption('QPong')
 
-    screen.fill(BLACK)
-
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
@@ -393,12 +391,12 @@ def main():
         # Print the score
         scoreprint = "Computer: " + str(score.get_score(0))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (300, 10)
+        textpos = (300, 0)
         screen.blit(text, textpos)
 
         scoreprint = "Player: " + str(score.get_score(1))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (700, 10)
+        textpos = (700, 0)
         screen.blit(text, textpos)
 
     pygame.quit()
