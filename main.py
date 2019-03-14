@@ -414,6 +414,7 @@ def main():
                     left_sprite_computer.arrange()
                     # left_sprites.draw(screen)
                     # middle_sprites.draw(screen)
+                    ball_screen.draw(screen)
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
                     circuit_grid.draw(screen)
