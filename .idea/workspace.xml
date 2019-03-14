@@ -4,8 +4,6 @@
     <list default="true" id="a9f7dd36-b2b3-4039-99d4-1201667dc289" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/ball.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/ball.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/data/bell_circuit.png" beforeDir="false" afterPath="$PROJECT_DIR$/utils/data/bell_circuit.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,75 +11,33 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/main.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="480">
+                    <caret line="360" column="54" lean-forward="true" selection-start-line="360" selection-start-column="54" selection-end-line="360" selection-end-column="54" />
+                    <folding>
+                      <element signature="e#804#817#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="478" column="27" lean-forward="true" selection-start-line="478" selection-start-column="27" selection-end-line="478" selection-end-column="27" />
-              <folding>
-                <element signature="e#804#817#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/ball.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1170">
-              <caret line="86" column="59" selection-start-line="86" selection-start-column="59" selection-end-line="86" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viz/circuit_diagram.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/score.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viz/statevector_grid.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
-              <folding>
-                <element signature="e#622#635#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>statevector</find>
-      <find>.png</find>
-      <find>png</find>
-      <find>load_image</find>
-      <find>CircuitGridCursor</find>
-      <find>qubit</find>
-      <find>row_idx</find>
-      <find>cursor</find>
-      <find>circuit</find>
       <find>collide</find>
       <find>movingsprites</find>
       <find>moving</find>
@@ -102,7 +58,16 @@
       <find>ball_reset</find>
       <find>bounced</find>
       <find>right_sprites</find>
+      <find>left</find>
+      <find>left_</find>
+      <find>left_box</find>
+      <find>clo</find>
+      <find>newclock</find>
+      <find>oldclock</find>
+      <find>clock</find>
       <find>score</find>
+      <find>joystick</find>
+      <find>delete</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -128,8 +93,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="46" />
-    <option name="y" value="23" />
+    <option name="x" value="-79" />
+    <option name="y" value="-1047" />
     <option name="width" value="1234" />
     <option name="height" value="777" />
   </component>
@@ -147,36 +112,6 @@
             <path>
               <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
               <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="Classical Pong Demo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="controls" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
@@ -345,7 +280,21 @@
       <option name="project" value="LOCAL" />
       <updated>1551371023712</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Live update padell">
+      <created>1551374487227</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1551374487227</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Implement computer player">
+      <created>1551383549089</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1551383549089</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -358,22 +307,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="23" width="1234" height="777" extended-state="0" />
+    <frame x="-79" y="-1047" width="1234" height="777" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28355706" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29278523" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.329927" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.329927" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329927" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.329927" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.329927" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.329927" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.329927" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -393,7 +343,8 @@
     <MESSAGE value="Display score" />
     <MESSAGE value="Fix circuit grid display problem" />
     <MESSAGE value="Live update padell" />
-    <option name="LAST_COMMIT_MESSAGE" value="Live update padell" />
+    <MESSAGE value="Implement computer player" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement computer player" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/data/bell_histogram.png">
@@ -550,8 +501,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/ball.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="86" column="59" selection-start-line="86" selection-start-column="59" selection-end-line="86" selection-end-column="59" />
+        <state relative-caret-position="780">
+          <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -565,6 +516,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/score.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/viz/statevector_grid.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -575,17 +533,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/score.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/utils/data/bell_circuit.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="478" column="27" lean-forward="true" selection-start-line="478" selection-start-column="27" selection-end-line="478" selection-end-column="27" />
+        <state relative-caret-position="480">
+          <caret line="360" column="54" lean-forward="true" selection-start-line="360" selection-start-column="54" selection-end-line="360" selection-end-column="54" />
           <folding>
             <element signature="e#804#817#0" expanded="true" />
           </folding>
