@@ -181,34 +181,36 @@ def main():
         pygame.display.flip()
 
         gamepad_move = False
-        joystick_hat = joystick.get_hat(0)
 
-        if joystick_hat == (0, 0):
-            gamepad_neutral = True
-            gamepad_pressed_timer = 0
-        else:
-            if gamepad_neutral:
-                gamepad_move = True
-                gamepad_neutral = False
+        if num_joysticks > 0:
+            joystick_hat = joystick.get_hat(0)
+
+            if joystick_hat == (0, 0):
+                gamepad_neutral = True
+                gamepad_pressed_timer = 0
             else:
-                gamepad_pressed_timer += pygame.time.get_ticks() - gamepad_last_update
-        if gamepad_pressed_timer > gamepad_repeat_delay:
-            gamepad_move = True
-            gamepad_pressed_timer -= gamepad_repeat_delay
-        if gamepad_move:
-            if joystick_hat == (-1, 0):
-                move_update_circuit_grid_display(circuit_grid, MOVE_LEFT)
-            elif joystick_hat == (1, 0):
-                move_update_circuit_grid_display(circuit_grid, MOVE_RIGHT)
-            elif joystick_hat == (0, 1):
-                move_update_circuit_grid_display(circuit_grid, MOVE_UP)
-            elif joystick_hat == (0, -1):
-                move_update_circuit_grid_display(circuit_grid, MOVE_DOWN)
-        gamepad_last_update = pygame.time.get_ticks()
+                if gamepad_neutral:
+                    gamepad_move = True
+                    gamepad_neutral = False
+                else:
+                    gamepad_pressed_timer += pygame.time.get_ticks() - gamepad_last_update
+            if gamepad_pressed_timer > gamepad_repeat_delay:
+                gamepad_move = True
+                gamepad_pressed_timer -= gamepad_repeat_delay
+            if gamepad_move:
+                if joystick_hat == (-1, 0):
+                    move_update_circuit_grid_display(circuit_grid, MOVE_LEFT)
+                elif joystick_hat == (1, 0):
+                    move_update_circuit_grid_display(circuit_grid, MOVE_RIGHT)
+                elif joystick_hat == (0, 1):
+                    move_update_circuit_grid_display(circuit_grid, MOVE_UP)
+                elif joystick_hat == (0, -1):
+                    move_update_circuit_grid_display(circuit_grid, MOVE_DOWN)
+            gamepad_last_update = pygame.time.get_ticks()
 
         # Check left thumbstick position
-        left_thumb_x = joystick.get_axis(0)
-        left_thumb_y = joystick.get_axis(1)
+            left_thumb_x = joystick.get_axis(0)
+            left_thumb_y = joystick.get_axis(1)
 
         # Handle Input Events
         for event in pygame.event.get():
@@ -355,7 +357,7 @@ def main():
                     update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
-                elif event.key == K_BACKSLASH:
+                elif event.key == K_SPACE:
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
                     update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
@@ -396,7 +398,7 @@ def main():
                     update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
-                elif event.key == K_SPACE:
+                elif event.key == K_TAB:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
                     screen.blit(background, (0, 0))
