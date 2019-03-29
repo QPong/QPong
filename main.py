@@ -19,18 +19,12 @@
 #
 """Create quantum circuits with Qiskit and Pygame"""
 
-import pygame
 from pygame.locals import *
 
 from model.circuit_grid_model import *
-from model import circuit_node_types as node_types
 from containers.vbox import VBox
-from utils.colors import WHITE
-from utils.navigation import *
 from utils.gamepad import *
 from viz.circuit_diagram import CircuitDiagram
-from viz.measurements_histogram import MeasurementsHistogram
-from viz.qsphere import QSphere
 from viz.statevector_grid import StatevectorGrid
 from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
@@ -111,8 +105,6 @@ def main():
 
     circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
-    # histogram = MeasurementsHistogram(circuit)
-    # qsphere = QSphere(circuit)
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
     statevector_grid_1 = StatevectorGrid1(circuit)
 
@@ -159,7 +151,6 @@ def main():
         ball.update()
 
         # computer measurement
-
         movingsprites.add(ball)
         movingsprites.draw(screen)
         pygame.display.flip()
@@ -453,7 +444,6 @@ def main():
                 #ball.ball_reset()
 
         # Print the score
-        #screen.fill(BLACK)
         scoreprint = "Computer: " + str(score.get_score(0))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
         textpos = (300, 0)
