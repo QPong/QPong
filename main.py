@@ -75,25 +75,14 @@ def update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprit
     # TODO: Refactor following code into methods, etc.
     screen.blit(background, (0, 0))
     circuit = circuit_grid_model.compute_circuit()
-    # circuit_diagram.set_circuit(circuit)
-    # unitary_grid.set_circuit(circuit)
-    # # qsphere.set_circuit(circuit)
-    # # histogram.set_circuit(circuit)
     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-    # # left_sprites.arrange()
-    # # middle_sprites.arrange()
     right_sprites.arrange()
     left_sprite_computer.arrange()
-    # # left_sprites.draw(screen)
-    # # middle_sprites.draw(screen)
     ball_screen.draw(screen)
     right_sprites.draw(screen)
     left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     pygame.display.flip()
-
-
-
 
 def main():
     pygame.display.set_caption('QPong')
@@ -128,10 +117,6 @@ def main():
     statevector_grid_1 = StatevectorGrid1(circuit)
 
     score=Score()
-    # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
-    #left_sprites = VBox(0, 0, qsphere)
-    # middle_sprites = VBox(600, 100, histogram, unitary_grid)
-    # middle_sprites = VBox(600, 100, histogram)
 
     right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
     left_sprite_computer = VBox(0,0, statevector_grid_1)
@@ -139,14 +124,6 @@ def main():
     circuit_grid = CircuitGrid(20, WINDOW_HEIGHT*0.51, circuit_grid_model)
     ball_screen = BallScreen(0, 0)
     screen.blit(background, (0, 0))
-
-    # pygame.display.flip()
-
-
-
-    # screen.blit(background, (0, 0))
-    #left_sprites.draw(screen)
-    #middle_sprites.draw(screen)
 
     circuit_grid.draw(screen)
     ball_screen.draw(screen)
@@ -159,8 +136,6 @@ def main():
     movingsprites = pygame.sprite.Group()
     movingsprites.add(removeball)
     movingsprites.add(ball)
-
-    #movingsprites.draw(screen)
 
     ball.ball_reset()
     pygame.display.flip()
@@ -280,15 +255,9 @@ def main():
                     circuit = circuit_grid_model.compute_circuit()
                     circuit_diagram.set_circuit(circuit)
                     unitary_grid.set_circuit(circuit)
-                    # qsphere.set_circuit(circuit)
-                     # histogram.set_circuit(circuit)
                     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-                    # left_sprites.arrange()
-                    # middle_sprites.arrange()
                     right_sprites.arrange()
                     left_sprite_computer.arrange()
-                    # left_sprites.draw(screen)
-                    # middle_sprites.draw(screen)
                     ball_screen.draw(screen)
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
@@ -414,15 +383,9 @@ def main():
                     circuit = circuit_grid_model.compute_circuit()
                     circuit_diagram.set_circuit(circuit)
                     unitary_grid.set_circuit(circuit)
-                    # qsphere.set_circuit(circuit)
-                    # histogram.set_circuit(circuit)
                     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-                    # left_sprites.arrange()
-                    # middle_sprites.arrange()
                     right_sprites.arrange()
                     left_sprite_computer.arrange()
-                    # left_sprites.draw(screen)
-                    # middle_sprites.draw(screen)
                     ball_screen.draw(screen)
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
@@ -459,13 +422,11 @@ def main():
             right_sprites.arrange()
             left_sprite_computer.arrange()
             right_sprites.draw(screen)
-            left_sprite_computer.draw(screen)
-            circuit_grid.draw(screen)
-            pygame.display.flip()
 
             balls = pygame.sprite.Group()
             balls.add(ball)
 
+            # paddle after measurement
             right_box = pygame.sprite.Sprite()
             right_box.image = pygame.Surface([15, int(round(500 / 2 ** QUBIT_NUM))])
             right_box.image.fill((255, 0, 255))
@@ -474,7 +435,6 @@ def main():
             right_box.rect = right_box.image.get_rect()
             right_box.rect.x = right_sprites.xpos + 75
             right_box.rect.y = pos * 500/(2**QUBIT_NUM)
-            #update
 
             box = pygame.sprite.Group()
             box.add(right_box)

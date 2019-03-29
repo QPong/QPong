@@ -31,11 +31,6 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.basis_states = comp_basis_states(circuit.width())
         self.set_circuit(circuit, qubit_num, num_shots)
 
-
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1ot
-
     def set_circuit(self, circuit, qubit_num, shot_num):
         backend_sv_sim = BasicAer.get_backend('statevector_simulator')
         job_sim = execute(circuit, backend_sv_sim, shots=shot_num)
@@ -52,16 +47,13 @@ class StatevectorGrid(pygame.sprite.Sprite):
         x_offset = 50
         y_offset = 15
 
-
         self.paddle = pygame.Surface([10, block_size])
         self.paddle.convert()
-
 
         for y in range(len(quantum_state)):
             text_surface = ARIAL_30.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
             self.image.blit(text_surface,(120, y * block_size + y_offset))
             if abs(quantum_state[y]) > 0:
-                #pygame.draw.rect(self.image, WHITE, rect, 0)
                 self.paddle.fill(WHITE)
                 self.paddle.set_alpha(int(round(abs(quantum_state[y])*255)))
                 self.image.blit(self.paddle,(80,y * block_size))
@@ -78,8 +70,6 @@ class StatevectorGrid(pygame.sprite.Sprite):
         counts = result_sim.get_counts(circuit)
         print(counts)
 
-        #quantum_state = result_sim.get_statevector(circuit, decimals=3)
-
         # This square represent the probability of state after measurement
         self.image = pygame.Surface([(circuit.width()+1) * 50, 500])
         self.image.convert()
@@ -95,14 +85,6 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.paddle.convert()
         self.paddle.fill(WHITE)
 
-
-        #for y in range(len(quantum_state)):
-           # text_surface = ARIAL_30.render(self.basis_states[y], False, (0, 0, 0))
-           # self.image.blit(text_surface,(120, y * block_size + y_offset))
-           # if abs(quantum_state[y]) > 0:
-                #pygame.draw.rect(self.image, WHITE, rect, 0)
-                #self.paddle.fill(WHITE)
-               # self.paddle.set_alpha(int(round(abs(quantum_state[y])*255)))
         print(counts.keys())
         print(int(list(counts.keys())[0],2))
         self.image.blit(self.paddle,(80,int(list(counts.keys())[0],2) * block_size))
