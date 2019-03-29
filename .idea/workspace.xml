@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9f7dd36-b2b3-4039-99d4-1201667dc289" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/utils/data/bell_circuit.png" beforeDir="false" afterPath="$PROJECT_DIR$/utils/data/bell_circuit.png" afterDir="false" />
-    </list>
+    <list default="true" id="a9f7dd36-b2b3-4039-99d4-1201667dc289" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,13 +10,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="404" column="54" lean-forward="true" selection-start-line="404" selection-start-column="54" selection-end-line="404" selection-end-column="54" />
+            <state relative-caret-position="128">
+              <caret line="231" column="91" selection-start-line="231" selection-start-column="91" selection-end-line="231" selection-end-column="91" />
               <folding>
                 <element signature="e#804#817#0" expanded="true" />
+                <element signature="e#5313#6594#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/utils/ball.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="67" selection-start-line="67" selection-end-line="67" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#802#1371#0" />
+                <element signature="e#1407#1562#0" />
               </folding>
             </state>
           </provider>
@@ -100,13 +113,13 @@
         <subPane>
           <expand>
             <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
+              <item name="QPong" type="b2602c69:ProjectViewProjectNode" />
+              <item name="QPong" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="quantum-circuit-pygame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quantum-circuit-pygame" type="462c0819:PsiDirectoryNode" />
-              <item name="viz" type="462c0819:PsiDirectoryNode" />
+              <item name="QPong" type="b2602c69:ProjectViewProjectNode" />
+              <item name="QPong" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -116,6 +129,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -297,9 +311,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="23" width="1234" height="777" extended-state="6" />
+    <frame x="51" y="23" width="1229" height="777" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29278523" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1928808" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -354,13 +368,7 @@
     <entry file="file://$PROJECT_DIR$/utils/states.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file:///usr/local/lib/python3.6/site-packages/pygame/sprite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="167" column="8" selection-start-line="167" selection-start-column="8" selection-end-line="167" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/local/lib/python3.6/site-packages/pygame/sprite.py" />
     <entry file="file://$PROJECT_DIR$/containers/hbox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -490,10 +498,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/ball.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
+        <state relative-caret-position="162">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#802#1371#0" />
+            <element signature="e#1407#1562#0" />
           </folding>
         </state>
       </provider>
@@ -527,10 +537,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="404" column="54" lean-forward="true" selection-start-line="404" selection-start-column="54" selection-end-line="404" selection-end-column="54" />
+        <state relative-caret-position="128">
+          <caret line="231" column="91" selection-start-line="231" selection-start-column="91" selection-end-line="231" selection-end-column="91" />
           <folding>
             <element signature="e#804#817#0" expanded="true" />
+            <element signature="e#5313#6594#0" />
           </folding>
         </state>
       </provider>
