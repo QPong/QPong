@@ -68,6 +68,7 @@ background.fill(WHITE)
 pygame.font.init()
 
 QUBIT_NUM=3
+CIRCUIT_DEPTH=18
 
 def update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen, circuit_grid, statevector_grid):
     # Update visualizations
@@ -107,9 +108,14 @@ def main():
     oldclock = pygame.time.get_ticks()
     newclock = pygame.time.get_ticks()
 
-    circuit_grid_model = CircuitGridModel(QUBIT_NUM, 18)
+    circuit_grid_model = CircuitGridModel(QUBIT_NUM, CIRCUIT_DEPTH)
 
-    circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
+    # the game crashes if the circuit is empty
+    # initialize circuit with 3 identity gate at the end to prevent crash
+    # identitiy gate are displayed by completely transparent PNG
+    circuit_grid_model.set_node(0, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
+    circuit_grid_model.set_node(1, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
+    circuit_grid_model.set_node(2, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
 
     circuit = circuit_grid_model.compute_circuit()
 
@@ -478,7 +484,6 @@ def main():
             if pygame.sprite.spritecollide(right_box, balls, False):
                 ball.bounce_edge()
                 score.update(1)
-
 
         if ball_action == BOUNCE_LEFT:
             if pygame.sprite.spritecollide(left_box, balls, False):

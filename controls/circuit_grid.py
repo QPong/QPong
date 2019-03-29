@@ -361,7 +361,9 @@ class CircuitGridGate(pygame.sprite.Sprite):
         elif node_type == node_types.TDG:
             self.image, self.rect = load_image('gate_images/tdg_gate.png', -1)
         elif node_type == node_types.IDEN:
-            self.image, self.rect = load_image('gate_images/iden_gate.png', -1)
+            # a completely transparent PNG is used to place at the end of the circuit to prevent crash
+            # the game crashes if the circuit is empty
+            self.image, self.rect = load_image('gate_images/transparent.png', -1)
         elif node_type == node_types.CTRL:
             # TODO: Handle Toffoli gates correctly
             if self.wire_num > \
