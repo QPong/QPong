@@ -164,13 +164,16 @@ def main():
     gamepad_pressed_timer = 0
     gamepad_last_update = pygame.time.get_ticks()
 
+    # set default values for flags
+    ball_action = NOTHING
+    measure_flag = NO
+    bounce_flag = NO
+
     # Main Loop
     going = True
     while going:
-        clock.tick(30)
-
-        pygame.time.wait(10)
-        #screen.fill(BLACK)
+        # set maximum framerate
+        clock.tick(60)
         removeball.update(ball.get_xpos(), ball.get_ypos())
         ball.update()
 
@@ -420,7 +423,7 @@ def main():
                     circuit_grid.draw(screen)
                     pygame.display.flip()
 
-            # measurement process
+        # measurement process
 
         left_box = pygame.sprite.Sprite()
         left_box.image = pygame.Surface([10, 150])
@@ -437,8 +440,12 @@ def main():
         lbox.add(left_box)
         lbox.draw(screen)
 
-        # player measurement
-        if ball.if_edge() == 3:
+        # check ball location and decide what to do
+
+        ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
+
+        if ball_action == MEASURE_RIGHT:
+            #
             circuit = circuit_grid_model.compute_circuit()
             circuit_diagram.set_circuit(circuit)
             unitary_grid.set_circuit(circuit)
@@ -467,20 +474,18 @@ def main():
             box.add(right_box)
             box.draw(screen)
 
-        if ball.if_edge() ==2:
+        if ball_action == BOUNCE_RIGHT:
             if pygame.sprite.spritecollide(right_box, balls, False):
                 ball.bounce_edge()
                 score.update(1)
 
 
-        if ball.if_edge() ==1:
+        if ball_action == BOUNCE_LEFT:
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
                 score.update(0)
 
                 #ball.ball_reset()
-
-
 
         # Print the score
         #screen.fill(BLACK)
