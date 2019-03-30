@@ -16,7 +16,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3130">
+            <state relative-caret-position="1146">
               <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
               <folding>
                 <element signature="e#46#57#0" expanded="true" />
@@ -28,14 +28,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="157" column="8" lean-forward="true" selection-start-line="157" selection-start-column="8" selection-end-line="157" selection-end-column="8" />
+            <state relative-caret-position="128">
+              <caret line="226" column="98" selection-start-line="226" selection-start-column="85" selection-end-line="226" selection-end-column="98" />
               <folding>
                 <element signature="e#804#831#0" expanded="true" />
                 <element signature="e#5276#6557#0" />
-                <element signature="e#6077#16955#0" />
-                <element signature="e#6993#10494#0" />
-                <element signature="e#10558#12326#0" />
+                <element signature="e#17246#18243#0" />
                 <element signature="e#20048#20171#0" />
               </folding>
             </state>
@@ -72,7 +70,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controls/ball_screen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
+            <state relative-caret-position="535">
               <caret line="55" column="30" lean-forward="true" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
               <folding>
                 <element signature="e#622#635#0" expanded="true" />
@@ -112,9 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>clo</find>
-      <find>newclock</find>
-      <find>oldclock</find>
       <find>clock</find>
       <find>score</find>
       <find>joystick</find>
@@ -130,7 +125,6 @@
       <find>pos</find>
       <find>update_paddle</find>
       <find>alpha</find>
-      <find>right_sprites</find>
       <find>ball_reset</find>
       <find>basis</find>
       <find>reset</find>
@@ -139,9 +133,13 @@
       <find>removeball</find>
       <find>computer</find>
       <find>left_sprite_computer</find>
-      <find>movingsprites</find>
       <find>collide</find>
+      <find>movingsprites</find>
       <find>right_box</find>
+      <find>Update visualizations</find>
+      <find>background</find>
+      <find>ball_screen</find>
+      <find>right_sprites</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -414,7 +412,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.329927" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36058393" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -622,16 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controls/ball_screen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="55" column="30" lean-forward="true" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
-          <folding>
-            <element signature="e#622#635#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/collapse_paddle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -657,7 +645,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3130">
+        <state relative-caret-position="1146">
           <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
           <folding>
             <element signature="e#46#57#0" expanded="true" />
@@ -665,16 +653,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controls/ball_screen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="535">
+          <caret line="55" column="30" lean-forward="true" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
+          <folding>
+            <element signature="e#622#635#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="157" column="8" lean-forward="true" selection-start-line="157" selection-start-column="8" selection-end-line="157" selection-end-column="8" />
+        <state relative-caret-position="128">
+          <caret line="226" column="98" selection-start-line="226" selection-start-column="85" selection-end-line="226" selection-end-column="98" />
           <folding>
             <element signature="e#804#831#0" expanded="true" />
             <element signature="e#5276#6557#0" />
-            <element signature="e#6077#16955#0" />
-            <element signature="e#6993#10494#0" />
-            <element signature="e#10558#12326#0" />
+            <element signature="e#17246#18243#0" />
             <element signature="e#20048#20171#0" />
           </folding>
         </state>
