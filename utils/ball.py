@@ -99,7 +99,7 @@ class Ball(pygame.sprite.Sprite):
             self.ball_reset()
 
         elif self.LEFT_EDGE <= self.x < self.LEFT_EDGE + 15:
-            # bounch the ball when it reaches the left bounce zone
+            # bounce the ball when it reaches the left bounce zone
             if self.bounce_flag == NO:
                 print("bounce left")
                 self.ball_action = BOUNCE_LEFT

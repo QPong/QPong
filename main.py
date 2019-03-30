@@ -137,11 +137,6 @@ def main():
     gamepad_pressed_timer = 0
     gamepad_last_update = pygame.time.get_ticks()
 
-    # set default values for flags
-    ball_action = NOTHING
-    measure_flag = NO
-    bounce_flag = NO
-
     # Main Loop
     going = True
     while going:
@@ -370,18 +365,8 @@ def main():
                 elif event.key == K_TAB:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
-                    screen.blit(background, (0, 0))
-                    circuit = circuit_grid_model.compute_circuit()
-                    circuit_diagram.set_circuit(circuit)
-                    unitary_grid.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-                    right_sprites.arrange()
-                    left_sprite_computer.arrange()
-                    ball_screen.draw(screen)
-                    right_sprites.draw(screen)
-                    left_sprite_computer.draw(screen)
-                    circuit_grid.draw(screen)
-                    pygame.display.flip()
+                    update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                                  circuit_grid, statevector_grid)
 
         # measurement process
 
