@@ -159,6 +159,7 @@ def main():
 
         gamepad_move = False
 
+        # use joystick if it's connected
         if num_joysticks > 0:
             joystick_hat = joystick.get_hat(0)
 
@@ -369,11 +370,11 @@ def main():
         if pygame.time.get_ticks() - oldclock > 2000:
             left_box.rect.y = random.randint(0,400)
             oldclock=pygame.time.get_ticks()
+
         # update
         lbox = pygame.sprite.Group()
         lbox.add(left_box)
         lbox.draw(screen)
-        pygame.display.flip()
 
         # check ball location and decide what to do
         #ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
@@ -398,10 +399,6 @@ def main():
             right_box.rect.x = right_sprites.xpos + 75
             right_box.rect.y = pos * 500/(2**QUBIT_NUM)
 
-            box = pygame.sprite.Group()
-            box.add(right_box)
-            box.draw(screen)
-
             measure_time=pygame.time.get_ticks()
 
         if ball.ball_action == BOUNCE_RIGHT:
@@ -423,13 +420,16 @@ def main():
         # Print the score
         scoreprint = "Computer: " + str(score.get_score(0))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (300, 0)
+        textpos = (300, 10)
         screen.blit(text, textpos)
 
         scoreprint = "Player: " + str(score.get_score(1))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (700, 0)
+        textpos = (700, 10)
         screen.blit(text, textpos)
+
+        # Update the screen
+        pygame.display.flip()
 
     pygame.quit()
 

@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1146">
-              <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
+            <state relative-caret-position="159">
+              <caret line="218" column="34" selection-start-line="218" selection-start-column="27" selection-end-line="218" selection-end-column="34" />
               <folding>
                 <element signature="e#46#57#0" expanded="true" />
               </folding>
@@ -28,13 +28,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="226" column="98" selection-start-line="226" selection-start-column="85" selection-end-line="226" selection-end-column="98" />
+            <state relative-caret-position="165">
+              <caret line="427" column="25" selection-start-line="427" selection-start-column="25" selection-end-line="427" selection-end-column="25" />
               <folding>
                 <element signature="e#804#831#0" expanded="true" />
                 <element signature="e#5276#6557#0" />
-                <element signature="e#17246#18243#0" />
-                <element signature="e#20048#20171#0" />
+                <element signature="e#6268#15914#0" />
               </folding>
             </state>
           </provider>
@@ -110,9 +109,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>clock</find>
-      <find>score</find>
-      <find>joystick</find>
       <find>space</find>
       <find>RIGHT_EDGE</find>
       <find>delete</find>
@@ -122,7 +118,6 @@
       <find>circuitdiag</find>
       <find>CircuitGrid</find>
       <find>draw</find>
-      <find>pos</find>
       <find>update_paddle</find>
       <find>alpha</find>
       <find>ball_reset</find>
@@ -133,13 +128,17 @@
       <find>removeball</find>
       <find>computer</find>
       <find>left_sprite_computer</find>
-      <find>collide</find>
-      <find>movingsprites</find>
-      <find>right_box</find>
       <find>Update visualizations</find>
       <find>background</find>
       <find>ball_screen</find>
       <find>right_sprites</find>
+      <find>movingsprites</find>
+      <find>pygame.display.flip()</find>
+      <find>player1</find>
+      <find>balls</find>
+      <find>collide</find>
+      <find>right_box</find>
+      <find>pos</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -643,16 +642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1146">
-          <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
-          <folding>
-            <element signature="e#46#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controls/ball_screen.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="535">
@@ -663,15 +652,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="218" column="34" selection-start-line="218" selection-start-column="27" selection-end-line="218" selection-end-column="34" />
+          <folding>
+            <element signature="e#46#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="226" column="98" selection-start-line="226" selection-start-column="85" selection-end-line="226" selection-end-column="98" />
+        <state relative-caret-position="165">
+          <caret line="427" column="25" selection-start-line="427" selection-start-column="25" selection-end-line="427" selection-end-column="25" />
           <folding>
             <element signature="e#804#831#0" expanded="true" />
             <element signature="e#5276#6557#0" />
-            <element signature="e#17246#18243#0" />
-            <element signature="e#20048#20171#0" />
+            <element signature="e#6268#15914#0" />
           </folding>
         </state>
       </provider>
