@@ -137,6 +137,8 @@ def main():
     gamepad_pressed_timer = 0
     gamepad_last_update = pygame.time.get_ticks()
 
+    measure_time = 100000
+
     # Main Loop
     going = True
     while going:
@@ -416,6 +418,8 @@ def main():
             box.add(right_box)
             box.draw(screen)
 
+            measure_time=pygame.time.get_ticks()
+
         if ball.ball_action == BOUNCE_RIGHT:
             if pygame.sprite.spritecollide(right_box, balls, False):
                 ball.bounce_edge()
@@ -425,6 +429,12 @@ def main():
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
                 score.update(0)
+        if pygame.time.get_ticks()-measure_time > 400:
+            #refresh the screen a moment after measurement to update visual
+            update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                          circuit_grid, statevector_grid)
+            # add a buffer time before measure again
+            measure_time = pygame.time.get_ticks() + 100000
 
         # Print the score
         scoreprint = "Computer: " + str(score.get_score(0))
