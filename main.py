@@ -19,18 +19,12 @@
 #
 """Create quantum circuits with Qiskit and Pygame"""
 
-import pygame
 from pygame.locals import *
 
 from model.circuit_grid_model import *
-from model import circuit_node_types as node_types
 from containers.vbox import VBox
-from utils.colors import WHITE
-from utils.navigation import *
 from utils.gamepad import *
 from viz.circuit_diagram import CircuitDiagram
-from viz.measurements_histogram import MeasurementsHistogram
-from viz.qsphere import QSphere
 from viz.statevector_grid import StatevectorGrid
 from viz.statevector_grid_1 import StatevectorGrid1
 from viz.unitary_grid import UnitaryGrid
@@ -68,31 +62,21 @@ background.fill(WHITE)
 pygame.font.init()
 
 QUBIT_NUM=3
+CIRCUIT_DEPTH=18
 
 def update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen, circuit_grid, statevector_grid):
     # Update visualizations
     # TODO: Refactor following code into methods, etc.
     screen.blit(background, (0, 0))
     circuit = circuit_grid_model.compute_circuit()
-    # circuit_diagram.set_circuit(circuit)
-    # unitary_grid.set_circuit(circuit)
-    # # qsphere.set_circuit(circuit)
-    # # histogram.set_circuit(circuit)
     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-    # # left_sprites.arrange()
-    # # middle_sprites.arrange()
     right_sprites.arrange()
     left_sprite_computer.arrange()
-    # # left_sprites.draw(screen)
-    # # middle_sprites.draw(screen)
     ball_screen.draw(screen)
     right_sprites.draw(screen)
     left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     pygame.display.flip()
-
-
-
 
 def main():
     pygame.display.set_caption('QPong')
@@ -107,25 +91,24 @@ def main():
     oldclock = pygame.time.get_ticks()
     newclock = pygame.time.get_ticks()
 
-    circuit_grid_model = CircuitGridModel(QUBIT_NUM, 18)
+    circuit_grid_model = CircuitGridModel(QUBIT_NUM, CIRCUIT_DEPTH)
 
-    circuit_grid_model.set_node(0, 0, CircuitGridNode(node_types.IDEN))
+    # the game crashes if the circuit is empty
+    # initialize circuit with 3 identity gate at the end to prevent crash
+    # identitiy gate are displayed by completely transparent PNG
+    circuit_grid_model.set_node(0, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
+    circuit_grid_model.set_node(1, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
+    circuit_grid_model.set_node(2, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
 
     circuit = circuit_grid_model.compute_circuit()
 
 
     circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
-    # histogram = MeasurementsHistogram(circuit)
-    # qsphere = QSphere(circuit)
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
     statevector_grid_1 = StatevectorGrid1(circuit)
 
     score=Score()
-    # left_sprites = VBox(0, 0, circuit_diagram, qsphere)
-    #left_sprites = VBox(0, 0, qsphere)
-    # middle_sprites = VBox(600, 100, histogram, unitary_grid)
-    # middle_sprites = VBox(600, 100, histogram)
 
     right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
     left_sprite_computer = VBox(0,0, statevector_grid_1)
@@ -133,14 +116,6 @@ def main():
     circuit_grid = CircuitGrid(20, WINDOW_HEIGHT*0.51, circuit_grid_model)
     ball_screen = BallScreen(0, 0)
     screen.blit(background, (0, 0))
-
-    # pygame.display.flip()
-
-
-
-    # screen.blit(background, (0, 0))
-    #left_sprites.draw(screen)
-    #middle_sprites.draw(screen)
 
     circuit_grid.draw(screen)
     ball_screen.draw(screen)
@@ -154,8 +129,6 @@ def main():
     movingsprites.add(removeball)
     movingsprites.add(ball)
 
-    #movingsprites.draw(screen)
-
     ball.ball_reset()
     pygame.display.flip()
 
@@ -164,18 +137,17 @@ def main():
     gamepad_pressed_timer = 0
     gamepad_last_update = pygame.time.get_ticks()
 
+    measure_time = 100000
+
     # Main Loop
     going = True
     while going:
-        clock.tick(30)
-
-        pygame.time.wait(10)
-        #screen.fill(BLACK)
+        # set maximum framerate
+        clock.tick(60)
         removeball.update(ball.get_xpos(), ball.get_ypos())
         ball.update()
 
         # computer measurement
-
         movingsprites.add(ball)
         movingsprites.draw(screen)
         pygame.display.flip()
@@ -271,15 +243,9 @@ def main():
                     circuit = circuit_grid_model.compute_circuit()
                     circuit_diagram.set_circuit(circuit)
                     unitary_grid.set_circuit(circuit)
-                    # qsphere.set_circuit(circuit)
-                     # histogram.set_circuit(circuit)
                     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-                    # left_sprites.arrange()
-                    # middle_sprites.arrange()
                     right_sprites.arrange()
                     left_sprite_computer.arrange()
-                    # left_sprites.draw(screen)
-                    # middle_sprites.draw(screen)
                     ball_screen.draw(screen)
                     right_sprites.draw(screen)
                     left_sprite_computer.draw(screen)
@@ -401,26 +367,10 @@ def main():
                 elif event.key == K_TAB:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
-                    screen.blit(background, (0, 0))
-                    circuit = circuit_grid_model.compute_circuit()
-                    circuit_diagram.set_circuit(circuit)
-                    unitary_grid.set_circuit(circuit)
-                    # qsphere.set_circuit(circuit)
-                    # histogram.set_circuit(circuit)
-                    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
-                    # left_sprites.arrange()
-                    # middle_sprites.arrange()
-                    right_sprites.arrange()
-                    left_sprite_computer.arrange()
-                    # left_sprites.draw(screen)
-                    # middle_sprites.draw(screen)
-                    ball_screen.draw(screen)
-                    right_sprites.draw(screen)
-                    left_sprite_computer.draw(screen)
-                    circuit_grid.draw(screen)
-                    pygame.display.flip()
+                    update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                                  circuit_grid, statevector_grid)
 
-            # measurement process
+        # measurement process
 
         left_box = pygame.sprite.Sprite()
         left_box.image = pygame.Surface([10, 150])
@@ -437,8 +387,12 @@ def main():
         lbox.add(left_box)
         lbox.draw(screen)
 
-        # player measurement
-        if ball.if_edge() == 3:
+        # check ball location and decide what to do
+        #ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
+        ball.action()
+
+        if ball.ball_action == MEASURE_RIGHT:
+            #
             circuit = circuit_grid_model.compute_circuit()
             circuit_diagram.set_circuit(circuit)
             unitary_grid.set_circuit(circuit)
@@ -446,13 +400,11 @@ def main():
             right_sprites.arrange()
             left_sprite_computer.arrange()
             right_sprites.draw(screen)
-            left_sprite_computer.draw(screen)
-            circuit_grid.draw(screen)
-            pygame.display.flip()
 
             balls = pygame.sprite.Group()
             balls.add(ball)
 
+            # paddle after measurement
             right_box = pygame.sprite.Sprite()
             right_box.image = pygame.Surface([15, int(round(500 / 2 ** QUBIT_NUM))])
             right_box.image.fill((255, 0, 255))
@@ -461,29 +413,30 @@ def main():
             right_box.rect = right_box.image.get_rect()
             right_box.rect.x = right_sprites.xpos + 75
             right_box.rect.y = pos * 500/(2**QUBIT_NUM)
-            #update
 
             box = pygame.sprite.Group()
             box.add(right_box)
             box.draw(screen)
 
-        if ball.if_edge() ==2:
+            measure_time=pygame.time.get_ticks()
+
+        if ball.ball_action == BOUNCE_RIGHT:
             if pygame.sprite.spritecollide(right_box, balls, False):
                 ball.bounce_edge()
                 score.update(1)
 
-
-        if ball.if_edge() ==1:
+        if ball.ball_action == BOUNCE_LEFT:
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
                 score.update(0)
-
-                #ball.ball_reset()
-
-
+        if pygame.time.get_ticks()-measure_time > 400:
+            #refresh the screen a moment after measurement to update visual
+            update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
+                          circuit_grid, statevector_grid)
+            # add a buffer time before measure again
+            measure_time = pygame.time.get_ticks() + 100000
 
         # Print the score
-        #screen.fill(BLACK)
         scoreprint = "Computer: " + str(score.get_score(0))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
         textpos = (300, 0)
