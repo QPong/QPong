@@ -129,6 +129,9 @@ def main():
     right_box.image.set_alpha(0)
 
     ball = Ball()
+    balls = pygame.sprite.Group()
+    balls.add(ball)
+    
     movingsprites = pygame.sprite.Group()
     movingsprites.add(ball)
 
@@ -396,11 +399,6 @@ def main():
             unitary_grid.set_circuit(circuit)
             pos = statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
             right_sprites.arrange()
-            #left_sprite_computer.arrange()
-            #right_sprites.draw(screen)
-
-            balls = pygame.sprite.Group()
-            balls.add(ball)
 
             # paddle after measurement
 
