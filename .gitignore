@@ -61,3 +61,4 @@ viz/__pycache__/statevector_grid_1.cpython-37.pyc
 viz/__pycache__/unitary_grid.cpython-37.pyc
 *.png
 *.xml
+*.xml

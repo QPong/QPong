@@ -44,6 +44,11 @@ class Ball(pygame.sprite.Sprite):
         self.speed = 0
         self.direction = 0
 
+        # initialize ball action type, measure and bounce flags
+        self.ball_action = NOTHING
+        self.measure_flag = NO
+        self.bounce_flag = NO
+
         self.ball_reset()
 
     def update(self):
@@ -87,51 +92,63 @@ class Ball(pygame.sprite.Sprite):
         return ypos
 
     # 1 = comp, 2 = player, none = 0
-    def action(self, ball_action, measure_flag, bounce_flag):
+    def action(self):
 
-        if self.RIGHT_EDGE-30 < self.x < self.RIGHT_EDGE-15:
-            if measure_flag == NO:
+        if self.x < self.LEFT_EDGE:
+            # reset the ball when it reaches beyond left edge
+            self.ball_reset()
+
+        elif self.LEFT_EDGE <= self.x < self.LEFT_EDGE + 15:
+            # bounch the ball when it reaches the left bounce zone
+            if self.bounce_flag == NO:
+                print("bounce left")
+                self.ball_action = BOUNCE_LEFT
+                self.measure_flag = NO
+            else:
+                self.ball_action = NOTHING
+
+        elif self.LEFT_EDGE + 15 <= self.x < self.LEFT_EDGE + 30:
+            # measure the ball when it reaches the left measurement zone
+            if self.measure_flag == NO:
+                print("measure left")
+                self.ball_action = MEASURE_LEFT
+                self.measure_flag = YES
+            else:
+                self.ball_action = NOTHING
+
+        elif self.RIGHT_EDGE-30 <= self.x < self.RIGHT_EDGE-15:
+            # measure the ball when it reaches the right measurement zone
+            if self.measure_flag == NO:
                 # do measurement if not yet done
                 print("measure right")
-                ball_action = MEASURE_RIGHT
-                measure_flag = YES
+                self.ball_action = MEASURE_RIGHT
+                self.measure_flag = YES
             else:
                 # do nothing if measurement was done already
-                ball_action = NOTHING
-        elif self.RIGHT_EDGE > self.x > self.RIGHT_EDGE-15:
-            if bounce_flag == NO:
+                self.ball_action = NOTHING
+
+        elif self.RIGHT_EDGE-15 <= self.x < self.RIGHT_EDGE:
+            # bounce the ball when it reaches the right bounce zone
+            if self.bounce_flag == NO:
                 # trigger bounce edge if noe yet done
                 print ("bounce right")
-                ball_action = BOUNCE_RIGHT
-                bounce_flag = YES
+                self.ball_action = BOUNCE_RIGHT
+                self.bounce_flag = YES
             else:
                 # do nothing if measurement was done already
-                ball_action = NOTHING
-        elif self.LEFT_EDGE+30 >self.x > self.LEFT_EDGE+15:
-            if measure_flag == NO:
-                print ("measure left")
-                ball_action = MEASURE_LEFT
-                measure_flag = YES
-            else:
-                ball_action = NOTHING
-        elif self.LEFT_EDGE < self.x < self.LEFT_EDGE+15:
-            if bounce_flag == NO:
-                print ("bounce left")
-                ball_action = BOUNCE_LEFT
-                measure_flag = NO
-            else:
-                ball_action = NOTHING
-        elif self.x < self.LEFT_EDGE:
-            self.ball_reset()
-        elif self.x > self.RIGHT_EDGE:
-            self.ball_reset()
-        else:
-            # reset flags and do nothing when the ball is outside measurement and bounce region
-            ball_action = NOTHING
-            measure_flag = NO
-            bounce_flag = NO
+                self.ball_action = NOTHING
 
-        return ball_action, measure_flag, bounce_flag
+        elif self.x > self.RIGHT_EDGE:
+            # reset the ball when it reaches beyond right edge
+            self.ball_reset()
+
+        else:
+            # reset flags and do nothing when the ball is outside measurement and bounce zone
+            self.ball_action = NOTHING
+            self.measure_flag = NO
+            self.bounce_flag = NO
+
+        #return ball_action, measure_flag, bounce_flag
 
 
     def check_score(self):

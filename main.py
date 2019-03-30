@@ -401,9 +401,10 @@ def main():
         lbox.draw(screen)
 
         # check ball location and decide what to do
-        ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
+        #ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
+        ball.action()
 
-        if ball_action == MEASURE_RIGHT:
+        if ball.ball_action == MEASURE_RIGHT:
             #
             circuit = circuit_grid_model.compute_circuit()
             circuit_diagram.set_circuit(circuit)
@@ -430,12 +431,12 @@ def main():
             box.add(right_box)
             box.draw(screen)
 
-        if ball_action == BOUNCE_RIGHT:
+        if ball.ball_action == BOUNCE_RIGHT:
             if pygame.sprite.spritecollide(right_box, balls, False):
                 ball.bounce_edge()
                 score.update(1)
 
-        if ball_action == BOUNCE_LEFT:
+        if ball.ball_action == BOUNCE_LEFT:
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
                 score.update(0)
