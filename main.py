@@ -401,7 +401,6 @@ def main():
         lbox.draw(screen)
 
         # check ball location and decide what to do
-
         ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
 
         if ball_action == MEASURE_RIGHT:
@@ -440,8 +439,6 @@ def main():
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
                 score.update(0)
-
-                #ball.ball_reset()
 
         # Print the score
         scoreprint = "Computer: " + str(score.get_score(0))

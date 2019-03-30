@@ -52,10 +52,10 @@ class Ball(pygame.sprite.Sprite):
         self.x += self.speed * math.sin(radians)
         self.y -= self.speed * math.cos(radians)
 
-        if self.x < LEFT_EDGE:
-            self.ball_reset()
-        if self.x > self.RIGHT_EDGE:
-            self.ball_reset()
+        #if self.x < LEFT_EDGE:
+        #    self.ball_reset()
+        #if self.x > self.RIGHT_EDGE:
+        #    self.ball_reset()
 
         # Update ball position
         self.rect.x = self.x
@@ -98,7 +98,7 @@ class Ball(pygame.sprite.Sprite):
             else:
                 # do nothing if measurement was done already
                 ball_action = NOTHING
-        elif self.x > self.RIGHT_EDGE-15:
+        elif self.RIGHT_EDGE > self.x > self.RIGHT_EDGE-15:
             if bounce_flag == NO:
                 # trigger bounce edge if noe yet done
                 print ("bounce right")
@@ -114,13 +114,17 @@ class Ball(pygame.sprite.Sprite):
                 measure_flag = YES
             else:
                 ball_action = NOTHING
-        elif self.x < self.LEFT_EDGE+15:
+        elif self.LEFT_EDGE < self.x < self.LEFT_EDGE+15:
             if bounce_flag == NO:
                 print ("bounce left")
                 ball_action = BOUNCE_LEFT
                 measure_flag = NO
             else:
                 ball_action = NOTHING
+        elif self.x < self.LEFT_EDGE:
+            self.ball_reset()
+        elif self.x > self.RIGHT_EDGE:
+            self.ball_reset()
         else:
             # reset flags and do nothing when the ball is outside measurement and bounce region
             ball_action = NOTHING
