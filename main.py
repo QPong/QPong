@@ -152,6 +152,7 @@ def main():
         ball.update()
 
         # computer measurement
+        statevector_grid.displaye_statevector(QUBIT_NUM)
         right_sprites.draw(screen)
         #left_sprite_computer.draw(screen)
         movingsprites.draw(screen)
