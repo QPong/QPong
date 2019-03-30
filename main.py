@@ -71,10 +71,10 @@ def update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprit
     circuit = circuit_grid_model.compute_circuit()
     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
     right_sprites.arrange()
-    left_sprite_computer.arrange()
+    #left_sprite_computer.arrange()
     ball_screen.draw(screen)
     right_sprites.draw(screen)
-    left_sprite_computer.draw(screen)
+    #left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     pygame.display.flip()
 
@@ -117,16 +117,23 @@ def main():
     ball_screen = BallScreen(0, 0)
     screen.blit(background, (0, 0))
 
-    circuit_grid.draw(screen)
-    ball_screen.draw(screen)
-    right_sprites.draw(screen)
-    left_sprite_computer.draw(screen)
+    # computer paddle
+    left_box = pygame.sprite.Sprite()
+    left_box.image = pygame.Surface([10, 150])
+    left_box.image.fill((255, 255, 255))
+    left_box.image.set_alpha(255)
 
+    left_box.rect = left_box.image.get_rect()
+    left_box.rect.x = 80
+
+    # player paddle
+    right_box = pygame.sprite.Sprite()
+    right_box.image = pygame.Surface([15, int(round(500 / 2 ** QUBIT_NUM))])
+    right_box.image.fill((255, 0, 255))
+    right_box.image.set_alpha(0)
 
     ball = Ball()
-    removeball = RemoveBall(ball.x, ball.y)
     movingsprites = pygame.sprite.Group()
-    movingsprites.add(removeball)
     movingsprites.add(ball)
 
     ball.ball_reset()
@@ -144,13 +151,15 @@ def main():
     while going:
         # set maximum framerate
         clock.tick(60)
-        removeball.update(ball.get_xpos(), ball.get_ypos())
+        screen.fill(BLACK)
         ball.update()
 
         # computer measurement
-        movingsprites.add(ball)
+        #ball_screen.draw(screen)
+        right_sprites.draw(screen)
+        #left_sprite_computer.draw(screen)
         movingsprites.draw(screen)
-        pygame.display.flip()
+        circuit_grid.draw(screen)
 
         gamepad_move = False
 
@@ -370,15 +379,7 @@ def main():
                     update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, ball_screen,
                                   circuit_grid, statevector_grid)
 
-        # measurement process
-
-        left_box = pygame.sprite.Sprite()
-        left_box.image = pygame.Surface([10, 150])
-        left_box.image.fill((255, 255, 255))
-        left_box.image.set_alpha(255)
-
-        left_box.rect = left_box.image.get_rect()
-        left_box.rect.x = 80
+        # computer paddle movement
         if pygame.time.get_ticks() - oldclock > 2000:
             left_box.rect.y = random.randint(0,400)
             oldclock=pygame.time.get_ticks()
@@ -386,6 +387,7 @@ def main():
         lbox = pygame.sprite.Group()
         lbox.add(left_box)
         lbox.draw(screen)
+        pygame.display.flip()
 
         # check ball location and decide what to do
         #ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
@@ -405,10 +407,6 @@ def main():
             balls.add(ball)
 
             # paddle after measurement
-            right_box = pygame.sprite.Sprite()
-            right_box.image = pygame.Surface([15, int(round(500 / 2 ** QUBIT_NUM))])
-            right_box.image.fill((255, 0, 255))
-            right_box.image.set_alpha(0)
 
             right_box.rect = right_box.image.get_rect()
             right_box.rect.x = right_sprites.xpos + 75
