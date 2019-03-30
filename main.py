@@ -66,12 +66,11 @@ CIRCUIT_DEPTH=18
 def update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, circuit_grid, statevector_grid):
     # Update visualizations
     # TODO: Refactor following code into methods, etc.
-    screen.blit(background, (0, 0))
     circuit = circuit_grid_model.compute_circuit()
     statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
     right_sprites.arrange()
     #left_sprite_computer.arrange()
-    right_sprites.draw(screen)
+    #right_sprites.draw(screen)
     #left_sprite_computer.draw(screen)
     circuit_grid.draw(screen)
     pygame.display.flip()
@@ -151,14 +150,34 @@ def main():
         screen.fill(BLACK)
         ball.update()
 
-        # computer measurement
         statevector_grid.displaye_statevector(QUBIT_NUM)
         right_sprites.draw(screen)
-        #left_sprite_computer.draw(screen)
+        # left_sprite_computer.draw(screen)
         movingsprites.draw(screen)
         circuit_grid.draw(screen)
 
+        # Print the score
+        scoreprint = "Computer: " + str(score.get_score(0))
+        text = ARIAL_30.render(scoreprint, 1, WHITE)
+        textpos = (300, 10)
+        screen.blit(text, textpos)
+
+        scoreprint = "Player: " + str(score.get_score(1))
+        text = ARIAL_30.render(scoreprint, 1, WHITE)
+        textpos = (700, 10)
+        screen.blit(text, textpos)
+
         gamepad_move = False
+
+        # computer paddle movement
+        if pygame.time.get_ticks() - oldclock > 2000:
+            left_box.rect.y = random.randint(0, 400)
+            oldclock = pygame.time.get_ticks()
+
+        # update
+        lbox = pygame.sprite.Group()
+        lbox.add(left_box)
+        lbox.draw(screen)
 
         # use joystick if it's connected
         if num_joysticks > 0:
@@ -367,18 +386,7 @@ def main():
                     update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites,
                                   circuit_grid, statevector_grid)
 
-        # computer paddle movement
-        if pygame.time.get_ticks() - oldclock > 2000:
-            left_box.rect.y = random.randint(0,400)
-            oldclock=pygame.time.get_ticks()
-
-        # update
-        lbox = pygame.sprite.Group()
-        lbox.add(left_box)
-        lbox.draw(screen)
-
         # check ball location and decide what to do
-        #ball_action, measure_flag, bounce_flag = ball.action(ball_action, measure_flag, bounce_flag)
         ball.action()
 
         if ball.ball_action == MEASURE_RIGHT:
@@ -388,8 +396,8 @@ def main():
             unitary_grid.set_circuit(circuit)
             pos = statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
             right_sprites.arrange()
-            left_sprite_computer.arrange()
-            right_sprites.draw(screen)
+            #left_sprite_computer.arrange()
+            #right_sprites.draw(screen)
 
             balls = pygame.sprite.Group()
             balls.add(ball)
@@ -417,17 +425,6 @@ def main():
                           circuit_grid, statevector_grid)
             # add a buffer time before measure again
             measure_time = pygame.time.get_ticks() + 100000
-
-        # Print the score
-        scoreprint = "Computer: " + str(score.get_score(0))
-        text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (300, 10)
-        screen.blit(text, textpos)
-
-        scoreprint = "Player: " + str(score.get_score(1))
-        text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (700, 10)
-        screen.blit(text, textpos)
 
         # Update the screen
         pygame.display.flip()
