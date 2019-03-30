@@ -62,3 +62,4 @@ viz/__pycache__/unitary_grid.cpython-37.pyc
 *.png
 *.xml
 *.xml
+.idea/workspace.xml
