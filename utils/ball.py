@@ -11,6 +11,9 @@ from model import circuit_node_types as node_types
 LEFT_EDGE=50
 TOP_EDGE=0
 
+LEFT = 0
+RIGHT = 1
+
 MEASURE_RIGHT = 1
 MEASURE_LEFT = 2
 NOTHING = 0
@@ -45,6 +48,9 @@ class Ball(pygame.sprite.Sprite):
         # initialize ball action type, measure and bounce flags
         self.ball_action = NOTHING
         self.measure_flag = NO
+
+        # initialize ball reset on the left
+        self.reset_position = LEFT
         self.ball_reset()
 
     def update(self):
@@ -68,11 +74,19 @@ class Ball(pygame.sprite.Sprite):
             self.direction = (180-self.direction) % 360
 
     def ball_reset(self):
-        self.x = LEFT_EDGE+100
-        self.y = self.screenheight/2
 
+        self.y = self.screenheight / 2
         self.speed = 8.0
-        self.direction = random.randrange(30, 120)
+
+        # alternate reset at left and right
+        if self.reset_position == LEFT:
+            self.x = self.LEFT_EDGE+100
+            self.direction = random.randrange(30, 120)
+            self.reset_position = RIGHT
+        else:
+            self.x = self.RIGHT_EDGE-80
+            self.direction = random.randrange(-120, -30)
+            self.reset_position = LEFT
 
     def bounce_edge(self):
         self.direction = (360-self.direction) % 360

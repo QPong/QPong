@@ -132,7 +132,6 @@ def main():
     movingsprites.add(left_box)
     movingsprites.add(right_box)
 
-    ball.ball_reset()
     pygame.display.flip()
 
     gamepad_repeat_delay = 100
