@@ -35,19 +35,11 @@ from utils.removeball import *
 from utils.measurement import *
 from utils.collapse_paddle import *
 from utils.score import *
-import random
 from utils.fonts import ARIAL_30, ARIAL_80
+from utils.scene import *
+from utils.parameters import *
 
-
-WINDOW_WIDTH=1200
-WINDOW_HEIGHT=1000
-WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
-QUBIT_NUM=3
-CIRCUIT_DEPTH=18
-
-# Player
-CLASSICAL_COMPUTER=0
-QUANTUM_COMPUTER=1
+import random
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -132,6 +124,8 @@ def main():
     movingsprites.add(left_box)
     movingsprites.add(right_box)
 
+    scene = Scene()
+
     pygame.display.flip()
 
     gamepad_repeat_delay = 100
@@ -168,17 +162,19 @@ def main():
 
         # Print game over or congratulations if one of the player gets more than 5 points
         win_score = 1
-        if score.get_score(CLASSICAL_COMPUTER) >= win_score:
-            gameovertext = "Game Over"
-            text = ARIAL_80.render(gameovertext, 1, WHITE)
-            textpos= (450,250)
-            screen.blit(text, textpos)
+        #if score.get_score(CLASSICAL_COMPUTER) >= win_score:
+        #   gameovertext = "Game Over"
+        #    text = ARIAL_80.render(gameovertext, 1, WHITE)
+        #    textpos= (450,250)
+        #    screen.blit(text, textpos)
 
-        if score.get_score(QUANTUM_COMPUTER) >= win_score:
-            gameovertext = "Congratulations!"
-            text = ARIAL_80.render(gameovertext, 5, WHITE)
-            textpos= (370,250)
-            screen.blit(text, textpos)
+        #if score.get_score(QUANTUM_COMPUTER) >= win_score:
+        #    gameovertext = "Congratulations!"
+        #    text = ARIAL_80.render(gameovertext, 5, WHITE)
+        #    textpos= (370,250)
+        #    screen.blit(text, textpos)
+
+        scene.gameover(screen,score,win_score)
 
         gamepad_move = False
 
