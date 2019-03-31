@@ -40,6 +40,8 @@ import random
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
 WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
+QUBIT_NUM=3
+CIRCUIT_DEPTH=18
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -60,9 +62,6 @@ background.fill(BLACK)
 
 pygame.font.init()
 
-QUBIT_NUM=3
-CIRCUIT_DEPTH=18
-
 def update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites, circuit_grid, statevector_grid):
     # Update visualizations
     # TODO: Refactor following code into methods, etc.
@@ -80,9 +79,6 @@ def main():
 
     screen.fill(BLACK)
 
-    screen.blit(background, (0, 0))
-    pygame.display.flip()
-
     # Prepare objects
     clock = pygame.time.Clock()
     oldclock = pygame.time.get_ticks()
@@ -99,7 +95,6 @@ def main():
 
     circuit = circuit_grid_model.compute_circuit()
 
-
     circuit_diagram = CircuitDiagram(circuit)
     unitary_grid = UnitaryGrid(circuit)
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
@@ -111,7 +106,6 @@ def main():
     left_sprite_computer = VBox(0,0, statevector_grid_1)
 
     circuit_grid = CircuitGrid(20, WINDOW_HEIGHT*0.51, circuit_grid_model)
-    screen.blit(background, (0, 0))
 
     # computer paddle
     left_box = pygame.sprite.Sprite()
@@ -124,9 +118,10 @@ def main():
 
     # player paddle
     right_box = pygame.sprite.Sprite()
-    right_box.image = pygame.Surface([15, int(round(500 / 2 ** QUBIT_NUM))])
+    right_box.image = pygame.Surface([10, int(round(500 / 2 ** QUBIT_NUM))])
     right_box.image.fill((255, 0, 255))
     right_box.image.set_alpha(0)
+    right_box.rect = right_box.image.get_rect()
 
     ball = Ball()
     balls = pygame.sprite.Group()
@@ -150,10 +145,11 @@ def main():
     while going:
         # set maximum framerate
         clock.tick(60)
+
         screen.fill(BLACK)
         ball.update()
 
-        statevector_grid.displaye_statevector(QUBIT_NUM)
+        statevector_grid.display_statevector(QUBIT_NUM)
         right_sprites.draw(screen)
         # left_sprite_computer.draw(screen)
         movingsprites.draw(screen)
@@ -217,8 +213,6 @@ def main():
         for event in pygame.event.get():
             pygame.event.pump()
 
-            # if event.type != MOUSEMOTION:
-            #     print("event: ", event)
             if event.type == QUIT:
                 going = False
 
@@ -395,14 +389,10 @@ def main():
         if ball.ball_action == MEASURE_RIGHT:
             #
             circuit = circuit_grid_model.compute_circuit()
-            circuit_diagram.set_circuit(circuit)
-            unitary_grid.set_circuit(circuit)
             pos = statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
             right_sprites.arrange()
 
             # paddle after measurement
-
-            right_box.rect = right_box.image.get_rect()
             right_box.rect.x = right_sprites.xpos + 75
             right_box.rect.y = pos * 500/(2**QUBIT_NUM)
 
@@ -417,6 +407,7 @@ def main():
             if pygame.sprite.spritecollide(left_box, balls, False):
                 ball.bounce_edge()
                 score.update(0)
+
         if pygame.time.get_ticks()-measure_time > 400:
             #refresh the screen a moment after measurement to update visual
             update_paddle(circuit, circuit_grid_model, left_sprite_computer, right_sprites,

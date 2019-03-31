@@ -31,7 +31,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.basis_states = comp_basis_states(circuit.width())
         self.set_circuit(circuit, qubit_num, num_shots)
 
-    def displaye_statevector(self,qubit_num):
+    def display_statevector(self,qubit_num):
         block_size = int(round(500 / 2 ** qubit_num))
         x_offset = 50
         y_offset = 15
