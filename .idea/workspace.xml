@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a9f7dd36-b2b3-4039-99d4-1201667dc289" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/ball.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/ball.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/statevector_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/viz/statevector_grid.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="249" column="17" selection-start-line="249" selection-start-column="4" selection-end-line="249" selection-end-column="17" />
+            <state relative-caret-position="121">
+              <caret line="215" column="23" lean-forward="true" selection-start-line="215" selection-start-column="23" selection-end-line="215" selection-end-column="23" />
               <folding>
                 <element signature="e#46#57#0" expanded="true" />
               </folding>
@@ -24,13 +26,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="135" column="30" lean-forward="true" selection-start-line="135" selection-start-column="30" selection-end-line="135" selection-end-column="30" />
+            <state relative-caret-position="154">
+              <caret line="175" column="46" selection-start-line="175" selection-start-column="46" selection-end-line="175" selection-end-column="46" />
               <folding>
                 <element signature="e#804#831#0" expanded="true" />
+                <element signature="e#5670#6951#0" />
                 <element signature="e#7271#9932#0" />
                 <element signature="e#9996#11712#0" />
                 <element signature="e#11770#16682#0" />
@@ -40,28 +43,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viz/unitary_grid.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="31" column="33" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viz/circuit_diagram.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/ball.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+            <state relative-caret-position="193">
+              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -72,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viz/statevector_grid.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="29" column="24" lean-forward="true" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+            <state relative-caret-position="-177">
+              <caret line="60" column="43" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
               <folding>
                 <element signature="e#622#635#0" expanded="true" />
               </folding>
@@ -120,8 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ball_reset</find>
-      <find>basis</find>
       <find>update</find>
       <find>flip</find>
       <find>removeball</find>
@@ -144,12 +127,14 @@
       <find>balls</find>
       <find>moving</find>
       <find>background</find>
-      <find>movingsprites</find>
       <find>circuit_diagram</find>
       <find>unitary_grid</find>
-      <find>right_box</find>
-      <find>left_box</find>
       <find>reset</find>
+      <find>right_box.rect.x</find>
+      <find>right_box</find>
+      <find>movingsprites</find>
+      <find>left_box</find>
+      <find>bounce_fl</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -168,10 +153,10 @@
         <option value="$PROJECT_DIR$/utils/collapse_paddle.py" />
         <option value="$PROJECT_DIR$/utils/score.py" />
         <option value="$PROJECT_DIR$/controls/circuit_grid.py" />
-        <option value="$PROJECT_DIR$/viz/statevector_grid.py" />
         <option value="$PROJECT_DIR$/viz/unitary_grid.py" />
-        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/viz/statevector_grid.py" />
         <option value="$PROJECT_DIR$/utils/ball.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -436,7 +421,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329927" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.329927" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.329927" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5008278" side_tool="true" visible="true" weight="0.36058393" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5008278" side_tool="true" weight="0.36058393" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.329927" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -449,15 +434,15 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36058393" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.329927" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49917218" visible="true" weight="0.36058393" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329927" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.329927" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.329927" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5008278" side_tool="true" weight="0.36058393" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.329927" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -637,16 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="249" column="17" selection-start-line="249" selection-start-column="4" selection-end-line="249" selection-end-column="17" />
-          <folding>
-            <element signature="e#46#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/viz/circuit_diagram.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
@@ -663,33 +638,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viz/statevector_grid.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="29" column="24" lean-forward="true" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+        <state relative-caret-position="-177">
+          <caret line="60" column="43" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
           <folding>
             <element signature="e#622#635#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/Classical Pong Demo/CPong.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="135" column="30" lean-forward="true" selection-start-line="135" selection-start-column="30" selection-end-line="135" selection-end-column="30" />
+        <state relative-caret-position="121">
+          <caret line="215" column="23" lean-forward="true" selection-start-line="215" selection-start-column="23" selection-end-line="215" selection-end-column="23" />
           <folding>
-            <element signature="e#804#831#0" expanded="true" />
-            <element signature="e#7271#9932#0" />
-            <element signature="e#9996#11712#0" />
-            <element signature="e#11770#16682#0" />
+            <element signature="e#46#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/ball.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+        <state relative-caret-position="193">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="175" column="46" selection-start-line="175" selection-start-column="46" selection-end-line="175" selection-end-column="46" />
+          <folding>
+            <element signature="e#804#831#0" expanded="true" />
+            <element signature="e#5670#6951#0" />
+            <element signature="e#7271#9932#0" />
+            <element signature="e#9996#11712#0" />
+            <element signature="e#11770#16682#0" />
           </folding>
         </state>
       </provider>

@@ -112,16 +112,16 @@ def main():
     left_box.image = pygame.Surface([10, 150])
     left_box.image.fill((255, 255, 255))
     left_box.image.set_alpha(255)
-
     left_box.rect = left_box.image.get_rect()
     left_box.rect.x = 80
 
-    # player paddle
+    # player paddle for detection of collision. It is invisible on the screen
     right_box = pygame.sprite.Sprite()
     right_box.image = pygame.Surface([10, int(round(500 / 2 ** QUBIT_NUM))])
     right_box.image.fill((255, 0, 255))
     right_box.image.set_alpha(0)
     right_box.rect = right_box.image.get_rect()
+    right_box.rect.x = right_sprites.xpos + 80
 
     ball = Ball()
     balls = pygame.sprite.Group()
@@ -129,6 +129,8 @@ def main():
     
     movingsprites = pygame.sprite.Group()
     movingsprites.add(ball)
+    movingsprites.add(left_box)
+    movingsprites.add(right_box)
 
     ball.ball_reset()
     pygame.display.flip()
@@ -170,13 +172,8 @@ def main():
 
         # computer paddle movement
         if pygame.time.get_ticks() - oldclock > 2000:
-            left_box.rect.y = random.randint(0, 400)
+            left_box.rect.y = random.randint(0, 350)
             oldclock = pygame.time.get_ticks()
-
-        # update
-        lbox = pygame.sprite.Group()
-        lbox.add(left_box)
-        lbox.draw(screen)
 
         # use joystick if it's connected
         if num_joysticks > 0:
@@ -393,20 +390,22 @@ def main():
             right_sprites.arrange()
 
             # paddle after measurement
-            right_box.rect.x = right_sprites.xpos + 75
             right_box.rect.y = pos * 500/(2**QUBIT_NUM)
 
             measure_time=pygame.time.get_ticks()
 
-        if ball.ball_action == BOUNCE_RIGHT:
-            if pygame.sprite.spritecollide(right_box, balls, False):
-                ball.bounce_edge()
-                score.update(1)
+        #if ball.ball_action == BOUNCE_RIGHT:
 
-        if ball.ball_action == BOUNCE_LEFT:
-            if pygame.sprite.spritecollide(left_box, balls, False):
-                ball.bounce_edge()
-                score.update(0)
+
+        #if ball.ball_action == BOUNCE_LEFT:
+
+        if pygame.sprite.spritecollide(right_box, balls, False):
+            ball.bounce_edge()
+            score.update(1)
+
+        if pygame.sprite.spritecollide(left_box, balls, False):
+            ball.bounce_edge()
+            score.update(0)
 
         if pygame.time.get_ticks()-measure_time > 400:
             #refresh the screen a moment after measurement to update visual
