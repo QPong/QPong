@@ -108,7 +108,7 @@ class Ball(pygame.sprite.Sprite):
             # reset the ball when it reaches beyond left edge
             self.ball_reset()
 
-        elif self.LEFT_EDGE + 15 <= self.x < self.LEFT_EDGE + 50:
+        elif self.LEFT_EDGE + 20 <= self.x < self.LEFT_EDGE + 50:
             # measure the ball when it reaches the left measurement zone
             if self.measure_flag == NO:
                 print("measure left")
@@ -117,7 +117,7 @@ class Ball(pygame.sprite.Sprite):
             else:
                 self.ball_action = NOTHING
 
-        elif self.RIGHT_EDGE - 30 <= self.x < self.RIGHT_EDGE - 10:
+        elif self.RIGHT_EDGE - 30 <= self.x < self.RIGHT_EDGE - 15:
             # measure the ball when it reaches the right measurement zone
             if self.measure_flag == NO:
                 # do measurement if not yet done
