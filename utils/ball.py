@@ -72,11 +72,11 @@ class Ball(pygame.sprite.Sprite):
             self.direction = (180-self.direction) % 360
 
     def ball_reset(self):
-        self.x = LEFT_EDGE+random.randint(100,200)
+        self.x = LEFT_EDGE+100
         self.y = self.screenheight/2
 
         self.speed = 8.0
-        self.direction = random.randrange(30, 60)
+        self.direction = random.randrange(30, 120)
 
     def bounce_edge(self):
         self.direction = (360-self.direction) % 360
