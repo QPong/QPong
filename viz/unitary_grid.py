@@ -31,10 +31,6 @@ class UnitaryGrid(pygame.sprite.Sprite):
         self.basis_states = comp_basis_states(circuit.width())
         self.set_circuit(circuit)
 
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
     def set_circuit(self, circuit):
         backend_unit_sim = BasicAer.get_backend('unitary_simulator')
         job_sim = execute(circuit, backend_unit_sim)

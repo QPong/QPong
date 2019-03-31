@@ -31,6 +31,14 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.basis_states = comp_basis_states(circuit.width())
         self.set_circuit(circuit, qubit_num, num_shots)
 
+    def display_statevector(self,qubit_num):
+        block_size = int(round(500 / 2 ** qubit_num))
+        x_offset = 50
+        y_offset = 15
+        for y in range(2**qubit_num):
+            text_surface = ARIAL_30.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
+            self.image.blit(text_surface,(120, y * block_size + y_offset))
+
     def set_circuit(self, circuit, qubit_num, shot_num):
         backend_sv_sim = BasicAer.get_backend('statevector_simulator')
         job_sim = execute(circuit, backend_sv_sim, shots=shot_num)
@@ -51,8 +59,6 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.paddle.convert()
 
         for y in range(len(quantum_state)):
-            text_surface = ARIAL_30.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
-            self.image.blit(text_surface,(120, y * block_size + y_offset))
             if abs(quantum_state[y]) > 0:
                 self.paddle.fill(WHITE)
                 self.paddle.set_alpha(int(round(abs(quantum_state[y])*255)))
@@ -88,5 +94,4 @@ class StatevectorGrid(pygame.sprite.Sprite):
         print(counts.keys())
         print(int(list(counts.keys())[0],2))
         self.image.blit(self.paddle,(80,int(list(counts.keys())[0],2) * block_size))
-        #pygame.time.wait(100)
         return int(list(counts.keys())[0],2)
