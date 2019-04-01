@@ -36,18 +36,12 @@ from utils.measurement import *
 from utils.collapse_paddle import *
 from utils.score import *
 import random
-from utils.fonts import ARIAL_30, ARIAL_80
-
 
 WINDOW_WIDTH=1200
 WINDOW_HEIGHT=1000
 WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
 QUBIT_NUM=3
 CIRCUIT_DEPTH=18
-
-# Player
-CLASSICAL_COMPUTER=0
-QUANTUM_COMPUTER=1
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -68,7 +62,7 @@ background.fill(BLACK)
 
 pygame.font.init()
 
-def update_paddle(circuit_grid_model, right_sprites, circuit_grid, statevector_grid):
+def update_paddle(circuit, circuit_grid_model, right_sprites, circuit_grid, statevector_grid):
     # Update visualizations
     # TODO: Refactor following code into methods, etc.
     circuit = circuit_grid_model.compute_circuit()
@@ -76,7 +70,6 @@ def update_paddle(circuit_grid_model, right_sprites, circuit_grid, statevector_g
     right_sprites.arrange()
     circuit_grid.draw(screen)
     pygame.display.flip()
-
 
 def main():
     pygame.display.set_caption('QPong')
@@ -99,7 +92,10 @@ def main():
 
     circuit = circuit_grid_model.compute_circuit()
 
+    circuit_diagram = CircuitDiagram(circuit)
+    unitary_grid = UnitaryGrid(circuit)
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
+    statevector_grid_1 = StatevectorGrid1(circuit)
 
     score=Score()
 
@@ -156,29 +152,15 @@ def main():
         circuit_grid.draw(screen)
 
         # Print the score
-        scoreprint = "Classical Computer: " + str(score.get_score(CLASSICAL_COMPUTER))
+        scoreprint = "Classical Computer: " + str(score.get_score(0))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
         textpos = (300, 10)
         screen.blit(text, textpos)
 
-        scoreprint = "Quantum Computer: " + str(score.get_score(QUANTUM_COMPUTER))
+        scoreprint = "Quantum Computer: " + str(score.get_score(1))
         text = ARIAL_30.render(scoreprint, 1, WHITE)
         textpos = (700, 10)
         screen.blit(text, textpos)
-
-        # Print game over or congratulations if one of the player gets more than 5 points
-        win_score = 1
-        if score.get_score(CLASSICAL_COMPUTER) >= win_score:
-            gameovertext = "Game Over"
-            text = ARIAL_80.render(gameovertext, 1, WHITE)
-            textpos= (450,250)
-            screen.blit(text, textpos)
-
-        if score.get_score(QUANTUM_COMPUTER) >= win_score:
-            gameovertext = "Congratulations!"
-            text = ARIAL_80.render(gameovertext, 5, WHITE)
-            textpos= (370,250)
-            screen.blit(text, textpos)
 
         gamepad_move = False
 
@@ -230,48 +212,48 @@ def main():
                     # Place X gate
                     circuit_grid.handle_input_x()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.button == BTN_X:
                     # Place Y gate
                     circuit_grid.handle_input_y()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.button == BTN_B:
                     # Place Z gate
                     circuit_grid.handle_input_z()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.button == BTN_Y:
                     # Place Hadamard gate
                     circuit_grid.handle_input_h()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.button == BTN_RIGHT_TRIGGER:
                     # Delete gate
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.button == BTN_RIGHT_THUMB:
                     # Add or remove a control
                     circuit_grid.handle_input_ctrl()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.button == BTN_LEFT_BUMPER:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
 
             elif event.type == JOYAXISMOTION:
@@ -279,25 +261,25 @@ def main():
                 if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.95:
                     circuit_grid.handle_input_rotate(np.pi / 8)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.95:
                     circuit_grid.handle_input_rotate(-np.pi / 8)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) <= -0.95:
                     circuit_grid.handle_input_move_ctrl(MOVE_UP)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) >= 0.95:
                     circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
 
@@ -324,72 +306,72 @@ def main():
                 elif event.key == K_x:
                     circuit_grid.handle_input_x()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_y:
                     circuit_grid.handle_input_y()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_z:
                     circuit_grid.handle_input_z()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_h:
                     circuit_grid.handle_input_h()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_SPACE:
                     circuit_grid.handle_input_delete()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_c:
                     # Add or remove a control
                     circuit_grid.handle_input_ctrl()
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_UP:
                     # Move a control qubit up
                     circuit_grid.handle_input_move_ctrl(MOVE_UP)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_DOWN:
                     # Move a control qubit down
                     circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_LEFT:
                     # Rotate a gate
                     circuit_grid.handle_input_rotate(-np.pi/8)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_RIGHT:
                     # Rotate a gate
                     circuit_grid.handle_input_rotate(np.pi / 8)
                     circuit_grid.draw(screen)
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
                     pygame.display.flip()
                 elif event.key == K_TAB:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
-                    update_paddle(circuit_grid_model, right_sprites,
+                    update_paddle(circuit, circuit_grid_model, right_sprites,
                                   circuit_grid, statevector_grid)
 
         # check ball location and decide what to do
@@ -416,7 +398,7 @@ def main():
 
         if pygame.time.get_ticks()-measure_time > 400:
             #refresh the screen a moment after measurement to update visual
-            update_paddle(circuit_grid_model, right_sprites,
+            update_paddle(circuit, circuit_grid_model, right_sprites,
                           circuit_grid, statevector_grid)
             # add a buffer time before measure again
             measure_time = pygame.time.get_ticks() + 100000

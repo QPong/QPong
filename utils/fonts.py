@@ -17,6 +17,5 @@
 import pygame
 
 pygame.font.init()
-ARIAL_16 = pygame.font.SysFont('Arial', 16)
 ARIAL_30 = pygame.font.SysFont('Arial', 30)
-ARIAL_80 = pygame.font.SysFont('Arial', 80)
+ARIAL_16 = pygame.font.SysFont('Arial', 16)
