@@ -76,7 +76,7 @@ class Ball(pygame.sprite.Sprite):
     def ball_reset(self):
 
         self.y = self.screenheight / 2
-        self.speed = 8.0
+        self.speed = 15.0
 
         # alternate reset at left and right
         if self.reset_position == LEFT:
