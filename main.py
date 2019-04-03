@@ -35,6 +35,7 @@ from utils.removeball import *
 from utils.measurement import *
 from utils.collapse_paddle import *
 from utils.score import *
+from utils.fonts import *
 import random
 
 WINDOW_WIDTH=1200
@@ -155,14 +156,14 @@ def main():
         circuit_grid.draw(screen)
 
         # Print the score
-        scoreprint = "Classical Computer: " + str(score.get_score(0))
-        text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (300, 10)
+        scoreprint = str(score.get_score(0))
+        text = SCORE_FONT.render(scoreprint, 1, WHITE)
+        textpos = (WINDOW_WIDTH/2-250, 10)
         screen.blit(text, textpos)
 
-        scoreprint = "Quantum Computer: " + str(score.get_score(1))
-        text = ARIAL_30.render(scoreprint, 1, WHITE)
-        textpos = (700, 10)
+        scoreprint = str(score.get_score(1))
+        text = SCORE_FONT.render(scoreprint, 1, WHITE)
+        textpos = (WINDOW_WIDTH/2+200, 10)
         screen.blit(text, textpos)
 
         gamepad_move = False

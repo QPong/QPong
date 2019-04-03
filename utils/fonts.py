@@ -17,5 +17,7 @@
 import pygame
 
 pygame.font.init()
+ARIAL_80 = pygame.font.SysFont('Arial', 80)
 ARIAL_30 = pygame.font.SysFont('Arial', 30)
 ARIAL_16 = pygame.font.SysFont('Arial', 16)
+SCORE_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 150)
