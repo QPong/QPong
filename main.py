@@ -24,16 +24,10 @@ from pygame.locals import *
 from model.circuit_grid_model import *
 from containers.vbox import VBox
 from utils.gamepad import *
-from viz.circuit_diagram import CircuitDiagram
 from viz.statevector_grid import StatevectorGrid
-from viz.statevector_grid_1 import StatevectorGrid1
-from viz.unitary_grid import UnitaryGrid
 from controls.circuit_grid import *
 
 from utils.ball import *
-from utils.removeball import *
-from utils.measurement import *
-from utils.collapse_paddle import *
 from utils.score import *
 from utils.fonts import *
 import random
@@ -93,12 +87,7 @@ def main():
 
     circuit = circuit_grid_model.compute_circuit()
 
-    circuit_diagram = CircuitDiagram(circuit)
-    unitary_grid = UnitaryGrid(circuit)
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
-    statevector_grid_1 = StatevectorGrid1(circuit)
-
-    score=Score()
 
     right_sprites = VBox(WINDOW_WIDTH*0.84, WINDOW_HEIGHT*0, statevector_grid)
 
@@ -150,21 +139,29 @@ def main():
         for i in range(10, WINDOW_HEIGHT-300, 30):  # draw dashed line
             pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 5, 15), 0)
 
+        # Print the score
+        CC_text = PLAYER_FONT.render('Classcial Computer', 1, GRAY)
+        textpos = (WINDOW_WIDTH / 2 - 400, 3)
+        screen.blit(CC_text, textpos)
+
+        QC_text = PLAYER_FONT.render('Quantum Computer', 1, GRAY)
+        textpos = (WINDOW_WIDTH / 2 + 80, 3)
+        screen.blit(QC_text, textpos)
+
+        scoreprint = str(ball.check_score(0))
+        text = SCORE_FONT.render(scoreprint, 1, GRAY)
+        textpos = (WINDOW_WIDTH/2 - 250, 35)
+        screen.blit(text, textpos)
+
+        scoreprint = str(ball.check_score(1))
+        text = SCORE_FONT.render(scoreprint, 1, GRAY)
+        textpos = (WINDOW_WIDTH/2+200, 35)
+        screen.blit(text, textpos)
+
         statevector_grid.display_statevector(QUBIT_NUM)
         right_sprites.draw(screen)
         movingsprites.draw(screen)
         circuit_grid.draw(screen)
-
-        # Print the score
-        scoreprint = str(ball.check_score(0))
-        text = SCORE_FONT.render(scoreprint, 1, WHITE)
-        textpos = (WINDOW_WIDTH/2-250, 10)
-        screen.blit(text, textpos)
-
-        scoreprint = str(ball.check_score(1))
-        text = SCORE_FONT.render(scoreprint, 1, WHITE)
-        textpos = (WINDOW_WIDTH/2+200, 10)
-        screen.blit(text, textpos)
 
         gamepad_move = False
 
@@ -394,11 +391,9 @@ def main():
 
         if pygame.sprite.spritecollide(right_box, balls, False):
             ball.bounce_edge()
-            #score.update(1)
 
         if pygame.sprite.spritecollide(left_box, balls, False):
             ball.bounce_edge()
-            #score.update(0)
 
         if pygame.time.get_ticks()-measure_time > 400:
             #refresh the screen a moment after measurement to update visual
