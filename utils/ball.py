@@ -10,7 +10,7 @@ from utils.score import *
 from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
-LEFT_EDGE=50
+LEFT_EDGE=10
 TOP_EDGE=0
 
 LEFT = 0
@@ -33,11 +33,11 @@ class Ball(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.screenheight = 500
-        self.screenwidth = 1000
+        self.screenheight = 518
+        self.screenwidth = 1200
 
         self.LEFT_EDGE = LEFT_EDGE
-        self.RIGHT_EDGE = self.screenwidth + self.LEFT_EDGE
+        self.RIGHT_EDGE = self.screenwidth - self.LEFT_EDGE
 
         self.height = 10
         self.width = 10
@@ -91,7 +91,7 @@ class Ball(pygame.sprite.Sprite):
             self.direction = random.randrange(30, 120)
             self.reset_position = RIGHT
         else:
-            self.x = self.RIGHT_EDGE-80
+            self.x = self.RIGHT_EDGE-200
             self.direction = random.randrange(-120, -30)
             self.reset_position = LEFT
 
@@ -126,7 +126,7 @@ class Ball(pygame.sprite.Sprite):
             else:
                 self.ball_action = NOTHING
 
-        elif self.RIGHT_EDGE - 30 <= self.x < self.RIGHT_EDGE - 10:
+        elif self.RIGHT_EDGE - 150 <= self.x < self.RIGHT_EDGE - 120:
             # measure the ball when it reaches the right measurement zone
             if self.measure_flag == NO:
                 # do measurement if not yet done

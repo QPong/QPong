@@ -100,7 +100,7 @@ def main():
 
     score=Score()
 
-    right_sprites = VBox(WINDOW_WIDTH*0.8, WINDOW_HEIGHT*0, statevector_grid)
+    right_sprites = VBox(WINDOW_WIDTH*0.84, WINDOW_HEIGHT*0, statevector_grid)
 
     circuit_grid = CircuitGrid(20, WINDOW_HEIGHT*0.51, circuit_grid_model)
 
@@ -110,7 +110,7 @@ def main():
     left_box.image.fill((255, 255, 255))
     left_box.image.set_alpha(255)
     left_box.rect = left_box.image.get_rect()
-    left_box.rect.x = 80
+    left_box.rect.x = 100
 
     # player paddle for detection of collision. It is invisible on the screen
     right_box = pygame.sprite.Sprite()
