@@ -17,7 +17,7 @@
 import pygame
 from qiskit import BasicAer, execute, ClassicalRegister
 from utils.colors import *
-from utils.fonts import ARIAL_30
+from utils.fonts import *
 from utils.states import comp_basis_states
 from copy import deepcopy
 #from utils.paddle import *
@@ -34,9 +34,9 @@ class StatevectorGrid(pygame.sprite.Sprite):
     def display_statevector(self,qubit_num):
         block_size = int(round(500 / 2 ** qubit_num))
         x_offset = 50
-        y_offset = 15
+        y_offset = 25
         for y in range(2**qubit_num):
-            text_surface = ARIAL_30.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
+            text_surface = VECTOR_FONT.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
             self.image.blit(text_surface,(120, y * block_size + y_offset))
 
     def set_circuit(self, circuit, qubit_num, shot_num):
