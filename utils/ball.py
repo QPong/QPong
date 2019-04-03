@@ -33,7 +33,7 @@ class Ball(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.screenheight = 518
+        self.screenheight = 520
         self.screenwidth = 1200
 
         self.LEFT_EDGE = LEFT_EDGE
@@ -83,7 +83,7 @@ class Ball(pygame.sprite.Sprite):
     def ball_reset(self):
 
         self.y = self.screenheight / 2
-        self.speed = 15.0
+        self.speed = 8.0
 
         # alternate reset at left and right
         if self.reset_position == LEFT:

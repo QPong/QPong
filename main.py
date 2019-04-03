@@ -49,7 +49,9 @@ if num_joysticks > 0:
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
-screen = pygame.display.set_mode(WINDOW_SIZE)
+# hardware acceleration to reduce flickering. Works only in fullscreen
+flags = DOUBLEBUF|HWSURFACE|FULLSCREEN
+screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 
 background = pygame.Surface(screen.get_size())
 background = background.convert()
@@ -95,7 +97,7 @@ def main():
 
     # computer paddle
     left_box = pygame.sprite.Sprite()
-    left_box.image = pygame.Surface([10, int(round(500 / 2 ** QUBIT_NUM))])
+    left_box.image = pygame.Surface([10, int(round(520 / 2 ** QUBIT_NUM))])
     left_box.image.fill((255, 255, 255))
     left_box.image.set_alpha(255)
     left_box.rect = left_box.image.get_rect()
@@ -103,7 +105,7 @@ def main():
 
     # player paddle for detection of collision. It is invisible on the screen
     right_box = pygame.sprite.Sprite()
-    right_box.image = pygame.Surface([10, int(round(500 / 2 ** QUBIT_NUM))])
+    right_box.image = pygame.Surface([10, int(round(520 / 2 ** QUBIT_NUM))])
     right_box.image.fill((255, 0, 255))
     right_box.image.set_alpha(0)
     right_box.rect = right_box.image.get_rect()
@@ -396,7 +398,7 @@ def main():
             ball.bounce_edge()
 
         if pygame.time.get_ticks()-measure_time > 400:
-            #refresh the screen a moment after measurement to update visual
+            # refresh the screen a moment after measurement to update visual
             update_paddle(circuit, circuit_grid_model, right_sprites,
                           circuit_grid, statevector_grid)
             # add a buffer time before measure again
