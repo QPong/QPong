@@ -147,7 +147,7 @@ def main():
         screen.fill(BLACK)
         ball.update()
 
-        for i in range(40, WINDOW_HEIGHT, 30):  # draw dashed line
+        for i in range(10, WINDOW_HEIGHT-300, 30):  # draw dashed line
             pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 5, 15), 0)
 
         statevector_grid.display_statevector(QUBIT_NUM)
