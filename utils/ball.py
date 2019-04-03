@@ -6,6 +6,7 @@ from utils.colors import *
 from utils.navigation import *
 from utils.resources import *
 from utils.sound import *
+from utils.score import *
 from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 
@@ -55,6 +56,7 @@ class Ball(pygame.sprite.Sprite):
         self.ball_reset()
 
         self.sound = Sound()
+        self.score = Score()
 
     def update(self):
         radians = math.radians(self.direction)
@@ -113,6 +115,7 @@ class Ball(pygame.sprite.Sprite):
             # reset the ball when it reaches beyond left edge
             self.ball_reset()
             self.sound.lost_sound()
+            self.score.update(1)
 
         elif self.LEFT_EDGE + 15 <= self.x < self.LEFT_EDGE + 50:
             # measure the ball when it reaches the left measurement zone
@@ -138,16 +141,12 @@ class Ball(pygame.sprite.Sprite):
             # reset the ball when it reaches beyond right edge
             self.ball_reset()
             self.sound.lost_sound()
+            self.score.update(0)
 
         else:
             # reset flags and do nothing when the ball is outside measurement and bounce zone
             self.ball_action = NOTHING
             self.measure_flag = NO
 
-    def check_score(self):
-        if self.x < LEFT_EDGE:
-            return 1
-        if self.x > self.RIGHT_EDGE:
-            return 2
-        else:
-            return 0
+    def check_score(self, player):
+        return self.score.get_score(player)

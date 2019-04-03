@@ -156,12 +156,12 @@ def main():
         circuit_grid.draw(screen)
 
         # Print the score
-        scoreprint = str(score.get_score(0))
+        scoreprint = str(ball.check_score(0))
         text = SCORE_FONT.render(scoreprint, 1, WHITE)
         textpos = (WINDOW_WIDTH/2-250, 10)
         screen.blit(text, textpos)
 
-        scoreprint = str(score.get_score(1))
+        scoreprint = str(ball.check_score(1))
         text = SCORE_FONT.render(scoreprint, 1, WHITE)
         textpos = (WINDOW_WIDTH/2+200, 10)
         screen.blit(text, textpos)
@@ -394,11 +394,11 @@ def main():
 
         if pygame.sprite.spritecollide(right_box, balls, False):
             ball.bounce_edge()
-            score.update(1)
+            #score.update(1)
 
         if pygame.sprite.spritecollide(left_box, balls, False):
             ball.bounce_edge()
-            score.update(0)
+            #score.update(0)
 
         if pygame.time.get_ticks()-measure_time > 400:
             #refresh the screen a moment after measurement to update visual
