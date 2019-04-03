@@ -106,7 +106,7 @@ def main():
 
     # computer paddle
     left_box = pygame.sprite.Sprite()
-    left_box.image = pygame.Surface([10, 150])
+    left_box.image = pygame.Surface([10, int(round(500 / 2 ** QUBIT_NUM))])
     left_box.image.fill((255, 255, 255))
     left_box.image.set_alpha(255)
     left_box.rect = left_box.image.get_rect()
@@ -169,8 +169,8 @@ def main():
         gamepad_move = False
 
         # computer paddle movement
-        if pygame.time.get_ticks() - oldclock > 2000:
-            left_box.rect.y = random.randint(0, 350)
+        if pygame.time.get_ticks() - oldclock > 500:
+            left_box.rect.y = ball.get_ypos()-int(round(500 / 2 ** QUBIT_NUM))/2+random.randint(-100, 100)
             oldclock = pygame.time.get_ticks()
 
         # use joystick if it's connected
