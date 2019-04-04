@@ -21,15 +21,7 @@ from utils.navigation import *
 from utils.resources import *
 from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
-
-GRID_WIDTH = 58
-GRID_HEIGHT = 58
-
-GATE_TILE_WIDTH = 43
-GATE_TILE_HEIGHT = 45
-
-LINE_WIDTH = 1
-
+from utils.parameters import *
 
 class CircuitGrid(pygame.sprite.RenderPlain):
     """Enables interaction with circuit"""
@@ -77,8 +69,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
     def highlight_selected_node(self, wire_num, column_num):
         self.selected_wire = wire_num
         self.selected_column = column_num
-        self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)+1
-        self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)+2
+        self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)+ round(0.375*WIDTH_UNIT)
+        self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)+ round(0.375*WIDTH_UNIT)
 
     def display_exceptional_condition(self):
         # TODO: Make cursor appearance indicate condition such as unable to place a gate

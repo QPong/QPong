@@ -30,13 +30,8 @@ from controls.circuit_grid import *
 from utils.ball import *
 from utils.score import *
 from utils.fonts import *
+from utils.parameters import *
 import random
-
-WINDOW_WIDTH=1200
-WINDOW_HEIGHT=1000
-WINDOW_SIZE = WINDOW_WIDTH, WINDOW_HEIGHT
-QUBIT_NUM=3
-CIRCUIT_DEPTH=18
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -91,29 +86,29 @@ def main():
 
     statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
 
-    right_sprites = VBox(WINDOW_WIDTH*0.84, WINDOW_HEIGHT*0, statevector_grid)
-
-    circuit_grid = CircuitGrid(20, WINDOW_HEIGHT*0.51, circuit_grid_model)
-
-    # computer paddle
-    left_box = pygame.sprite.Sprite()
-    left_box.image = pygame.Surface([10, int(round(520 / 2 ** QUBIT_NUM))])
-    left_box.image.fill((255, 255, 255))
-    left_box.image.set_alpha(255)
-    left_box.rect = left_box.image.get_rect()
-    left_box.rect.x = 100
-
-    # player paddle for detection of collision. It is invisible on the screen
-    right_box = pygame.sprite.Sprite()
-    right_box.image = pygame.Surface([10, int(round(520 / 2 ** QUBIT_NUM))])
-    right_box.image.fill((255, 0, 255))
-    right_box.image.set_alpha(0)
-    right_box.rect = right_box.image.get_rect()
-    right_box.rect.x = right_sprites.xpos + 80
+    right_sprites = VBox(WIDTH_UNIT * 90, WIDTH_UNIT * 0, statevector_grid)
 
     ball = Ball()
     balls = pygame.sprite.Group()
     balls.add(ball)
+
+    circuit_grid = CircuitGrid(0, ball.screenheight, circuit_grid_model)
+
+    # computer paddle
+    left_box = pygame.sprite.Sprite()
+    left_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** QUBIT_NUM))])
+    left_box.image.fill((255, 255, 255))
+    left_box.image.set_alpha(255)
+    left_box.rect = left_box.image.get_rect()
+    left_box.rect.x = 9 * WIDTH_UNIT
+
+    # player paddle for detection of collision. It is invisible on the screen
+    right_box = pygame.sprite.Sprite()
+    right_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** QUBIT_NUM))])
+    right_box.image.fill((255, 0, 255))
+    right_box.image.set_alpha(255)
+    right_box.rect = right_box.image.get_rect()
+    right_box.rect.x = right_sprites.xpos
     
     movingsprites = pygame.sprite.Group()
     movingsprites.add(ball)
@@ -132,32 +127,32 @@ def main():
     # Main Loop
     going = True
     while going:
-        # set maximum framerate
+        # set maximum frame rate
         clock.tick(60)
 
         screen.fill(BLACK)
         ball.update()
 
-        for i in range(10, WINDOW_HEIGHT-300, 30):  # draw dashed line
-            pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 5, 15), 0)
+        for i in range(10, ball.screenheight, 2 * WIDTH_UNIT):  # draw dashed line
+            pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
 
         # Print the score
         CC_text = PLAYER_FONT.render('Classcial Computer', 1, GRAY)
-        textpos = (WINDOW_WIDTH / 2 - 400, 3)
+        textpos = (WINDOW_WIDTH / 2 - WIDTH_UNIT * 34, WIDTH_UNIT * 0.5)
         screen.blit(CC_text, textpos)
 
         QC_text = PLAYER_FONT.render('Quantum Computer', 1, GRAY)
-        textpos = (WINDOW_WIDTH / 2 + 80, 3)
+        textpos = (WINDOW_WIDTH / 2 + WIDTH_UNIT * 10, WIDTH_UNIT * 0.5)
         screen.blit(QC_text, textpos)
 
         scoreprint = str(ball.check_score(0))
         text = SCORE_FONT.render(scoreprint, 1, GRAY)
-        textpos = (WINDOW_WIDTH/2 - 250, 35)
+        textpos = (WINDOW_WIDTH/2 - WIDTH_UNIT * 22, WIDTH_UNIT * 3.5)
         screen.blit(text, textpos)
 
         scoreprint = str(ball.check_score(1))
         text = SCORE_FONT.render(scoreprint, 1, GRAY)
-        textpos = (WINDOW_WIDTH/2+200, 35)
+        textpos = (WINDOW_WIDTH/2 + WIDTH_UNIT * 19, WIDTH_UNIT * 3.5)
         screen.blit(text, textpos)
 
         statevector_grid.display_statevector(QUBIT_NUM)
@@ -169,7 +164,7 @@ def main():
 
         # computer paddle movement
         if pygame.time.get_ticks() - oldclock > 500:
-            left_box.rect.y = ball.get_ypos()-int(round(500 / 2 ** QUBIT_NUM))/2+random.randint(-100, 100)
+            left_box.rect.y = ball.get_ypos()- statevector_grid.block_size/2+random.randint(-WIDTH_UNIT*8, WIDTH_UNIT*8)
             oldclock = pygame.time.get_ticks()
 
         # use joystick if it's connected
@@ -387,7 +382,7 @@ def main():
             right_sprites.arrange()
 
             # paddle after measurement
-            right_box.rect.y = pos * 500/(2**QUBIT_NUM)
+            right_box.rect.y = pos * ball.screenheight/(2**QUBIT_NUM)
 
             measure_time=pygame.time.get_ticks()
 

@@ -15,8 +15,9 @@
 # limitations under the License.
 #
 import pygame
+from utils.parameters import *
 
 pygame.font.init()
-SCORE_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 150)
-VECTOR_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 25)
-PLAYER_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 40)
+SCORE_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 12 * WIDTH_UNIT)
+VECTOR_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 3 * WIDTH_UNIT)
+PLAYER_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 3 * WIDTH_UNIT)
