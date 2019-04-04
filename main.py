@@ -106,7 +106,7 @@ def main():
     right_box = pygame.sprite.Sprite()
     right_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** QUBIT_NUM))])
     right_box.image.fill((255, 0, 255))
-    right_box.image.set_alpha(255)
+    right_box.image.set_alpha(0)
     right_box.rect = right_box.image.get_rect()
     right_box.rect.x = right_sprites.xpos
     
