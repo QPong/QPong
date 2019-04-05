@@ -31,6 +31,7 @@ from utils.ball import *
 from utils.score import *
 from utils.fonts import *
 from utils.parameters import *
+from utils.scene import *
 import random
 
 if not pygame.font: print('Warning, fonts disabled')
@@ -115,6 +116,8 @@ def main():
     movingsprites.add(left_box)
     movingsprites.add(right_box)
 
+    scene = Scene()
+
     pygame.display.flip()
 
     gamepad_repeat_delay = 100
@@ -132,6 +135,8 @@ def main():
 
         screen.fill(BLACK)
         ball.update()
+
+        #scene.start(screen)
 
         for i in range(10, ball.screenheight, 2 * WIDTH_UNIT):  # draw dashed line
             pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
@@ -159,6 +164,8 @@ def main():
         right_sprites.draw(screen)
         movingsprites.draw(screen)
         circuit_grid.draw(screen)
+
+        scene.gameover(screen, ball.score, WIN_SCORE)
 
         gamepad_move = False
 

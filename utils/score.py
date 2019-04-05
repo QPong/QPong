@@ -20,3 +20,7 @@ class Score(pygame.sprite.Sprite):
             return self.computer
         if player == 1:
             return self.player
+
+    def reset_score(self):
+        self.computer = 0
+        self.player = 0
