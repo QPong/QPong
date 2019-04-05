@@ -92,10 +92,17 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         return self.circuit_grid_model.get_node_gate_part(self.selected_wire, self.selected_column)
 
     def handle_input_x(self):
+        # Add X gate regardless of whether there is an existing gate
+        # circuit_grid_node = CircuitGridNode(node_types.X)
+        # self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+
+        # Allow deleting using the same key only
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part == node_types.EMPTY:
             circuit_grid_node = CircuitGridNode(node_types.X)
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+        elif selected_node_gate_part == node_types.X:
+            self.handle_input_delete()
         self.update()
 
     def handle_input_y(self):
@@ -103,6 +110,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         if selected_node_gate_part == node_types.EMPTY:
             circuit_grid_node = CircuitGridNode(node_types.Y)
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+        elif selected_node_gate_part == node_types.Y:
+            self.handle_input_delete()
         self.update()
 
     def handle_input_z(self):
@@ -110,6 +119,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         if selected_node_gate_part == node_types.EMPTY:
             circuit_grid_node = CircuitGridNode(node_types.Z)
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+        elif selected_node_gate_part == node_types.Z:
+            self.handle_input_delete()
         self.update()
 
     def handle_input_h(self):
@@ -117,6 +128,8 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         if selected_node_gate_part == node_types.EMPTY:
             circuit_grid_node = CircuitGridNode(node_types.H)
             self.circuit_grid_model.set_node(self.selected_wire, self.selected_column, circuit_grid_node)
+        elif selected_node_gate_part == node_types.H:
+            self.handle_input_delete()
         self.update()
 
     def handle_input_delete(self):
