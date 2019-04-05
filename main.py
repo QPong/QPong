@@ -163,15 +163,16 @@ def main():
         statevector_grid.display_statevector(QUBIT_NUM)
         right_sprites.draw(screen)
         movingsprites.draw(screen)
+        circuit_grid.update()
         circuit_grid.draw(screen)
 
-        scene.gameover(screen, ball.score, WIN_SCORE)
+        scene.gameover(screen, ball.score, circuit_grid_model, WIN_SCORE)
 
         gamepad_move = False
 
         # computer paddle movement
-        if pygame.time.get_ticks() - oldclock > 500:
-            left_box.rect.y = ball.get_ypos()- statevector_grid.block_size/2+random.randint(-WIDTH_UNIT*8, WIDTH_UNIT*8)
+        if pygame.time.get_ticks() - oldclock > 300:
+            left_box.rect.y = ball.get_ypos()- statevector_grid.block_size/2+random.randint(-WIDTH_UNIT*4, WIDTH_UNIT*4)
             oldclock = pygame.time.get_ticks()
 
         # use joystick if it's connected

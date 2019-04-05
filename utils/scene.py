@@ -20,8 +20,6 @@ from utils.parameters import *
 from utils.fonts import *
 from utils.colors import *
 from utils.score import *
-from time import sleep
-
 
 class Scene():
     """Displaye Game Over screen and handle play again"""
@@ -38,7 +36,7 @@ class Scene():
         textpos = (450, 250)
         screen.blit(text, textpos)
 
-    def gameover(self,screen,score,win_score):
+    def gameover(self, screen, score, circuit, win_score):
         """Display Game Over screen"""
         if score.get_score(CLASSICAL_COMPUTER) >= win_score:
 
@@ -60,7 +58,7 @@ class Scene():
             screen.blit(text, textpos)
 
             self.credits(screen)
-            self.replay(screen, score)
+            self.replay(screen, score, circuit)
 
         if score.get_score(QUANTUM_COMPUTER) >= win_score:
 
@@ -82,7 +80,7 @@ class Scene():
             screen.blit(text, textpos)
 
             self.credits(screen)
-            self.replay(screen, score)
+            self.replay(screen, score, circuit)
 
     def credits(self,screen):
         credit_text = "Credits"
@@ -107,7 +105,7 @@ class Scene():
         screen.blit(text, textpos)
 
 
-    def replay(self,screen,score):
+    def replay(self,screen,score,circuit):
         """Pause the game and ask if the player wants to play again"""
         blink_time = pygame.time.get_ticks()
 
@@ -124,6 +122,7 @@ class Scene():
             if self.restart == True:
                 # reset all parameters to restart the game
                 score.reset_score()
+                circuit.reset_circuit()
 
             # Make blinking text
             if pygame.time.get_ticks()-blink_time > 1000:
@@ -138,8 +137,6 @@ class Scene():
                 # show a black box to blink the text every 0.5s
                 pygame.draw.rect(screen, BLACK, (WIDTH_UNIT * 10, WIDTH_UNIT * 35, WIDTH_UNIT * 80, WIDTH_UNIT * 10))
                 pygame.display.flip()
-
-
 
         # reset restart flag when self.restart = True and the while ends
         self.restart = False

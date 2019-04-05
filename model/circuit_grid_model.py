@@ -16,6 +16,7 @@
 import numpy as np
 from qiskit import QuantumCircuit, QuantumRegister
 from model import circuit_node_types as node_types
+from utils.parameters import *
 
 
 class CircuitGridModel():
@@ -175,6 +176,16 @@ class CircuitGridModel():
                             qc.swap(qr[wire_num], qr[node.swap])
 
         return qc
+
+    def reset_circuit(self):
+        self.nodes = np.empty((self.max_wires, self.max_columns),
+                              dtype=CircuitGridNode)
+        # the game crashes if the circuit is empty
+        # initialize circuit with 3 identity gate at the end to prevent crash
+        # identitiy gate are displayed by completely transparent PNG
+        self.set_node(0, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
+        self.set_node(1, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
+        self.set_node(2, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
 
 
 class CircuitGridNode():
