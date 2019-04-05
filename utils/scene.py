@@ -27,14 +27,54 @@ class Scene():
     def __init__(self):
         super().__init__()
 
+        self.begin = False
         self.restart = False
 
     def start(self,screen):
-        """Displayer Start screen"""
-        gameovertext = "Start?"
+        """Show start screen"""
+        blink_time = pygame.time.get_ticks()
+
+        screen.fill(BLACK)
+        gameovertext = "QPong"
         text = GAMEOVER_FONT.render(gameovertext, 1, WHITE)
-        textpos = (450, 250)
+        textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 15))
         screen.blit(text, textpos)
+
+        screen.blit(text, textpos)
+
+        self.credits(screen)
+
+        while not self.begin:
+
+            for event in pygame.event.get():
+                pygame.event.pump()
+
+                if event.type == QUIT:
+                    pygame.quit()
+                else:
+                    return True
+
+            if self.begin == True:
+                # reset all parameters to restart the game
+                screen.fill(BLACK)
+
+            # Make blinking text
+            if pygame.time.get_ticks()-blink_time > 1000:
+                blink_time = pygame.time.get_ticks()
+            if pygame.time.get_ticks()-blink_time > 500:
+                replay_text = "Press Any Key to Start"
+                text = REPLAY_FONT.render(replay_text, 1, WHITE)
+                textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 40))
+                screen.blit(text, textpos)
+                pygame.display.flip()
+            else:
+                # show a black box to blink the text every 0.5s
+                pygame.draw.rect(screen, BLACK, (WIDTH_UNIT * 10, WIDTH_UNIT * 35, WIDTH_UNIT * 80, WIDTH_UNIT * 10))
+                pygame.display.flip()
+
+        # reset restart flag when self.restart = True and the while ends
+        self.begin = False
+
 
     def gameover(self, screen, score, circuit, win_score):
         """Display Game Over screen"""
@@ -128,7 +168,7 @@ class Scene():
             if pygame.time.get_ticks()-blink_time > 1000:
                 blink_time = pygame.time.get_ticks()
             if pygame.time.get_ticks()-blink_time > 500:
-                replay_text = "Press Any Key to Play Again."
+                replay_text = "Press Any Key to Play Again"
                 text = REPLAY_FONT.render(replay_text, 1, WHITE)
                 textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 40))
                 screen.blit(text, textpos)

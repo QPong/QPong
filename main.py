@@ -128,15 +128,15 @@ def main():
     measure_time = 100000
 
     # Main Loop
-    going = True
+    scene.start(screen)
+    going = scene.start(screen)
     while going:
         # set maximum frame rate
         clock.tick(60)
 
         screen.fill(BLACK)
-        ball.update()
 
-        #scene.start(screen)
+        ball.update()
 
         for i in range(10, ball.screenheight, 2 * WIDTH_UNIT):  # draw dashed line
             pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
@@ -166,6 +166,7 @@ def main():
         circuit_grid.update()
         circuit_grid.draw(screen)
 
+        # Show game over screen if the score reaches WIN_SCORE
         scene.gameover(screen, ball.score, circuit_grid_model, WIN_SCORE)
 
         gamepad_move = False
