@@ -24,3 +24,7 @@ TAB: update visulization
 
 ### Joystick
 Joystick button correspondence depends on the model of joystick. Details will be added later
+
+## Credits
+Sound effects are made by NoiseCollector from Freesound.org: https://freesound.org/people/NoiseCollector/packs/254/
+Font used in the game is Bit5x3 made by Matt LaGrandeur: http://www.mattlag.com/bitfonts/
