@@ -134,7 +134,7 @@ class Scene():
         textpos = text.get_rect(center=(WINDOW_WIDTH/2, WINDOW_HEIGHT - WIDTH_UNIT * 5))
         screen.blit(text, textpos)
 
-        credit_text = "Initiated in IBM Qiskit Camp 2019"
+        credit_text = "Initiated at IBM Qiskit Camp 2019"
         text = CREDIT_FONT.render(credit_text, 1, WHITE)
         textpos = text.get_rect(center=(WINDOW_WIDTH/2, WINDOW_HEIGHT - WIDTH_UNIT * 3))
         screen.blit(text, textpos)
