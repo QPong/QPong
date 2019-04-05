@@ -19,11 +19,12 @@ import os
 import pygame
 from pygame.compat import geterror
 from pygame.constants import RLEACCEL
+from utils.parameters import *
 
 main_dir = os.path.split(os.path.abspath(__file__))[0]
 data_dir = os.path.join(main_dir, 'data')
 
-def load_image(name, colorkey=None):
+def load_image(name, colorkey=None, scale=WIDTH_UNIT/13):
     fullname = os.path.join(data_dir, name)
     try:
         image = pygame.image.load(fullname)
@@ -35,6 +36,7 @@ def load_image(name, colorkey=None):
         if colorkey is -1:
             colorkey = image.get_at((0,0))
         image.set_colorkey(colorkey, RLEACCEL)
+    image = pygame.transform.scale(image, tuple(round(scale*x) for x in image.get_rect().size))
     return image, image.get_rect()
 
 
