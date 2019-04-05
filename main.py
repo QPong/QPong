@@ -142,22 +142,22 @@ def main():
             pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
 
         # Print the score
-        CC_text = PLAYER_FONT.render('Classcial Computer', 1, GRAY)
-        textpos = (WINDOW_WIDTH / 2 - WIDTH_UNIT * 34, WIDTH_UNIT * 0.5)
-        screen.blit(CC_text, textpos)
+        text = PLAYER_FONT.render('Classcial Computer', 1, GRAY)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
+        screen.blit(text, textpos)
 
-        QC_text = PLAYER_FONT.render('Quantum Computer', 1, GRAY)
-        textpos = (WINDOW_WIDTH / 2 + WIDTH_UNIT * 10, WIDTH_UNIT * 0.5)
-        screen.blit(QC_text, textpos)
+        text = PLAYER_FONT.render('Quantum Computer', 1, GRAY)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
+        screen.blit(text, textpos)
 
         scoreprint = str(ball.check_score(0))
         text = SCORE_FONT.render(scoreprint, 1, GRAY)
-        textpos = (WINDOW_WIDTH/2 - WIDTH_UNIT * 22, WIDTH_UNIT * 3.5)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
         screen.blit(text, textpos)
 
         scoreprint = str(ball.check_score(1))
         text = SCORE_FONT.render(scoreprint, 1, GRAY)
-        textpos = (WINDOW_WIDTH/2 + WIDTH_UNIT * 19, WIDTH_UNIT * 3.5)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
         screen.blit(text, textpos)
 
         statevector_grid.display_statevector(QUBIT_NUM)
