@@ -3,8 +3,8 @@
 # For main.py
 
 # For 15-inch MacBook Pro
-# WINDOW_WIDTH=2880
-# WINDOW_HEIGHT=1800
+#WINDOW_WIDTH=2880
+#WINDOW_HEIGHT=1800
 
 # For 13-inch MacBook Pro
 #WINDOW_WIDTH=2560
