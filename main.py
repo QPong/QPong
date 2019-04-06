@@ -128,8 +128,9 @@ def main():
     measure_time = 100000
 
     # Main Loop
-    scene.start(screen)
-    going = scene.start(screen)
+    #scene.start(screen, ball)
+    going = scene.start(screen, ball)
+    ball.ball_reset()
     while going:
         # set maximum frame rate
         clock.tick(60)

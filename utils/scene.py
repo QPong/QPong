@@ -30,9 +30,8 @@ class Scene():
         self.begin = False
         self.restart = False
 
-    def start(self,screen):
+    def start(self,screen,ball):
         """Show start screen"""
-        blink_time = pygame.time.get_ticks()
 
         screen.fill(BLACK)
         gameovertext = "QPong"
@@ -40,6 +39,24 @@ class Scene():
         textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 15))
         screen.blit(text, textpos)
 
+        gameover_text = "Select difficulty level"
+        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 30))
+        screen.blit(text, textpos)
+
+        gameover_text = "[A] Easy  "
+        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 35))
+        screen.blit(text, textpos)
+
+        gameover_text = "[B] Normal"
+        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 40))
+        screen.blit(text, textpos)
+
+        gameover_text = "[X] Expert"
+        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 45))
         screen.blit(text, textpos)
 
         self.credits(screen)
@@ -51,26 +68,38 @@ class Scene():
 
                 if event.type == QUIT:
                     pygame.quit()
-                else:
-                    return True
+                elif event.type == JOYBUTTONDOWN:
+                    if event.button == BTN_A:
+                        # easy mode
+                        ball.initial_speed_factor = EASY
+                        return True
+                    elif event.button == BTN_B:
+                        # normal mode
+                        ball.initial_speed_factor = NORMAL
+                        return True
+                    elif event.button == BTN_X:
+                        # expert mode
+                        ball.initial_speed_factor = EXPERT
+                        return True
+                elif event.type == KEYDOWN:
+                    if event.key == K_a:
+                        # easy mode
+                        ball.initial_speed_factor = EASY
+                        return True
+                    elif event.key == K_b:
+                        # normal mode
+                        ball.initial_speed_factor = NORMAL
+                        return True
+                    elif event.key == K_x:
+                        # expert mode
+                        ball.initial_speed_factor = EXPERT
+                        return True
 
             if self.begin == True:
                 # reset all parameters to restart the game
                 screen.fill(BLACK)
 
-            # Make blinking text
-            if pygame.time.get_ticks()-blink_time > 1000:
-                blink_time = pygame.time.get_ticks()
-            if pygame.time.get_ticks()-blink_time > 500:
-                replay_text = "Press Any Key to Start"
-                text = REPLAY_FONT.render(replay_text, 1, WHITE)
-                textpos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 40))
-                screen.blit(text, textpos)
-                pygame.display.flip()
-            else:
-                # show a black box to blink the text every 0.5s
-                pygame.draw.rect(screen, BLACK, (WIDTH_UNIT * 10, WIDTH_UNIT * 35, WIDTH_UNIT * 80, WIDTH_UNIT * 10))
-                pygame.display.flip()
+            pygame.display.flip()
 
         # reset restart flag when self.restart = True and the while ends
         self.begin = False

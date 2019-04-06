@@ -40,6 +40,7 @@ class Ball(pygame.sprite.Sprite):
         self.x = 0
         self.y = 0
         self.speed = 0
+        self.initial_speed_factor = 0.8
         self.direction = 0
 
         # initialize ball action type, measure and bounce flags
@@ -78,7 +79,7 @@ class Ball(pygame.sprite.Sprite):
     def ball_reset(self):
 
         self.y = self.screenheight / 2
-        self.speed = self.width_unit * 0.8
+        self.speed = self.width_unit * self.initial_speed_factor
 
         # alternate reset at left and right
         if self.reset_position == LEFT:
