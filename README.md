@@ -2,7 +2,7 @@
 This is a quantum version of classic game Pong using IBM Qikist and PyGame. This game was initiated in IBM Qiskit Camp 2019 by Huang Junye, Jarrod Reilly, Anastasia Jeffery and James Weaver based on James Weaver's quantum-circuit-pygame package: https://github.com/JavaFXpert/quantum-circuit-pygame
 
 ## Story
-In the dawn of the Quantum Era, a primitive 3-qubit Quantum Computer is trying to challenge the Classical Computer, the long-time ruler of the Computer Empire. Your mission is to use your Human Intelligence to help the Quantum Computer defeat the Classical Computer and demonstrate "quantum supremacy" the first time in human history. The battle field of the Quantum-Classic war is none other than the classic Pong game.
+In the dawn of the Quantum Era, a primitive 3-qubit Quantum Computer is trying to challenge the Classical Computer, the long-time ruler of the Computer Empire. Your mission is to use your Human Intelligence to help the Quantum Computer defeat the Classical Computer and demonstrate "quantum supremacy" for the first time in human history. The battle field of the Quantum-Classic war is none other than the classic Pong game.
 
 ## Installation
 To play the game, you will need to install Python and three required packages. To do that, you need to use command line tool (Command Prompt for Windows or Terminal for macOS).
