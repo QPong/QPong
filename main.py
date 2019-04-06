@@ -120,7 +120,7 @@ def main():
 
     pygame.display.flip()
 
-    gamepad_repeat_delay = 100
+    gamepad_repeat_delay = 200
     gamepad_neutral = True
     gamepad_pressed_timer = 0
     gamepad_last_update = pygame.time.get_ticks()
