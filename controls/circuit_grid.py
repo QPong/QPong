@@ -48,7 +48,6 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         self.update()
 
     def update(self, *args):
-        print("in CircuitGrid#update()")
 
         sprite_list = self.sprites()
         for sprite in sprite_list:
@@ -137,7 +136,6 @@ class CircuitGrid(pygame.sprite.RenderPlain):
 
     def handle_input_delete(self):
         selected_node_gate_part = self.get_selected_node_gate_part()
-        print('In handle_input_delete, node_type in selected node is: ', selected_node_gate_part)
         if selected_node_gate_part == node_types.X or \
             selected_node_gate_part == node_types.Y or \
                 selected_node_gate_part == node_types.Z or \

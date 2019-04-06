@@ -116,7 +116,6 @@ class Ball(pygame.sprite.Sprite):
         elif self.left_edge + 10 * self.width_unit <= self.x < self.left_edge + 12 * self.width_unit:
             # measure the ball when it reaches the left measurement zone
             if self.measure_flag == NO:
-                print("measure left")
                 self.ball_action = MEASURE_LEFT
                 self.measure_flag = YES
             else:
@@ -126,7 +125,6 @@ class Ball(pygame.sprite.Sprite):
             # measure the ball when it reaches the right measurement zone
             if self.measure_flag == NO:
                 # do measurement if not yet done
-                print("measure right")
                 self.ball_action = MEASURE_RIGHT
                 self.measure_flag = YES
             else:

@@ -70,7 +70,6 @@ class StatevectorGrid(pygame.sprite.Sprite):
         job_sim = execute(circuit2, backend_sv_sim, shots=shot_num)
         result_sim = job_sim.result()
         counts = result_sim.get_counts(circuit)
-        print(counts)
 
         # This square represent the probability of state after measurement
         self.image = pygame.Surface([(circuit.width()+1) * 3 * WIDTH_UNIT, self.ball.screenheight])
@@ -82,7 +81,5 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.paddle.convert()
         self.paddle.fill(WHITE)
 
-        print(counts.keys())
-        print(int(list(counts.keys())[0],2))
         self.image.blit(self.paddle,(0,int(list(counts.keys())[0],2) * self.block_size))
         return int(list(counts.keys())[0],2)
