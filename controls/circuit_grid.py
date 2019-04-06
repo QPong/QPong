@@ -72,6 +72,9 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         self.circuit_grid_cursor.rect.left = self.xpos + GRID_WIDTH * (self.selected_column + 1)+ round(0.375*WIDTH_UNIT)
         self.circuit_grid_cursor.rect.top = self.ypos + GRID_HEIGHT * (self.selected_wire + 0.5)+ round(0.375*WIDTH_UNIT)
 
+    def reset_cursor(self):
+        self.highlight_selected_node(0,0)
+
     def display_exceptional_condition(self):
         # TODO: Make cursor appearance indicate condition such as unable to place a gate
         return

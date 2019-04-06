@@ -36,7 +36,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
     def display_statevector(self,qubit_num):
         y_offset = self.block_size * 0.32
         for y in range(2**qubit_num):
-            text_surface = VECTOR_FONT.render("|"+self.basis_states[y]+">", False, (255, 255, 255))
+            text_surface = VECTOR_FONT.render("|"+self.basis_states[y]+">",1, WHITE)
             self.image.blit(text_surface,(2 * WIDTH_UNIT, y * self.block_size + y_offset))
 
     def set_circuit(self, circuit, qubit_num, shot_num):

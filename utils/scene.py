@@ -76,9 +76,9 @@ class Scene():
         self.begin = False
 
 
-    def gameover(self, screen, score, circuit, win_score):
+    def gameover(self, screen, player):
         """Display Game Over screen"""
-        if score.get_score(CLASSICAL_COMPUTER) >= win_score:
+        if player == CLASSICAL_COMPUTER:
 
             screen.fill(BLACK)
 
@@ -98,9 +98,9 @@ class Scene():
             screen.blit(text, textpos)
 
             self.credits(screen)
-            self.replay(screen, score, circuit)
+            #self.replay(screen, score, circuit)
 
-        if score.get_score(QUANTUM_COMPUTER) >= win_score:
+        if player == QUANTUM_COMPUTER:
 
             screen.fill(BLACK)
 
@@ -120,7 +120,7 @@ class Scene():
             screen.blit(text, textpos)
 
             self.credits(screen)
-            self.replay(screen, score, circuit)
+            #self.replay(screen, score, circuit)
 
     def credits(self,screen):
         credit_text = "Credits"
@@ -145,7 +145,7 @@ class Scene():
         screen.blit(text, textpos)
 
 
-    def replay(self,screen,score,circuit):
+    def replay(self, screen, score, circuit_grid_model, circuit_grid):
         """Pause the game and ask if the player wants to play again"""
         blink_time = pygame.time.get_ticks()
 
@@ -162,7 +162,9 @@ class Scene():
             if self.restart == True:
                 # reset all parameters to restart the game
                 score.reset_score()
-                circuit.reset_circuit()
+                circuit_grid_model.reset_circuit()
+                circuit_grid.update()
+                circuit_grid.reset_cursor()
 
             # Make blinking text
             if pygame.time.get_ticks()-blink_time > 1000:

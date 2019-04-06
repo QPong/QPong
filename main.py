@@ -142,7 +142,7 @@ def main():
             pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
 
         # Print the score
-        text = PLAYER_FONT.render('Classcial Computer', 1, GRAY)
+        text = PLAYER_FONT.render('Classical Computer', 1, GRAY)
         textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
         screen.blit(text, textpos)
 
@@ -163,11 +163,20 @@ def main():
         statevector_grid.display_statevector(QUBIT_NUM)
         right_sprites.draw(screen)
         movingsprites.draw(screen)
-        circuit_grid.update()
         circuit_grid.draw(screen)
 
-        # Show game over screen if the score reaches WIN_SCORE
-        scene.gameover(screen, ball.score, circuit_grid_model, WIN_SCORE)
+        # Show game over screen if the score reaches WIN_SCORE, reset everything if replay == TRUE
+        if ball.score.get_score(CLASSICAL_COMPUTER) >= WIN_SCORE:
+            scene.gameover(screen, CLASSICAL_COMPUTER)
+            scene.replay(screen, ball.score, circuit_grid_model, circuit_grid)
+            update_paddle(circuit, circuit_grid_model, right_sprites, circuit_grid, statevector_grid)
+
+
+        if ball.score.get_score(QUANTUM_COMPUTER) >= WIN_SCORE:
+            scene.gameover(screen, QUANTUM_COMPUTER)
+            scene.replay(screen, ball.score, circuit_grid_model, circuit_grid)
+            update_paddle(circuit, circuit_grid_model, right_sprites, circuit_grid, statevector_grid)
+
 
         gamepad_move = False
 
