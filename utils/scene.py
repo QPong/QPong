@@ -20,6 +20,7 @@ from utils.parameters import *
 from utils.fonts import *
 from utils.colors import *
 from utils.score import *
+from utils.gamepad import *
 
 class Scene():
     """Displaye Game Over screen and handle play again"""
