@@ -34,10 +34,11 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.set_circuit(circuit, qubit_num, num_shots)
 
     def display_statevector(self,qubit_num):
-        y_offset = self.block_size * 0.32
         for y in range(2**qubit_num):
-            text_surface = VECTOR_FONT.render("|"+self.basis_states[y]+">",1, WHITE)
-            self.image.blit(text_surface,(2 * WIDTH_UNIT, y * self.block_size + y_offset))
+            text = VECTOR_FONT.render("|"+self.basis_states[y]+">",1, WHITE)
+            text_height = text.get_height()
+            y_offset = self.block_size * 0.5 - text_height * 0.5
+            self.image.blit(text,(2 * WIDTH_UNIT, y * self.block_size + y_offset))
 
     def set_circuit(self, circuit, qubit_num, shot_num):
         backend_sv_sim = BasicAer.get_backend('statevector_simulator')

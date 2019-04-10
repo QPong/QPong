@@ -23,8 +23,8 @@ class Ball(pygame.sprite.Sprite):
         self.left_edge = self.width_unit
         self.right_edge = self.screenwidth - self.left_edge
 
-        self.top_edge = self.width_unit * 0.5
-        self.bottom_edge = self.screenwidth - self.top_edge
+        self.top_edge = self.width_unit * 0
+        self.bottom_edge = self.screenheight - self.top_edge
 
         # define the ball sizes
         self.height = self.width_unit
@@ -72,7 +72,7 @@ class Ball(pygame.sprite.Sprite):
         if self.y <= self.top_edge:
             self.direction = (180-self.direction) % 360
             self.sound.edge_sound()
-        if self.y > self.screenheight - 1*self.height:
+        if self.y > self.bottom_edge - 1*self.height:
             self.direction = (180-self.direction) % 360
             self.sound.edge_sound()
 

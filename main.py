@@ -77,11 +77,10 @@ def main():
     circuit_grid_model = CircuitGridModel(QUBIT_NUM, CIRCUIT_DEPTH)
 
     # the game crashes if the circuit is empty
-    # initialize circuit with 3 identity gate at the end to prevent crash
-    # identitiy gate are displayed by completely transparent PNG
-    circuit_grid_model.set_node(0, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
-    circuit_grid_model.set_node(1, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
-    circuit_grid_model.set_node(2, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
+    # initialize circuit with identity gate at the end of each line to prevent crash
+    # identity gate are displayed by completely transparent PNG
+    for i in range(QUBIT_NUM):
+        circuit_grid_model.set_node(i, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
 
     circuit = circuit_grid_model.compute_circuit()
 
