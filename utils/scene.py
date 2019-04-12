@@ -30,6 +30,7 @@ class Scene():
 
         self.begin = False
         self.restart = False
+        self.qubit_num = 3
 
     def start(self,screen,ball):
         """Show start screen"""
@@ -73,27 +74,33 @@ class Scene():
                     if event.button == BTN_A:
                         # easy mode
                         ball.initial_speed_factor = EASY
+                        self.qubit_num = 1
                         return True
                     elif event.button == BTN_B:
                         # normal mode
                         ball.initial_speed_factor = NORMAL
+                        self.qubit_num = 2
                         return True
                     elif event.button == BTN_X:
                         # expert mode
                         ball.initial_speed_factor = EXPERT
+                        self.qubit_num = 3
                         return True
                 elif event.type == KEYDOWN:
                     if event.key == K_a:
                         # easy mode
                         ball.initial_speed_factor = EASY
+                        self.qubit_num = 1
                         return True
                     elif event.key == K_b:
                         # normal mode
                         ball.initial_speed_factor = NORMAL
+                        self.qubit_num = 2
                         return True
                     elif event.key == K_x:
                         # expert mode
                         ball.initial_speed_factor = EXPERT
+                        self.qubit_num = 3
                         return True
 
             if self.begin == True:

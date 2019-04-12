@@ -32,6 +32,8 @@ from utils.score import *
 from utils.fonts import *
 from utils.parameters import *
 from utils.scene import *
+from utils.levelup import *
+
 import random
 
 if not pygame.font: print('Warning, fonts disabled')
@@ -48,6 +50,8 @@ if num_joysticks > 0:
 # hardware acceleration to reduce flickering. Works only in fullscreen
 flags = DOUBLEBUF|HWSURFACE|FULLSCREEN
 screen = pygame.display.set_mode(WINDOW_SIZE, flags)
+scene = Scene()
+level = Level()
 
 background = pygame.Surface(screen.get_size())
 background = background.convert()
@@ -59,7 +63,7 @@ def update_paddle(circuit, circuit_grid_model, right_sprites, circuit_grid, stat
     # Update visualizations
     # TODO: Refactor following code into methods, etc.
     circuit = circuit_grid_model.compute_circuit()
-    statevector_grid.set_circuit(circuit, QUBIT_NUM, 100)
+    statevector_grid.set_circuit(circuit, scene.qubit_num, 100)
     right_sprites.arrange()
     circuit_grid.draw(screen)
     pygame.display.flip()
@@ -72,52 +76,23 @@ def main():
     # Prepare objects
     clock = pygame.time.Clock()
     oldclock = pygame.time.get_ticks()
-    newclock = pygame.time.get_ticks()
-
-    circuit_grid_model = CircuitGridModel(QUBIT_NUM, CIRCUIT_DEPTH)
-
-    # the game crashes if the circuit is empty
-    # initialize circuit with identity gate at the end of each line to prevent crash
-    # identity gate are displayed by completely transparent PNG
-    for i in range(QUBIT_NUM):
-        circuit_grid_model.set_node(i, CIRCUIT_DEPTH-1, CircuitGridNode(node_types.IDEN))
-
-    circuit = circuit_grid_model.compute_circuit()
-
-    statevector_grid = StatevectorGrid(circuit, QUBIT_NUM, 100)
-
-    right_sprites = VBox(WIDTH_UNIT * 90, WIDTH_UNIT * 0, statevector_grid)
 
     ball = Ball()
     balls = pygame.sprite.Group()
     balls.add(ball)
 
-    circuit_grid = CircuitGrid(0, ball.screenheight, circuit_grid_model)
-
-    # computer paddle
-    left_box = pygame.sprite.Sprite()
-    left_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** QUBIT_NUM))])
-    left_box.image.fill((255, 255, 255))
-    left_box.image.set_alpha(255)
-    left_box.rect = left_box.image.get_rect()
-    left_box.rect.x = 9 * WIDTH_UNIT
-
-    # player paddle for detection of collision. It is invisible on the screen
-    right_box = pygame.sprite.Sprite()
-    right_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** QUBIT_NUM))])
-    right_box.image.fill((255, 0, 255))
-    right_box.image.set_alpha(0)
-    right_box.rect = right_box.image.get_rect()
-    right_box.rect.x = right_sprites.xpos
+    # Show start screen to select difficulty
+    going = scene.start(screen, ball)
+    level.levelup(scene, ball)
     
     movingsprites = pygame.sprite.Group()
     movingsprites.add(ball)
-    movingsprites.add(left_box)
-    movingsprites.add(right_box)
-
-    scene = Scene()
+    movingsprites.add(level.left_box)
+    movingsprites.add(level.right_box)
 
     pygame.display.flip()
+
+    ball.ball_reset()
 
     gamepad_repeat_delay = 200
     gamepad_neutral = True
@@ -127,9 +102,6 @@ def main():
     measure_time = 100000
 
     # Main Loop
-    #scene.start(screen, ball)
-    going = scene.start(screen, ball)
-    ball.ball_reset()
     while going:
         # set maximum frame rate
         clock.tick(60)
@@ -160,16 +132,16 @@ def main():
         textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
         screen.blit(text, textpos)
 
-        statevector_grid.display_statevector(QUBIT_NUM)
-        right_sprites.draw(screen)
+        level.statevector_grid.display_statevector(scene.qubit_num)
+        level.right_sprites.draw(screen)
         movingsprites.draw(screen)
         circuit_grid.draw(screen)
 
         # Show game over screen if the score reaches WIN_SCORE, reset everything if replay == TRUE
         if ball.score.get_score(CLASSICAL_COMPUTER) >= WIN_SCORE:
             scene.gameover(screen, CLASSICAL_COMPUTER)
-            scene.replay(screen, ball.score, circuit_grid_model, circuit_grid)
-            update_paddle(circuit, circuit_grid_model, right_sprites, circuit_grid, statevector_grid)
+            scene.replay(screen, ball.score, circuit_grid_model, level.circuit_grid)
+            update_paddle(level.circuit, circuit_grid_model, right_sprites, circuit_grid, statevector_grid)
 
 
         if ball.score.get_score(QUANTUM_COMPUTER) >= WIN_SCORE:
@@ -396,11 +368,11 @@ def main():
         if ball.ball_action == MEASURE_RIGHT:
             #
             circuit = circuit_grid_model.compute_circuit()
-            pos = statevector_grid.set_circuit_measure(circuit, QUBIT_NUM, 1)
+            pos = statevector_grid.set_circuit_measure(circuit, scene.qubit_num, 1)
             right_sprites.arrange()
 
             # paddle after measurement
-            right_box.rect.y = pos * ball.screenheight/(2**QUBIT_NUM)
+            right_box.rect.y = pos * ball.screenheight/(2**scene.qubit_num)
 
             measure_time=pygame.time.get_ticks()
 

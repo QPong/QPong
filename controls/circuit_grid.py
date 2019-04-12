@@ -295,8 +295,8 @@ class CircuitGridBackground(pygame.sprite.Sprite):
     def __init__(self, circuit_grid_model):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.Surface([GRID_WIDTH * (circuit_grid_model.max_columns + 2),
-                                     GRID_HEIGHT * (circuit_grid_model.max_wires + 1)])
+        self.image = pygame.Surface([GRID_WIDTH * (18 + 2),
+                                     GRID_HEIGHT * (3 + 1)])
         self.image.convert()
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
