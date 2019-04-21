@@ -7,7 +7,7 @@ class Input():
     """Handle input events"""
 
     def __init__(self):
-        self.going = True
+        self.running = True
         pygame.init()
         pygame.joystick.init()
         self.num_joysticks = pygame.joystick.get_count()

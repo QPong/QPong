@@ -11,7 +11,7 @@ class Level():
         self.left_box = pygame.sprite.Sprite()
         self.right_box = pygame.sprite.Sprite()
 
-    def level_setup(self, scene, ball):
+    def setup(self, scene, ball):
         """Setup a level with a certain level number"""
         scene.qubit_num = self.level
         self.circuit_grid_model = CircuitGridModel(scene.qubit_num, CIRCUIT_DEPTH)
@@ -50,6 +50,6 @@ class Level():
         """Increase level by 1"""
         if self.level <= 3:
             self.level += self.level
-            level_setup()
+            self.setup()
         else:
             self.win = True # win the game if level is higher than 3

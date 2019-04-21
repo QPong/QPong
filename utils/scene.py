@@ -115,7 +115,6 @@ class Scene():
         # reset restart flag when self.restart = True and the while ends
         self.begin = False
 
-
     def gameover(self, screen, player):
         """Display Game Over screen"""
         if player == CLASSICAL_COMPUTER:
@@ -162,6 +161,30 @@ class Scene():
             self.credits(screen)
             #self.replay(screen, score, circuit)
 
+    def dashed_line(self, screen, ball):
+        for i in range(10, ball.screenheight, 2 * WIDTH_UNIT):  # draw dashed line
+            pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
+
+    def score(self, screen, ball):
+        # Print the score
+        text = PLAYER_FONT.render('Classical Computer', 1, GRAY)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
+        screen.blit(text, textpos)
+
+        text = PLAYER_FONT.render('Quantum Computer', 1, GRAY)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
+        screen.blit(text, textpos)
+
+        scoreprint = str(ball.check_score(0))
+        text = SCORE_FONT.render(scoreprint, 1, GRAY)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
+        screen.blit(text, textpos)
+
+        scoreprint = str(ball.check_score(1))
+        text = SCORE_FONT.render(scoreprint, 1, GRAY)
+        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
+        screen.blit(text, textpos)
+
     def credits(self,screen):
         credit_text = "Credits"
         text = CREDIT_FONT.render(credit_text, 1, WHITE)
@@ -183,7 +206,6 @@ class Scene():
         text = CREDIT_FONT.render(credit_text, 1, WHITE)
         textpos = text.get_rect(center=(WINDOW_WIDTH/2, WINDOW_HEIGHT - WIDTH_UNIT * 1))
         screen.blit(text, textpos)
-
 
     def replay(self, screen, score, circuit_grid_model, circuit_grid):
         """Pause the game and ask if the player wants to play again"""

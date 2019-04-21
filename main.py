@@ -14,21 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# TODO: Create viz that displays generated Qiskit code for circuit
-# TODO: Prevent error from occurring when circuit is empty
 #
-"""Create quantum circuits with Qiskit and Pygame"""
-
-from pygame.locals import *
-
-from model.circuit_grid_model import *
-from containers.vbox import VBox
-from utils.gamepad import *
-from viz.statevector_grid import StatevectorGrid
-from controls.circuit_grid import *
+"""Quantum version of the classic Pong game"""
 
 from utils.ball import *
-from utils.score import *
 from utils.fonts import *
 from utils.parameters import *
 from utils.scene import *
@@ -41,77 +30,61 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 pygame.init()
+pygame.font.init()
 
 # hardware acceleration to reduce flickering. Works only in fullscreen
 flags = DOUBLEBUF|HWSURFACE|FULLSCREEN
 screen = pygame.display.set_mode(WINDOW_SIZE, flags)
-scene = Scene()
-level = Level()
-input = Input()
-
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill(BLACK)
 
-pygame.font.init()
-
 def main():
     pygame.display.set_caption('QPong')
-    screen.fill(BLACK)
 
-    # Prepare objects
+    # clock for timing
     clock = pygame.time.Clock()
     oldclock = pygame.time.get_ticks()
 
+    # initialize scene, level and input Classes
+    scene = Scene()
+    level = Level()
+    input = Input()
+
+    # define ball
     ball = Ball()
-    balls = pygame.sprite.Group()
+    balls = pygame.sprite.Group()   # sprite group type is needed for sprite collide function in pygame
     balls.add(ball)
 
     # Show start screen to select difficulty
-    input.going = scene.start(screen, ball)
-    level.level_setup(scene, ball)
-    
+    input.running = scene.start(screen, ball)     # start screen returns running flag
+    level.setup(scene, ball)
+
+    # Put all moving sprites a group so that they can be drawn together
     movingsprites = pygame.sprite.Group()
     movingsprites.add(ball)
     movingsprites.add(level.left_box)
     movingsprites.add(level.right_box)
 
+    # update the screen
     pygame.display.flip()
 
-    ball.ball_reset()
+    # reset the ball
+    ball.reset()
 
+    # a valuable to record the time when the paddle is measured
     measure_time = 100000
 
     # Main Loop
-    while input.going:
+    while input.running:
         # set maximum frame rate
         clock.tick(60)
 
         screen.fill(BLACK)
 
         ball.update()
-
-        for i in range(10, ball.screenheight, 2 * WIDTH_UNIT):  # draw dashed line
-            pygame.draw.rect(screen, GRAY, (WINDOW_WIDTH // 2 - 5, i, 0.5 * WIDTH_UNIT, WIDTH_UNIT), 0)
-
-        # Print the score
-        text = PLAYER_FONT.render('Classical Computer', 1, GRAY)
-        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
-        screen.blit(text, textpos)
-
-        text = PLAYER_FONT.render('Quantum Computer', 1, GRAY)
-        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5))
-        screen.blit(text, textpos)
-
-        scoreprint = str(ball.check_score(0))
-        text = SCORE_FONT.render(scoreprint, 1, GRAY)
-        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
-        screen.blit(text, textpos)
-
-        scoreprint = str(ball.check_score(1))
-        text = SCORE_FONT.render(scoreprint, 1, GRAY)
-        textpos = text.get_rect(center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 8))
-        screen.blit(text, textpos)
+        scene.dashed_line(screen, ball) # draw dashed line in the middle of the screen
+        scene.score(screen, ball)       # print score
 
         level.statevector_grid.display_statevector(scene.qubit_num)
         level.right_sprites.draw(screen)
