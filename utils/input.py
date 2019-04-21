@@ -61,7 +61,6 @@ class Input():
 
             if event.type == QUIT:
                 self.going = False
-
             elif event.type == JOYBUTTONDOWN:
                 if event.button == BTN_A:
                     # Place X gate
@@ -130,7 +129,7 @@ class Input():
             elif event.type == KEYDOWN:
                 index_increment = 0
                 if event.key == K_ESCAPE:
-                    going = False
+                    self.going = False
                 elif event.key == K_a:
                     circuit_grid.move_to_adjacent_node(MOVE_LEFT)
                     circuit_grid.draw(screen)

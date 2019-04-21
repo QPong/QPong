@@ -70,6 +70,7 @@ class Scene():
 
                 if event.type == QUIT:
                     pygame.quit()
+                    sys.exit()
                 elif event.type == JOYBUTTONDOWN:
                     if event.button == BTN_A:
                         # easy mode
@@ -87,7 +88,9 @@ class Scene():
                         self.qubit_num = 3
                         return True
                 elif event.type == KEYDOWN:
-                    if event.key == K_a:
+                    if event.key == K_ESCAPE:
+                        return False
+                    elif event.key == K_a:
                         # easy mode
                         ball.initial_speed_factor = EASY
                         self.qubit_num = 1
