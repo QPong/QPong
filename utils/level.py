@@ -13,6 +13,7 @@ class Level():
 
     def level_setup(self, scene, ball):
         """Setup a level with a certain level number"""
+        scene.qubit_num = self.level
         self.circuit_grid_model = CircuitGridModel(scene.qubit_num, CIRCUIT_DEPTH)
 
         # the game crashes if the circuit is empty

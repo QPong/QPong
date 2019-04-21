@@ -127,7 +127,7 @@ def main():
 
         if ball.score.get_score(QUANTUM_COMPUTER) >= WIN_SCORE:
             scene.gameover(screen, QUANTUM_COMPUTER)
-            scene.replay(screen, ball.score, level.circuit_grid_model, circuit_grid)
+            scene.replay(screen, ball.score, level.circuit_grid_model, level.circuit_grid)
             input.update_paddle(level, screen, scene)
 
         # computer paddle movement

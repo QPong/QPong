@@ -183,9 +183,9 @@ class CircuitGridModel():
         # the game crashes if the circuit is empty
         # initialize circuit with 3 identity gate at the end to prevent crash
         # identitiy gate are displayed by completely transparent PNG
-        self.set_node(0, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
-        self.set_node(1, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
-        self.set_node(2, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
+
+        for i in range(self.max_wires):
+            self.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
 
 
 class CircuitGridNode():
