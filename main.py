@@ -17,10 +17,15 @@
 #
 """Quantum version of the classic Pong game"""
 
-from utils.ball import *
-from utils.input import *
-from utils.level import *
-from utils.scene import *
+import pygame
+import random
+
+from utils.ball import Ball
+from utils.input import Input
+from utils.level import Level
+from utils.scene import Scene
+from utils.parameters import *
+from utils.colors import *
 
 if not pygame.font:
     print('Warning, fonts disabled')
@@ -31,7 +36,7 @@ pygame.init()
 pygame.font.init()
 
 # hardware acceleration to reduce flickering. Works only in fullscreen
-flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
+flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.FULLSCREEN
 screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
@@ -95,7 +100,6 @@ def main():
             scene.gameover(screen, CLASSICAL_COMPUTER)
             scene.replay(screen, ball.score, level.circuit_grid_model, level.circuit_grid)
             input.update_paddle(level, screen, scene)
-
 
         if ball.score.get_score(QUANTUM_COMPUTER) >= WIN_SCORE:
             scene.gameover(screen, QUANTUM_COMPUTER)

@@ -1,15 +1,10 @@
-import pygame
 import math
 import random
-import numpy as np
+
 from utils.colors import *
-from utils.navigation import *
-from utils.resources import *
-from utils.sound import *
-from utils.score import *
-from model.circuit_grid_model import CircuitGridNode
-from model import circuit_node_types as node_types
 from utils.parameters import *
+from utils.score import *
+from utils.sound import *
 
 
 class Ball(pygame.sprite.Sprite):

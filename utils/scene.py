@@ -23,7 +23,7 @@ from utils.score import *
 from utils.gamepad import *
 
 
-class Scene():
+class Scene:
     """Displaye Game Over screen and handle play again"""
 
     def __init__(self):
