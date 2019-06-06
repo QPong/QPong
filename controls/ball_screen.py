@@ -14,16 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import pygame
-import numpy as np
 from utils.colors import *
-from utils.navigation import *
 from utils.resources import *
-from model.circuit_grid_model import CircuitGridNode
-from model import circuit_node_types as node_types
-
 
 LINE_WIDTH = 0
+
 
 class BallScreen(pygame.sprite.RenderPlain):
     """Make a screen for the ball"""

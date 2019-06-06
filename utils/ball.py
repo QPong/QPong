@@ -11,6 +11,7 @@ from model.circuit_grid_model import CircuitGridNode
 from model import circuit_node_types as node_types
 from utils.parameters import *
 
+
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()

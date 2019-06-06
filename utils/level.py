@@ -3,7 +3,8 @@ from containers.vbox import VBox
 from viz.statevector_grid import StatevectorGrid
 from controls.circuit_grid import *
 
-class Level():
+
+class Level:
     """Start up a level"""
     def __init__(self):
         self.level= 1 # game level

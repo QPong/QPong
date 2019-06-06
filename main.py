@@ -18,26 +18,25 @@
 """Quantum version of the classic Pong game"""
 
 from utils.ball import *
-from utils.fonts import *
-from utils.parameters import *
-from utils.scene import *
-from utils.level import *
 from utils.input import *
+from utils.level import *
+from utils.scene import *
 
-import random
-
-if not pygame.font: print('Warning, fonts disabled')
-if not pygame.mixer: print('Warning, sound disabled')
+if not pygame.font:
+    print('Warning, fonts disabled')
+if not pygame.mixer:
+    print('Warning, sound disabled')
 
 pygame.init()
 pygame.font.init()
 
 # hardware acceleration to reduce flickering. Works only in fullscreen
-flags = DOUBLEBUF|HWSURFACE|FULLSCREEN
+flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
 screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill(BLACK)
+
 
 def main():
     pygame.display.set_caption('QPong')

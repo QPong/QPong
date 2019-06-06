@@ -1,15 +1,11 @@
-import pygame
 import math
-import random
-import numpy as np
-from utils.colors import *
-from utils.navigation import *
-from utils.resources import *
-from model.circuit_grid_model import CircuitGridNode
-from model import circuit_node_types as node_types
 
-LEFT_EDGE=100
-TOP_EDGE=0
+from utils.colors import *
+from utils.resources import *
+
+LEFT_EDGE = 100
+TOP_EDGE = 0
+
 
 class RemoveBall(pygame.sprite.Sprite):
     def __init__(self, xpos, ypos):

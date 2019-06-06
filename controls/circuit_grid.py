@@ -14,14 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import pygame
 import numpy as np
+
+from model import circuit_node_types as node_types
+from model.circuit_grid_model import CircuitGridNode
 from utils.colors import *
 from utils.navigation import *
 from utils.resources import *
-from model.circuit_grid_model import CircuitGridNode
-from model import circuit_node_types as node_types
-from utils.parameters import *
+
 
 class CircuitGrid(pygame.sprite.RenderPlain):
     """Enables interaction with circuit"""

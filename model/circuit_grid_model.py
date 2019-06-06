@@ -19,13 +19,13 @@ from model import circuit_node_types as node_types
 from utils.parameters import *
 
 
-class CircuitGridModel():
+class CircuitGridModel:
     """Grid-based model that is built when user interacts with circuit"""
     def __init__(self, max_wires, max_columns):
         self.max_wires = max_wires
         self.max_columns = max_columns
         self.nodes = np.empty((max_wires, max_columns),
-                                dtype = CircuitGridNode)
+                                dtype=CircuitGridNode)
 
     def __str__(self):
         retval = ''
@@ -94,7 +94,6 @@ class CircuitGridModel():
     #     node_gate_part = self.get_node_gate_part(wire_num, column_num)
     #     if node_gate_part == node_types.EMPTY:
     #         # No gate part in this node
-
 
     def compute_circuit(self):
         qr = QuantumRegister(self.max_wires, 'q')
@@ -188,7 +187,7 @@ class CircuitGridModel():
             self.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
 
 
-class CircuitGridNode():
+class CircuitGridNode:
     """Represents a node in the circuit grid"""
     def __init__(self, node_type, radians=0.0, ctrl_a=-1, ctrl_b=-1, swap=-1):
         self.node_type = node_type

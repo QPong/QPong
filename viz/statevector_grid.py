@@ -22,6 +22,7 @@ from utils.states import comp_basis_states
 from copy import deepcopy
 from utils.ball import *
 
+
 class StatevectorGrid(pygame.sprite.Sprite):
     """Displays a statevector grid"""
     def __init__(self, circuit, qubit_num, num_shots):

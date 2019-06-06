@@ -3,7 +3,8 @@ from utils.gamepad import *
 from utils.parameters import *
 import pygame
 
-class Input():
+
+class Input:
     """Handle input events"""
 
     def __init__(self):
