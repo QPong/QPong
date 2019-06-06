@@ -23,11 +23,8 @@ class Level():
             self.circuit_grid_model.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
 
         self.circuit = self.circuit_grid_model.compute_circuit()
-
         self.statevector_grid = StatevectorGrid(self.circuit, scene.qubit_num, 100)
-
         self.right_sprites = VBox(WIDTH_UNIT * 90, WIDTH_UNIT * 0, self.statevector_grid)
-
         self.circuit_grid = CircuitGrid(0, ball.screenheight, self.circuit_grid_model)
 
         # computer paddle

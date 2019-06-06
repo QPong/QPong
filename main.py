@@ -79,17 +79,17 @@ def main():
     while input.running:
         # set maximum frame rate
         clock.tick(60)
-
+        # refill whole screen with black color at each frame
         screen.fill(BLACK)
 
-        ball.update()
+        ball.update()   # update ball position
         scene.dashed_line(screen, ball) # draw dashed line in the middle of the screen
-        scene.score(screen, ball)       # print score
+        scene.score(screen, ball)   # print score
 
-        level.statevector_grid.display_statevector(scene.qubit_num)
-        level.right_sprites.draw(screen)
-        movingsprites.draw(screen)
-        level.circuit_grid.draw(screen)
+        #level.statevector_grid.display_statevector(scene.qubit_num) # generate statevector grid
+        level.right_sprites.draw(screen)    # draw right paddle together with statevector grid
+        level.circuit_grid.draw(screen) # draw circuit grid
+        movingsprites.draw(screen)  # draw moving sprites
 
         # Show game over screen if the score reaches WIN_SCORE, reset everything if replay == TRUE
         if ball.score.get_score(CLASSICAL_COMPUTER) >= WIN_SCORE:
@@ -117,7 +117,7 @@ def main():
         if ball.ball_action == MEASURE_RIGHT:
             #
             circuit = level.circuit_grid_model.compute_circuit()
-            pos = level.statevector_grid.set_circuit_measure(circuit, scene.qubit_num, 1)
+            pos = level.statevector_grid.paddle_after_measurement(circuit, scene.qubit_num, 1)
             level.right_sprites.arrange()
 
             # paddle after measurement
