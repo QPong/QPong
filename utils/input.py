@@ -1,7 +1,11 @@
+import numpy as np
+
+import pygame
 from pygame.locals import *
+from pygame import joystick
+
 from utils.gamepad import *
 from utils.parameters import *
-import pygame
 
 
 class Input:
@@ -61,13 +65,13 @@ class Input:
             pygame.event.pump()
 
             if event.type == QUIT:
-                self.going = False
+                self.running = False
             elif event.type == JOYBUTTONDOWN:
                 if event.button == BTN_A:
                     # Place X gate
                     circuit_grid.handle_input_x()
                     circuit_grid.draw(screen)
-                    self.update_paddle(level, screen)
+                    self.update_paddle(level, screen, scene)
                     pygame.display.flip()
                 elif event.button == BTN_X:
                     # Place Y gate
@@ -128,9 +132,8 @@ class Input:
                     pygame.display.flip()
 
             elif event.type == KEYDOWN:
-                index_increment = 0
                 if event.key == K_ESCAPE:
-                    self.going = False
+                    self.running = False
                 elif event.key == K_a:
                     circuit_grid.move_to_adjacent_node(MOVE_LEFT)
                     circuit_grid.draw(screen)

@@ -7,8 +7,8 @@ from controls.circuit_grid import *
 class Level:
     """Start up a level"""
     def __init__(self):
-        self.level= 1 # game level
-        self.win = False # flag for winning the game
+        self.level = 1  # game level
+        self.win = False  # flag for winning the game
         self.left_box = pygame.sprite.Sprite()
         self.right_box = pygame.sprite.Sprite()
 
@@ -50,4 +50,4 @@ class Level:
             self.level += self.level
             self.setup()
         else:
-            self.win = True # win the game if level is higher than 3
+            self.win = True  # win the game if level is higher than 3

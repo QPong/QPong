@@ -1,10 +1,12 @@
 import math
 import random
 
+import pygame
+
 from utils.colors import *
 from utils.parameters import *
-from utils.score import *
-from utils.sound import *
+from utils.score import Score
+from utils.sound import Sound
 
 
 class Ball(pygame.sprite.Sprite):

@@ -1,5 +1,6 @@
 import pygame
 
+
 class Sound():
 
     def bounce_sound(self):

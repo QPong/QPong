@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 import pygame
-from utils.parameters import *
+from utils.parameters import WIDTH_UNIT
 
 pygame.font.init()
 GAMEOVER_FONT = pygame.font.Font('utils/data/bit5x3.ttf', 10 * WIDTH_UNIT)

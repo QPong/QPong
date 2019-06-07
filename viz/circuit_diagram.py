@@ -27,10 +27,6 @@ class CircuitDiagram(pygame.sprite.Sprite):
         self.rect = None
         self.set_circuit(circuit)
 
-    # def update(self):
-    #     # Nothing yet
-    #     a = 1
-
     def set_circuit(self, circuit):
         circuit_drawing = circuit.draw(output='mpl')
 

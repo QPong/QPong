@@ -17,8 +17,10 @@
 #
 """Quantum version of the classic Pong game"""
 
-import pygame
 import random
+
+import pygame
+from pygame import DOUBLEBUF, HWSURFACE, FULLSCREEN
 
 from utils.ball import Ball
 from utils.input import Input
@@ -36,7 +38,7 @@ pygame.init()
 pygame.font.init()
 
 # hardware acceleration to reduce flickering. Works only in fullscreen
-flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.FULLSCREEN
+flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
 screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
@@ -48,7 +50,7 @@ def main():
 
     # clock for timing
     clock = pygame.time.Clock()
-    oldclock = pygame.time.get_ticks()
+    old_clock = pygame.time.get_ticks()
 
     # initialize scene, level and input Classes
     scene = Scene()
@@ -65,10 +67,10 @@ def main():
     level.setup(scene, ball)
 
     # Put all moving sprites a group so that they can be drawn together
-    movingsprites = pygame.sprite.Group()
-    movingsprites.add(ball)
-    movingsprites.add(level.left_box)
-    movingsprites.add(level.right_box)
+    moving_sprites = pygame.sprite.Group()
+    moving_sprites.add(ball)
+    moving_sprites.add(level.left_box)
+    moving_sprites.add(level.right_box)
 
     # update the screen
     pygame.display.flip()
@@ -86,14 +88,14 @@ def main():
         # refill whole screen with black color at each frame
         screen.fill(BLACK)
 
-        ball.update()   # update ball position
-        scene.dashed_line(screen, ball) # draw dashed line in the middle of the screen
+        ball.update()  # update ball position
+        scene.dashed_line(screen, ball)  # draw dashed line in the middle of the screen
         scene.score(screen, ball)   # print score
 
-        #level.statevector_grid.display_statevector(scene.qubit_num) # generate statevector grid
-        level.right_sprites.draw(screen)    # draw right paddle together with statevector grid
-        level.circuit_grid.draw(screen) # draw circuit grid
-        movingsprites.draw(screen)  # draw moving sprites
+        # level.statevector_grid.display_statevector(scene.qubit_num) # generate statevector grid
+        level.right_sprites.draw(screen)  # draw right paddle together with statevector grid
+        level.circuit_grid.draw(screen)  # draw circuit grid
+        moving_sprites.draw(screen)  # draw moving sprites
 
         # Show game over screen if the score reaches WIN_SCORE, reset everything if replay == TRUE
         if ball.score.get_score(CLASSICAL_COMPUTER) >= WIN_SCORE:
@@ -107,9 +109,10 @@ def main():
             input.update_paddle(level, screen, scene)
 
         # computer paddle movement
-        if pygame.time.get_ticks() - oldclock > 300:
-            level.left_box.rect.y = ball.get_ypos()- level.statevector_grid.block_size/2+random.randint(-WIDTH_UNIT*4, WIDTH_UNIT*4)
-            oldclock = pygame.time.get_ticks()
+        if pygame.time.get_ticks() - old_clock > 300:
+            level.left_box.rect.y = ball.get_ypos() - level.statevector_grid.block_size/2 \
+                                    + random.randint(-WIDTH_UNIT*4, WIDTH_UNIT*4)
+            old_clock = pygame.time.get_ticks()
 
         # handle input events
         input.handle_input(level, screen, scene)
@@ -125,8 +128,7 @@ def main():
 
             # paddle after measurement
             level.right_box.rect.y = pos * ball.screenheight/(2**scene.qubit_num)
-
-            measure_time=pygame.time.get_ticks()
+            measure_time = pygame.time.get_ticks()
 
         if pygame.sprite.spritecollide(level.right_box, balls, False):
             ball.bounce_edge()
@@ -134,7 +136,7 @@ def main():
         if pygame.sprite.spritecollide(level.left_box, balls, False):
             ball.bounce_edge()
 
-        if pygame.time.get_ticks()-measure_time > 400:
+        if pygame.time.get_ticks() - measure_time > 400:
             # refresh the screen a moment after measurement to update visual
             input.update_paddle(level, screen, scene)
             # add a buffer time before measure again

@@ -8,7 +8,7 @@ class Score(pygame.sprite.Sprite):
         self.player = 0
         self.computer = 0
 
-    # Player = 0, Comp = 1
+    # Player = 0, Computer = 1
     def update(self, score):
         if score == 0:
             self.computer += 1
