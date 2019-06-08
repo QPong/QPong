@@ -14,5 +14,4 @@
 # limitations under the License.
 #
 """Module for quantum vizualizations"""
-from .circuit_diagram import CircuitDiagram
 from .statevector_grid import StatevectorGrid
