@@ -35,18 +35,14 @@ if not pygame.font:
 if not pygame.mixer:
     print('Warning, sound disabled')
 
-pygame.init()
-pygame.font.init()
-
-# hardware acceleration to reduce flickering. Works only in fullscreen
-flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
-screen = pygame.display.set_mode(WINDOW_SIZE, flags)
-background = pygame.Surface(screen.get_size())
-background = background.convert()
-background.fill(BLACK)
-
 
 def main():
+    pygame.init()
+
+    # hardware acceleration to reduce flickering. Works only in full screen
+    flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
+    screen = pygame.display.set_mode(WINDOW_SIZE, flags)
+
     pygame.display.set_caption('QPong')
 
     # clock for timing
@@ -70,8 +66,8 @@ def main():
     # Put all moving sprites a group so that they can be drawn together
     moving_sprites = pygame.sprite.Group()
     moving_sprites.add(ball)
-    moving_sprites.add(level.left_box)
-    moving_sprites.add(level.right_box)
+    moving_sprites.add(level.left_paddle)
+    moving_sprites.add(level.right_paddle)
 
     # update the screen
     pygame.display.flip()
@@ -94,7 +90,7 @@ def main():
         scene.score(screen, ball)   # print score
 
         # level.statevector_grid.display_statevector(scene.qubit_num) # generate statevector grid
-        level.right_sprites.draw(screen)  # draw right paddle together with statevector grid
+        level.right_statevector.draw(screen)  # draw right paddle together with statevector grid
         level.circuit_grid.draw(screen)  # draw circuit grid
         moving_sprites.draw(screen)  # draw moving sprites
 
@@ -111,7 +107,7 @@ def main():
 
         # computer paddle movement
         if pygame.time.get_ticks() - old_clock > 300:
-            level.left_box.rect.y = ball.get_ypos() - level.statevector_grid.block_size/2 \
+            level.left_paddle.rect.y = ball.get_ypos() - level.statevector_grid.block_size/2 \
                                     + random.randint(-WIDTH_UNIT*4, WIDTH_UNIT*4)
             old_clock = pygame.time.get_ticks()
 
@@ -122,19 +118,18 @@ def main():
         ball.action()
 
         if ball.ball_action == MEASURE_RIGHT:
-            #
             circuit = level.circuit_grid_model.compute_circuit()
             pos = level.statevector_grid.paddle_after_measurement(circuit, scene.qubit_num, 1)
-            level.right_sprites.arrange()
+            level.right_statevector.arrange()
 
             # paddle after measurement
-            level.right_box.rect.y = pos * ball.screenheight/(2**scene.qubit_num)
+            level.right_paddle.rect.y = pos * ball.screenheight/(2**scene.qubit_num)
             measure_time = pygame.time.get_ticks()
 
-        if pygame.sprite.spritecollide(level.right_box, balls, False):
+        if pygame.sprite.spritecollide(level.right_paddle, balls, False):
             ball.bounce_edge()
 
-        if pygame.sprite.spritecollide(level.left_box, balls, False):
+        if pygame.sprite.spritecollide(level.left_paddle, balls, False):
             ball.bounce_edge()
 
         if pygame.time.get_ticks() - measure_time > 400:

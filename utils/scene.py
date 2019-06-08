@@ -25,7 +25,7 @@ from utils.gamepad import *
 
 
 class Scene:
-    """Displaye Game Over screen and handle play again"""
+    """Display Game Over screen and handle play again"""
 
     def __init__(self):
         super().__init__()
@@ -38,6 +38,7 @@ class Scene:
         """Show start screen"""
 
         screen.fill(BLACK)
+
         gameover_text = "QPong"
         text = GAMEOVER_FONT.render(gameover_text, 1, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 15))
@@ -76,17 +77,14 @@ class Scene:
                     if event.button == BTN_A:
                         # easy mode
                         ball.initial_speed_factor = EASY
-                        self.qubit_num = 1
                         return True
                     elif event.button == BTN_B:
                         # normal mode
                         ball.initial_speed_factor = NORMAL
-                        self.qubit_num = 2
                         return True
                     elif event.button == BTN_X:
                         # expert mode
                         ball.initial_speed_factor = EXPERT
-                        self.qubit_num = 3
                         return True
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
@@ -94,17 +92,14 @@ class Scene:
                     elif event.key == K_a:
                         # easy mode
                         ball.initial_speed_factor = EASY
-                        self.qubit_num = 1
                         return True
                     elif event.key == K_b:
                         # normal mode
                         ball.initial_speed_factor = NORMAL
-                        self.qubit_num = 2
                         return True
                     elif event.key == K_x:
                         # expert mode
                         ball.initial_speed_factor = EXPERT
-                        self.qubit_num = 3
                         return True
 
             if self.begin:
@@ -188,7 +183,6 @@ class Scene:
         credit_text = "Credits"
         text = CREDIT_FONT.render(credit_text, 1, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH/2, WINDOW_HEIGHT - WIDTH_UNIT * 8))
-
         screen.blit(text, text_pos)
 
         credit_text = "Made by Huang Junye, James Weaver, Jarrod Reilly and Anastasia Jeffery"

@@ -215,13 +215,13 @@ class Input:
         # TODO: Refactor following code into methods, etc.
 
         circuit_grid_model = level.circuit_grid_model
-        right_sprites = level.right_sprites
+        right_statevector = level.right_statevector
         circuit_grid = level.circuit_grid
         statevector_grid = level.statevector_grid
 
         circuit = circuit_grid_model.compute_circuit()
         statevector_grid.paddle_before_measurement(circuit, scene.qubit_num, 100)
-        right_sprites.arrange()
+        right_statevector.arrange()
         circuit_grid.draw(screen)
         pygame.display.flip()
 

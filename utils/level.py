@@ -11,10 +11,10 @@ from utils.parameters import WIDTH_UNIT, CIRCUIT_DEPTH
 class Level:
     """Start up a level"""
     def __init__(self):
-        self.level = 1  # game level
+        self.level = 3  # game level
         self.win = False  # flag for winning the game
-        self.left_box = pygame.sprite.Sprite()
-        self.right_box = pygame.sprite.Sprite()
+        self.left_paddle = pygame.sprite.Sprite()
+        self.right_paddle = pygame.sprite.Sprite()
 
     def setup(self, scene, ball):
         """Setup a level with a certain level number"""
@@ -29,24 +29,24 @@ class Level:
 
         self.circuit = self.circuit_grid_model.compute_circuit()
         self.statevector_grid = StatevectorGrid(self.circuit, scene.qubit_num, 100)
-        self.right_sprites = VBox(WIDTH_UNIT * 90, WIDTH_UNIT * 0, self.statevector_grid)
+        self.right_statevector = VBox(WIDTH_UNIT * 90, WIDTH_UNIT * 0, self.statevector_grid)
         self.circuit_grid = CircuitGrid(0, ball.screenheight, self.circuit_grid_model)
 
         # computer paddle
 
-        self.left_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** scene.qubit_num))])
-        self.left_box.image.fill((255, 255, 255))
-        self.left_box.image.set_alpha(255)
-        self.left_box.rect = self.left_box.image.get_rect()
-        self.left_box.rect.x = 9 * WIDTH_UNIT
+        self.left_paddle.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** scene.qubit_num))])
+        self.left_paddle.image.fill((255, 255, 255))
+        self.left_paddle.image.set_alpha(255)
+        self.left_paddle.rect = self.left_paddle.image.get_rect()
+        self.left_paddle.rect.x = 9 * WIDTH_UNIT
 
         # player paddle for detection of collision. It is invisible on the screen
 
-        self.right_box.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** scene.qubit_num))])
-        self.right_box.image.fill((255, 0, 255))
-        self.right_box.image.set_alpha(0)
-        self.right_box.rect = self.right_box.image.get_rect()
-        self.right_box.rect.x = self.right_sprites.xpos
+        self.right_paddle.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** scene.qubit_num))])
+        self.right_paddle.image.fill((255, 0, 255))
+        self.right_paddle.image.set_alpha(0)
+        self.right_paddle.rect = self.right_paddle.image.get_rect()
+        self.right_paddle.rect.x = self.right_statevector.xpos
 
     def levelup(self):
         """Increase level by 1"""
