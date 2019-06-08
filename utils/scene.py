@@ -14,12 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+import pygame
 from pygame.locals import *
-from utils.parameters import *
-from utils.fonts import *
-from utils.colors import *
-from utils.score import *
+
+from utils.parameters import WIDTH_UNIT, WINDOW_WIDTH, WINDOW_HEIGHT, QUANTUM_COMPUTER, CLASSICAL_COMPUTER, \
+    EASY, NORMAL, EXPERT
+from utils.fonts import GAMEOVER_FONT, REPLAY_FONT, SCORE_FONT, PLAYER_FONT, CREDIT_FONT
+from utils.colors import WHITE, BLACK, GRAY
 from utils.gamepad import *
 
 

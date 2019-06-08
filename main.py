@@ -26,8 +26,9 @@ from utils.ball import Ball
 from utils.input import Input
 from utils.level import Level
 from utils.scene import Scene
-from utils.parameters import *
-from utils.colors import *
+from utils.parameters import WINDOW_SIZE, CLASSICAL_COMPUTER, QUANTUM_COMPUTER, \
+    WIN_SCORE, WIDTH_UNIT, MEASURE_RIGHT
+from utils.colors import BLACK
 
 if not pygame.font:
     print('Warning, fonts disabled')

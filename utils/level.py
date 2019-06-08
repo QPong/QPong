@@ -1,7 +1,11 @@
-from model.circuit_grid_model import *
+import pygame
+
+from model.circuit_grid_model import CircuitGridModel
+from model import circuit_node_types as node_types
 from containers.vbox import VBox
 from viz.statevector_grid import StatevectorGrid
-from controls.circuit_grid import *
+from controls.circuit_grid import CircuitGrid, CircuitGridNode
+from utils.parameters import WIDTH_UNIT, CIRCUIT_DEPTH
 
 
 class Level:

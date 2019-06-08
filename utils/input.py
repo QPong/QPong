@@ -5,7 +5,7 @@ from pygame.locals import *
 from pygame import joystick
 
 from utils.gamepad import *
-from utils.parameters import *
+from utils.navigation import MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
 
 
 class Input:

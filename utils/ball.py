@@ -3,8 +3,9 @@ import random
 
 import pygame
 
-from utils.colors import *
-from utils.parameters import *
+from utils.colors import WHITE
+from utils.parameters import WIDTH_UNIT, WINDOW_HEIGHT, WINDOW_WIDTH, \
+    LEFT, RIGHT, NOTHING, NO, YES, MEASURE_LEFT, MEASURE_RIGHT
 from utils.score import Score
 from utils.sound import Sound
 

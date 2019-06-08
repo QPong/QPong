@@ -19,7 +19,7 @@ import os
 import pygame
 from pygame.compat import geterror
 from pygame.constants import RLEACCEL
-from utils.parameters import *
+from utils.parameters import WIDTH_UNIT
 
 main_dir = os.path.split(os.path.abspath(__file__))[0]
 data_dir = os.path.join(main_dir, 'data')

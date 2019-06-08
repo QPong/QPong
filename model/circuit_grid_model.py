@@ -14,9 +14,11 @@
 # limitations under the License.
 #
 import numpy as np
+
 from qiskit import QuantumCircuit, QuantumRegister
+
 from model import circuit_node_types as node_types
-from utils.parameters import *
+from utils.parameters import CIRCUIT_DEPTH
 
 
 class CircuitGridModel:

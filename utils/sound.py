@@ -1,16 +1,19 @@
 import pygame
 
 
-class Sound():
+class Sound:
 
-    def bounce_sound(self):
-        pygame.mixer.music.load('utils/data/4391__noisecollector__pongblipf-5.wav')
+    @staticmethod
+    def bounce_sound():
+        pygame.mixer.music.load('utils/data/sound/4391__noisecollector__pongblipf-5.wav')
         pygame.mixer.music.play()
 
-    def edge_sound(self):
-        pygame.mixer.music.load('utils/data/4390__noisecollector__pongblipf-4.wav')
+    @staticmethod
+    def edge_sound():
+        pygame.mixer.music.load('utils/data/sound/4390__noisecollector__pongblipf-4.wav')
         pygame.mixer.music.play()
 
-    def lost_sound(self):
-        pygame.mixer.music.load('utils/data/4384__noisecollector__pongblipd4.wav')
+    @staticmethod
+    def lost_sound():
+        pygame.mixer.music.load('utils/data/sound/4384__noisecollector__pongblipd4.wav')
         pygame.mixer.music.play(3)
