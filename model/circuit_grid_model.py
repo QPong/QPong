@@ -14,29 +14,28 @@
 # limitations under the License.
 #
 import numpy as np
+
 from qiskit import QuantumCircuit, QuantumRegister
+
 from model import circuit_node_types as node_types
-from utils.parameters import *
+from utils.parameters import CIRCUIT_DEPTH
 
 
-class CircuitGridModel():
+class CircuitGridModel:
     """Grid-based model that is built when user interacts with circuit"""
     def __init__(self, max_wires, max_columns):
         self.max_wires = max_wires
         self.max_columns = max_columns
-        self.nodes = np.empty((max_wires, max_columns),
-                                dtype = CircuitGridNode)
+        self.nodes = np.empty((max_wires, max_columns), dtype=CircuitGridNode)
 
     def __str__(self):
         retval = ''
         for wire_num in range(self.max_wires):
             retval += '\n'
             for column_num in range(self.max_columns):
-                # retval += str(self.nodes[wire_num][column_num]) + ', '
                 retval += str(self.get_node_gate_part(wire_num, column_num)) + ', '
         return 'CircuitGridModel: ' + retval
 
-    # def set_node(self, wire_num, column_num, node_type, radians=0, ctrl_a=-1, ctrl_b=-1, swap=-1):
     def set_node(self, wire_num, column_num, circuit_grid_node):
         self.nodes[wire_num][column_num] = \
             CircuitGridNode(circuit_grid_node.node_type,
@@ -88,13 +87,6 @@ class CircuitGridModel():
                               self.get_node_gate_part(gate_wire_num, column_num),
                               " on wire: " , gate_wire_num)
         return gate_wire_num
-
-    # def avail_gate_parts_for_node(self, wire_num, column_num):
-    #     retval = np.empty(0, dtype = np.int8)
-    #     node_gate_part = self.get_node_gate_part(wire_num, column_num)
-    #     if node_gate_part == node_types.EMPTY:
-    #         # No gate part in this node
-
 
     def compute_circuit(self):
         qr = QuantumRegister(self.max_wires, 'q')
@@ -182,13 +174,13 @@ class CircuitGridModel():
                               dtype=CircuitGridNode)
         # the game crashes if the circuit is empty
         # initialize circuit with 3 identity gate at the end to prevent crash
-        # identitiy gate are displayed by completely transparent PNG
-        self.set_node(0, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
-        self.set_node(1, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
-        self.set_node(2, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
+        # identity gate are displayed by completely transparent PNG
+
+        for i in range(self.max_wires):
+            self.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
 
 
-class CircuitGridNode():
+class CircuitGridNode:
     """Represents a node in the circuit grid"""
     def __init__(self, node_type, radians=0.0, ctrl_a=-1, ctrl_b=-1, swap=-1):
         self.node_type = node_type

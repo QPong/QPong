@@ -1,15 +1,14 @@
-import pygame
 import math
 import random
-import numpy as np
-from utils.colors import *
-from utils.navigation import *
-from utils.resources import *
-from utils.sound import *
-from utils.score import *
-from model.circuit_grid_model import CircuitGridNode
-from model import circuit_node_types as node_types
-from utils.parameters import *
+
+import pygame
+
+from utils.colors import WHITE
+from utils.parameters import WIDTH_UNIT, WINDOW_HEIGHT, WINDOW_WIDTH, \
+    LEFT, RIGHT, NOTHING, NO, YES, MEASURE_LEFT, MEASURE_RIGHT
+from utils.score import Score
+from utils.sound import Sound
+
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
@@ -23,8 +22,8 @@ class Ball(pygame.sprite.Sprite):
         self.left_edge = self.width_unit
         self.right_edge = self.screenwidth - self.left_edge
 
-        self.top_edge = self.width_unit * 0.5
-        self.bottom_edge = self.screenwidth - self.top_edge
+        self.top_edge = self.width_unit * 0
+        self.bottom_edge = self.screenheight - self.top_edge
 
         # define the ball sizes
         self.height = self.width_unit
@@ -49,7 +48,7 @@ class Ball(pygame.sprite.Sprite):
 
         # initialize ball reset on the left
         self.reset_position = LEFT
-        self.ball_reset()
+        self.reset()
 
         self.sound = Sound()
         self.score = Score()
@@ -60,23 +59,18 @@ class Ball(pygame.sprite.Sprite):
         self.x += self.speed * math.sin(radians)
         self.y -= self.speed * math.cos(radians)
 
-        #if self.x < self.lef_edge:
-        #    self.ball_reset()
-        #if self.x > self.right_edge:
-        #    self.ball_reset()
-
         # Update ball position
         self.rect.x = self.x
         self.rect.y = self.y
 
         if self.y <= self.top_edge:
             self.direction = (180-self.direction) % 360
-            self.sound.edge_sound()
-        if self.y > self.screenheight - 1*self.height:
+            self.sound.edge_sound.play()
+        if self.y > self.bottom_edge - 1*self.height:
             self.direction = (180-self.direction) % 360
-            self.sound.edge_sound()
+            self.sound.edge_sound.play()
 
-    def ball_reset(self):
+    def reset(self):
 
         self.y = self.screenheight / 2
         self.speed = self.width_unit * self.initial_speed_factor
@@ -94,7 +88,7 @@ class Ball(pygame.sprite.Sprite):
     def bounce_edge(self):
         self.direction = (360-self.direction) % 360
         self.speed *= 1.1
-        self.sound.bounce_sound()
+        self.sound.bounce_sound.play()
 
     def get_xpos(self):
         xpos = self.x
@@ -109,8 +103,8 @@ class Ball(pygame.sprite.Sprite):
 
         if self.x < self.left_edge:
             # reset the ball when it reaches beyond left edge
-            self.ball_reset()
-            self.sound.lost_sound()
+            self.reset()
+            self.sound.lost_sound.play(3)
             self.score.update(1)
 
         elif self.left_edge + 10 * self.width_unit <= self.x < self.left_edge + 12 * self.width_unit:
@@ -133,8 +127,8 @@ class Ball(pygame.sprite.Sprite):
 
         elif self.x > self.right_edge:
             # reset the ball when it reaches beyond right edge
-            self.ball_reset()
-            self.sound.lost_sound()
+            self.reset()
+            self.sound.lost_sound.play(3)
             self.score.update(0)
 
         else:
