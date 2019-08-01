@@ -1,6 +1,8 @@
 # QPong
 This is a quantum version of classic game Pong using IBM Qikist and PyGame. This game was initiated in IBM Qiskit Camp 2019 by Huang Junye, Jarrod Reilly, Anastasia Jeffery and James Weaver based on James Weaver's quantum-circuit-pygame package: https://github.com/JavaFXpert/quantum-circuit-pygame
 
+**NEW!** Unity version is being actively developed over here: https://github.com/HuangJunye/QPong-Unity
+
 ## Story
 In the dawn of the Quantum Era, a primitive 3-qubit Quantum Computer is trying to challenge the Classical Computer, the long-time ruler of the Computer Empire. Your mission is to use your Human Intelligence to help the Quantum Computer defeat the Classical Computer and demonstrate "quantum supremacy" for the first time in human history. The battle field of the Quantum-Classic war is none other than the classic Pong game.
 
