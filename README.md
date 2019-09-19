@@ -1,5 +1,5 @@
 # QPong
-This is a quantum version of classic game Pong using IBM Qikist and PyGame. This game was initiated in IBM Qiskit Camp 2019 by Huang Junye, Jarrod Reilly, Anastasia Jeffery and James Weaver based on James Weaver's quantum-circuit-pygame package: https://github.com/JavaFXpert/quantum-circuit-pygame
+This is a quantum version of classic game Pong using IBM Qiskit and PyGame. This game was initiated in IBM Qiskit Camp 2019 by Huang Junye, Jarrod Reilly, Anastasia Jeffery and James Weaver based on James Weaver's quantum-circuit-pygame package: https://github.com/JavaFXpert/quantum-circuit-pygame
 
 **NEW!** Unity version is being actively developed over here: https://github.com/HuangJunye/QPong-Unity
 
