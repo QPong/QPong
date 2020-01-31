@@ -49,6 +49,9 @@ def main():
         screen.fill((0,0,0))
 
         ball.update()  # update ball position
+
+        level.right_statevector.draw(screen)  # draw right paddle together with statevector grid
+        level.circuit_grid.draw(screen)  # draw circuit grid
         moving_sprites.draw(screen)  # draw moving sprites
 
         pygame.display.flip()
