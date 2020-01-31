@@ -49,6 +49,8 @@ def main():
         screen.fill((0,0,0))
 
         ball.update()  # update ball position
+        scene.dashed_line(screen, ball)  # draw dashed line in the middle of the screen
+        scene.score(screen, ball)   # print score
 
         level.right_statevector.draw(screen)  # draw right paddle together with statevector grid
         level.circuit_grid.draw(screen)  # draw circuit grid
