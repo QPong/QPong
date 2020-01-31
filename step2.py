@@ -20,6 +20,7 @@ def main():
     # clock for timing
     clock = pygame.time.Clock()
     old_clock = pygame.time.get_ticks()
+    clock.tick(60) # set maximum frame rate
 
     # define ball
     ball = Ball()
