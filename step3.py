@@ -57,6 +57,9 @@ def main():
         level.circuit_grid.draw(screen)  # draw circuit grid
         moving_sprites.draw(screen)  # draw moving sprites
 
+        # check ball location and decide what to do
+        ball.action()
+
         pygame.display.flip()
 
     pygame.quit()

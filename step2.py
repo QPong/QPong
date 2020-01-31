@@ -43,6 +43,9 @@ def main():
         ball.update()  # update ball position
         moving_sprites.draw(screen)  # draw moving sprites
 
+        # check ball location and decide what to do
+        ball.action()
+
         pygame.display.flip()
 
     pygame.quit()
