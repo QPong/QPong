@@ -27,11 +27,12 @@ class Input:
 
     def handle_input(self, level, screen, scene):
 
+        gamepad_move = False
         circuit_grid = level.circuit_grid
 
         # use joystick if it's connected
         if self.num_joysticks > 0:
-            joystick_hat = joystick.get_hat(0)
+            joystick_hat = self.joystick.get_hat(0)
 
             if joystick_hat == (0, 0):
                 self.gamepad_neutral = True
@@ -47,18 +48,22 @@ class Input:
                 self.gamepad_pressed_timer -= self.gamepad_repeat_delay
             if gamepad_move:
                 if joystick_hat == (-1, 0):
-                    self.move_update_circuit_grid_display(circuit_grid, MOVE_LEFT)
+                    self.move_update_circuit_grid_display(screen,
+                                                          circuit_grid, MOVE_LEFT)
                 elif joystick_hat == (1, 0):
-                    self.move_update_circuit_grid_display(circuit_grid, MOVE_RIGHT)
+                    self.move_update_circuit_grid_display(screen,
+                                                          circuit_grid, MOVE_RIGHT)
                 elif joystick_hat == (0, 1):
-                    self.move_update_circuit_grid_display(circuit_grid, MOVE_UP)
+                    self.move_update_circuit_grid_display(screen,
+                                                          circuit_grid, MOVE_UP)
                 elif joystick_hat == (0, -1):
-                    self.move_update_circuit_grid_display(circuit_grid, MOVE_DOWN)
+                    self.move_update_circuit_grid_display(screen,
+                                                          circuit_grid, MOVE_DOWN)
             self.gamepad_last_update = pygame.time.get_ticks()
 
             # Check left thumbstick position
-            left_thumb_x = joystick.get_axis(0)
-            left_thumb_y = joystick.get_axis(1)
+            left_thumb_x = self.joystick.get_axis(0)
+            left_thumb_y = self.joystick.get_axis(1)
 
         # Handle Input Events
         for event in pygame.event.get():
@@ -110,22 +115,22 @@ class Input:
 
             elif event.type == JOYAXISMOTION:
                 # print("event: ", event)
-                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.95:
+                if event.axis == AXIS_RIGHT_THUMB_X and self.joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.95:
                     circuit_grid.handle_input_rotate(np.pi / 8)
                     circuit_grid.draw(screen)
                     self.update_paddle(level, screen, scene)
                     pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_X and joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.95:
+                if event.axis == AXIS_RIGHT_THUMB_X and self.joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.95:
                     circuit_grid.handle_input_rotate(-np.pi / 8)
                     circuit_grid.draw(screen)
                     self.update_paddle(level, screen, scene)
                     pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) <= -0.95:
+                if event.axis == AXIS_RIGHT_THUMB_Y and self.joystick.get_axis(AXIS_RIGHT_THUMB_Y) <= -0.95:
                     circuit_grid.handle_input_move_ctrl(MOVE_UP)
                     circuit_grid.draw(screen)
                     self.update_paddle(level, screen, scene)
                     pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_Y and joystick.get_axis(AXIS_RIGHT_THUMB_Y) >= 0.95:
+                if event.axis == AXIS_RIGHT_THUMB_Y and self.joystick.get_axis(AXIS_RIGHT_THUMB_Y) >= 0.95:
                     circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
                     circuit_grid.draw(screen)
                     self.update_paddle(level, screen, scene)
@@ -220,12 +225,13 @@ class Input:
         statevector_grid = level.statevector_grid
 
         circuit = circuit_grid_model.compute_circuit()
-        statevector_grid.paddle_before_measurement(circuit, scene.qubit_num, 100)
+        statevector_grid.paddle_before_measurement(
+            circuit, scene.qubit_num, 100)
         right_statevector.arrange()
         circuit_grid.draw(screen)
         pygame.display.flip()
 
-    def move_update_circuit_grid_display(self, circuit_grid, direction):
+    def move_update_circuit_grid_display(self, screen, circuit_grid, direction):
         circuit_grid.move_to_adjacent_node(direction)
         circuit_grid.draw(screen)
         pygame.display.flip()
