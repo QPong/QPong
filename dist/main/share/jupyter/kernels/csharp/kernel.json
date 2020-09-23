@@ -1,9 +1,0 @@
-{
-    "argv": [
-      "mono",
-      "/Users/kirais/icsharp/build/Release/bin/iCSharp.Kernel.exe", 
-      "{connection_file}"
-    ],
-    "display_name": "C#",
-    "language": "csharp"
-}
