@@ -1,0 +1,483 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+/*
+The following CSS variables define the main, public API for styling JupyterLab.
+These variables should be used by all plugins wherever possible. In other
+words, plugins should not define custom colors, sizes, etc unless absolutely
+necessary. This enables users to change the visual theme of JupyterLab
+by changing these variables.
+
+Many variables appear in an ordered sequence (0,1,2,3). These sequences
+are designed to work well together, so for example, `--jp-border-color1` should
+be used with `--jp-layout-color1`. The numbers have the following meanings:
+
+* 0: super-primary, reserved for special emphasis
+* 1: primary, most important under normal situations
+* 2: secondary, next most important under normal situations
+* 3: tertiary, next most important under normal situations
+
+Throughout JupyterLab, we are mostly following principles from Google's
+Material Design when selecting colors. We are not, however, following
+all of MD as it is not optimized for dense, information rich UIs.
+*/
+
+:root {
+  /* Elevation
+   *
+   * We style box-shadows using Material Design's idea of elevation. These particular numbers are taken from here:
+   *
+   * https://github.com/material-components/material-components-web
+   * https://material-components-web.appspot.com/elevation.html
+   */
+
+  --jp-shadow-base-lightness: 0;
+  --jp-shadow-umbra-color: rgba(
+    var(--jp-shadow-base-lightness),
+    var(--jp-shadow-base-lightness),
+    var(--jp-shadow-base-lightness),
+    0.2
+  );
+  --jp-shadow-penumbra-color: rgba(
+    var(--jp-shadow-base-lightness),
+    var(--jp-shadow-base-lightness),
+    var(--jp-shadow-base-lightness),
+    0.14
+  );
+  --jp-shadow-ambient-color: rgba(
+    var(--jp-shadow-base-lightness),
+    var(--jp-shadow-base-lightness),
+    var(--jp-shadow-base-lightness),
+    0.12
+  );
+  --jp-elevation-z0: none;
+  --jp-elevation-z1: 0px 2px 1px -1px var(--jp-shadow-umbra-color),
+    0px 1px 1px 0px var(--jp-shadow-penumbra-color),
+    0px 1px 3px 0px var(--jp-shadow-ambient-color);
+  --jp-elevation-z2: 0px 3px 1px -2px var(--jp-shadow-umbra-color),
+    0px 2px 2px 0px var(--jp-shadow-penumbra-color),
+    0px 1px 5px 0px var(--jp-shadow-ambient-color);
+  --jp-elevation-z4: 0px 2px 4px -1px var(--jp-shadow-umbra-color),
+    0px 4px 5px 0px var(--jp-shadow-penumbra-color),
+    0px 1px 10px 0px var(--jp-shadow-ambient-color);
+  --jp-elevation-z6: 0px 3px 5px -1px var(--jp-shadow-umbra-color),
+    0px 6px 10px 0px var(--jp-shadow-penumbra-color),
+    0px 1px 18px 0px var(--jp-shadow-ambient-color);
+  --jp-elevation-z8: 0px 5px 5px -3px var(--jp-shadow-umbra-color),
+    0px 8px 10px 1px var(--jp-shadow-penumbra-color),
+    0px 3px 14px 2px var(--jp-shadow-ambient-color);
+  --jp-elevation-z12: 0px 7px 8px -4px var(--jp-shadow-umbra-color),
+    0px 12px 17px 2px var(--jp-shadow-penumbra-color),
+    0px 5px 22px 4px var(--jp-shadow-ambient-color);
+  --jp-elevation-z16: 0px 8px 10px -5px var(--jp-shadow-umbra-color),
+    0px 16px 24px 2px var(--jp-shadow-penumbra-color),
+    0px 6px 30px 5px var(--jp-shadow-ambient-color);
+  --jp-elevation-z20: 0px 10px 13px -6px var(--jp-shadow-umbra-color),
+    0px 20px 31px 3px var(--jp-shadow-penumbra-color),
+    0px 8px 38px 7px var(--jp-shadow-ambient-color);
+  --jp-elevation-z24: 0px 11px 15px -7px var(--jp-shadow-umbra-color),
+    0px 24px 38px 3px var(--jp-shadow-penumbra-color),
+    0px 9px 46px 8px var(--jp-shadow-ambient-color);
+
+  /* Borders
+   *
+   * The following variables, specify the visual styling of borders in JupyterLab.
+   */
+
+  --jp-border-width: 1px;
+  --jp-border-color0: var(--md-grey-400);
+  --jp-border-color1: var(--md-grey-400);
+  --jp-border-color2: var(--md-grey-300);
+  --jp-border-color3: var(--md-grey-200);
+  --jp-border-radius: 2px;
+
+  /* UI Fonts
+   *
+   * The UI font CSS variables are used for the typography all of the JupyterLab
+   * user interface elements that are not directly user generated content.
+   *
+   * The font sizing here is done assuming that the body font size of --jp-ui-font-size1
+   * is applied to a parent element. When children elements, such as headings, are sized
+   * in em all things will be computed relative to that body size.
+   */
+
+  --jp-ui-font-scale-factor: 1.2;
+  --jp-ui-font-size0: 0.83333em;
+  --jp-ui-font-size1: 13px; /* Base font size */
+  --jp-ui-font-size2: 1.2em;
+  --jp-ui-font-size3: 1.44em;
+
+  --jp-ui-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+  /*
+   * Use these font colors against the corresponding main layout colors.
+   * In a light theme, these go from dark to light.
+   */
+
+  /* Defaults use Material Design specification */
+  --jp-ui-font-color0: rgba(0, 0, 0, 1);
+  --jp-ui-font-color1: rgba(0, 0, 0, 0.87);
+  --jp-ui-font-color2: rgba(0, 0, 0, 0.54);
+  --jp-ui-font-color3: rgba(0, 0, 0, 0.38);
+
+  /*
+   * Use these against the brand/accent/warn/error colors.
+   * These will typically go from light to darker, in both a dark and light theme.
+   */
+
+  --jp-ui-inverse-font-color0: rgba(255, 255, 255, 1);
+  --jp-ui-inverse-font-color1: rgba(255, 255, 255, 1);
+  --jp-ui-inverse-font-color2: rgba(255, 255, 255, 0.7);
+  --jp-ui-inverse-font-color3: rgba(255, 255, 255, 0.5);
+
+  /* Content Fonts
+   *
+   * Content font variables are used for typography of user generated content.
+   *
+   * The font sizing here is done assuming that the body font size of --jp-content-font-size1
+   * is applied to a parent element. When children elements, such as headings, are sized
+   * in em all things will be computed relative to that body size.
+   */
+
+  --jp-content-line-height: 1.6;
+  --jp-content-font-scale-factor: 1.2;
+  --jp-content-font-size0: 0.83333em;
+  --jp-content-font-size1: 14px; /* Base font size */
+  --jp-content-font-size2: 1.2em;
+  --jp-content-font-size3: 1.44em;
+  --jp-content-font-size4: 1.728em;
+  --jp-content-font-size5: 2.0736em;
+
+  /* This gives a magnification of about 125% in presentation mode over normal. */
+  --jp-content-presentation-font-size1: 17px;
+
+  --jp-content-heading-line-height: 1;
+  --jp-content-heading-margin-top: 1.2em;
+  --jp-content-heading-margin-bottom: 0.8em;
+  --jp-content-heading-font-weight: 500;
+
+  /* Defaults use Material Design specification */
+  --jp-content-font-color0: rgba(0, 0, 0, 1);
+  --jp-content-font-color1: rgba(0, 0, 0, 0.87);
+  --jp-content-font-color2: rgba(0, 0, 0, 0.54);
+  --jp-content-font-color3: rgba(0, 0, 0, 0.38);
+
+  --jp-content-link-color: var(--md-blue-700);
+
+  --jp-content-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+
+  /*
+   * Code Fonts
+   *
+   * Code font variables are used for typography of code and other monospaces content.
+   */
+
+  --jp-code-font-size: 13px;
+  --jp-code-line-height: 1.3077; /* 17px for 13px base */
+  --jp-code-padding: 5px; /* 5px for 13px base, codemirror highlighting needs integer px value */
+  --jp-code-font-family-default: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --jp-code-font-family: var(--jp-code-font-family-default);
+
+  /* This gives a magnification of about 125% in presentation mode over normal. */
+  --jp-code-presentation-font-size: 16px;
+
+  /* may need to tweak cursor width if you change font size */
+  --jp-code-cursor-width0: 1.4px;
+  --jp-code-cursor-width1: 2px;
+  --jp-code-cursor-width2: 4px;
+
+  /* Layout
+   *
+   * The following are the main layout colors use in JupyterLab. In a light
+   * theme these would go from light to dark.
+   */
+
+  --jp-layout-color0: white;
+  --jp-layout-color1: white;
+  --jp-layout-color2: var(--md-grey-200);
+  --jp-layout-color3: var(--md-grey-400);
+  --jp-layout-color4: var(--md-grey-600);
+
+  /* Inverse Layout
+   *
+   * The following are the inverse layout colors use in JupyterLab. In a light
+   * theme these would go from dark to light.
+   */
+
+  --jp-inverse-layout-color0: #111111;
+  --jp-inverse-layout-color1: var(--md-grey-900);
+  --jp-inverse-layout-color2: var(--md-grey-800);
+  --jp-inverse-layout-color3: var(--md-grey-700);
+  --jp-inverse-layout-color4: var(--md-grey-600);
+
+  /* Brand/accent */
+
+  --jp-brand-color0: var(--md-blue-700);
+  --jp-brand-color1: var(--md-blue-500);
+  --jp-brand-color2: var(--md-blue-300);
+  --jp-brand-color3: var(--md-blue-100);
+  --jp-brand-color4: var(--md-blue-50);
+
+  --jp-accent-color0: var(--md-green-700);
+  --jp-accent-color1: var(--md-green-500);
+  --jp-accent-color2: var(--md-green-300);
+  --jp-accent-color3: var(--md-green-100);
+
+  /* State colors (warn, error, success, info) */
+
+  --jp-warn-color0: var(--md-orange-700);
+  --jp-warn-color1: var(--md-orange-500);
+  --jp-warn-color2: var(--md-orange-300);
+  --jp-warn-color3: var(--md-orange-100);
+
+  --jp-error-color0: var(--md-red-700);
+  --jp-error-color1: var(--md-red-500);
+  --jp-error-color2: var(--md-red-300);
+  --jp-error-color3: var(--md-red-100);
+
+  --jp-success-color0: var(--md-green-700);
+  --jp-success-color1: var(--md-green-500);
+  --jp-success-color2: var(--md-green-300);
+  --jp-success-color3: var(--md-green-100);
+
+  --jp-info-color0: var(--md-cyan-700);
+  --jp-info-color1: var(--md-cyan-500);
+  --jp-info-color2: var(--md-cyan-300);
+  --jp-info-color3: var(--md-cyan-100);
+
+  /* Cell specific styles */
+
+  --jp-cell-padding: 5px;
+
+  --jp-cell-collapser-width: 8px;
+  --jp-cell-collapser-min-height: 20px;
+  --jp-cell-collapser-not-active-hover-opacity: 0.6;
+
+  --jp-cell-editor-background: var(--md-grey-100);
+  --jp-cell-editor-border-color: var(--md-grey-300);
+  --jp-cell-editor-box-shadow: inset 0 0 2px var(--md-blue-300);
+  --jp-cell-editor-active-background: var(--jp-layout-color0);
+  --jp-cell-editor-active-border-color: var(--jp-brand-color1);
+
+  --jp-cell-prompt-width: 64px;
+  --jp-cell-prompt-font-family: 'Source Code Pro', monospace;
+  --jp-cell-prompt-letter-spacing: 0px;
+  --jp-cell-prompt-opacity: 1;
+  --jp-cell-prompt-not-active-opacity: 0.5;
+  --jp-cell-prompt-not-active-font-color: var(--md-grey-700);
+  /* A custom blend of MD grey and blue 600
+   * See https://meyerweb.com/eric/tools/color-blend/#546E7A:1E88E5:5:hex */
+  --jp-cell-inprompt-font-color: #307fc1;
+  /* A custom blend of MD grey and orange 600
+   * https://meyerweb.com/eric/tools/color-blend/#546E7A:F4511E:5:hex */
+  --jp-cell-outprompt-font-color: #bf5b3d;
+
+  /* Notebook specific styles */
+
+  --jp-notebook-padding: 10px;
+  --jp-notebook-select-background: var(--jp-layout-color1);
+  --jp-notebook-multiselected-color: var(--md-blue-50);
+
+  /* The scroll padding is calculated to fill enough space at the bottom of the
+  notebook to show one single-line cell (with appropriate padding) at the top
+  when the notebook is scrolled all the way to the bottom. We also subtract one
+  pixel so that no scrollbar appears if we have just one single-line cell in the
+  notebook. This padding is to enable a 'scroll past end' feature in a notebook.
+  */
+  --jp-notebook-scroll-padding: calc(
+    100% - var(--jp-code-font-size) * var(--jp-code-line-height) -
+      var(--jp-code-padding) - var(--jp-cell-padding) - 1px
+  );
+
+  /* Rendermime styles */
+
+  --jp-rendermime-error-background: #fdd;
+  --jp-rendermime-table-row-background: var(--md-grey-100);
+  --jp-rendermime-table-row-hover-background: var(--md-light-blue-50);
+
+  /* Dialog specific styles */
+
+  --jp-dialog-background: rgba(0, 0, 0, 0.25);
+
+  /* Console specific styles */
+
+  --jp-console-padding: 10px;
+
+  /* Toolbar specific styles */
+
+  --jp-toolbar-border-color: var(--jp-border-color1);
+  --jp-toolbar-micro-height: 8px;
+  --jp-toolbar-background: var(--jp-layout-color1);
+  --jp-toolbar-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.24);
+  --jp-toolbar-header-margin: 4px 4px 0px 4px;
+  --jp-toolbar-active-background: var(--md-grey-300);
+
+  /* Input field styles */
+
+  --jp-input-box-shadow: inset 0 0 2px var(--md-blue-300);
+  --jp-input-active-background: var(--jp-layout-color1);
+  --jp-input-hover-background: var(--jp-layout-color1);
+  --jp-input-background: var(--md-grey-100);
+  --jp-input-border-color: var(--jp-border-color1);
+  --jp-input-active-border-color: var(--jp-brand-color1);
+  --jp-input-active-box-shadow-color: rgba(19, 124, 189, 0.3);
+
+  /* General editor styles */
+
+  --jp-editor-selected-background: #d9d9d9;
+  --jp-editor-selected-focused-background: #d7d4f0;
+  --jp-editor-cursor-color: var(--jp-ui-font-color0);
+
+  /* Code mirror specific styles */
+
+  --jp-mirror-editor-keyword-color: #008000;
+  --jp-mirror-editor-atom-color: #88f;
+  --jp-mirror-editor-number-color: #080;
+  --jp-mirror-editor-def-color: #00f;
+  --jp-mirror-editor-variable-color: var(--md-grey-900);
+  --jp-mirror-editor-variable-2-color: #05a;
+  --jp-mirror-editor-variable-3-color: #085;
+  --jp-mirror-editor-punctuation-color: #05a;
+  --jp-mirror-editor-property-color: #05a;
+  --jp-mirror-editor-operator-color: #aa22ff;
+  --jp-mirror-editor-comment-color: #408080;
+  --jp-mirror-editor-string-color: #ba2121;
+  --jp-mirror-editor-string-2-color: #708;
+  --jp-mirror-editor-meta-color: #aa22ff;
+  --jp-mirror-editor-qualifier-color: #555;
+  --jp-mirror-editor-builtin-color: #008000;
+  --jp-mirror-editor-bracket-color: #997;
+  --jp-mirror-editor-tag-color: #170;
+  --jp-mirror-editor-attribute-color: #00c;
+  --jp-mirror-editor-header-color: blue;
+  --jp-mirror-editor-quote-color: #090;
+  --jp-mirror-editor-link-color: #00c;
+  --jp-mirror-editor-error-color: #f00;
+  --jp-mirror-editor-hr-color: #999;
+
+  /* Vega extension styles */
+
+  --jp-vega-background: white;
+
+  /* Sidebar-related styles */
+
+  --jp-sidebar-min-width: 180px;
+
+  /* Search-related styles */
+
+  --jp-search-toggle-off-opacity: 0.5;
+  --jp-search-toggle-hover-opacity: 0.8;
+  --jp-search-toggle-on-opacity: 1;
+  --jp-search-selected-match-background-color: rgb(245, 200, 0);
+  --jp-search-selected-match-color: black;
+  --jp-search-unselected-match-background-color: var(
+    --jp-inverse-layout-color0
+  );
+  --jp-search-unselected-match-color: var(--jp-ui-inverse-font-color0);
+
+  /* Icon colors that work well with light or dark backgrounds */
+  --jp-icon-contrast-color0: var(--md-purple-600);
+  --jp-icon-contrast-color1: var(--md-green-600);
+  --jp-icon-contrast-color2: var(--md-pink-600);
+  --jp-icon-contrast-color3: var(--md-blue-600);
+}
+
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+:root {
+  /* Images
+
+  These images are included with JupyterLab for showing the Project Jupyter logo
+  */
+
+  --jp-image-jupyter: url("data:image/svg+xml,%3Csvg width='39' height='51' viewBox='0 0 39 51' version='2.0' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:figma='http://www.figma.com/figma/ns'%3E %3Ctitle%3Elogo-5.svg%3C/title%3E %3Cdesc%3ECreated using Figma 0.90%3C/desc%3E %3Cg id='Canvas' transform='translate(-1638 -2281)' figma:type='canvas'%3E %3Cg id='logo' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='g' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path7 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path0_fill' transform='translate(1669.3 2281.31)' fill='%23767677' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path8 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path1_fill' transform='translate(1639.74 2311.98)' fill='%23F37726' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path9 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path2_fill' transform='translate(1639.73 2285.48)' fill='%23F37726' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path10 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path3_fill' transform='translate(1639.8 2323.81)' fill='%23989798' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path11 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path4_fill' transform='translate(1638.36 2286.06)' fill='%236F7070' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cdefs%3E %3Cpath id='path0_fill' d='M 5.89353 2.844C 5.91889 3.43165 5.77085 4.01367 5.46815 4.51645C 5.16545 5.01922 4.72168 5.42015 4.19299 5.66851C 3.6643 5.91688 3.07444 6.00151 2.49805 5.91171C 1.92166 5.8219 1.38463 5.5617 0.954898 5.16401C 0.52517 4.76633 0.222056 4.24903 0.0839037 3.67757C -0.0542483 3.10611 -0.02123 2.50617 0.178781 1.95364C 0.378793 1.4011 0.736809 0.920817 1.20754 0.573538C 1.67826 0.226259 2.24055 0.0275919 2.82326 0.00267229C 3.60389 -0.0307115 4.36573 0.249789 4.94142 0.782551C 5.51711 1.31531 5.85956 2.05676 5.89353 2.844Z'/%3E %3Cpath id='path1_fill' d='M 18.2646 7.13411C 10.4145 7.13411 3.55872 4.2576 0 0C 1.32539 3.8204 3.79556 7.13081 7.0686 9.47303C 10.3417 11.8152 14.2557 13.0734 18.269 13.0734C 22.2823 13.0734 26.1963 11.8152 29.4694 9.47303C 32.7424 7.13081 35.2126 3.8204 36.538 0C 32.9705 4.2576 26.1148 7.13411 18.2646 7.13411Z'/%3E %3Cpath id='path2_fill' d='M 18.2733 5.93931C 26.1235 5.93931 32.9793 8.81583 36.538 13.0734C 35.2126 9.25303 32.7424 5.94262 29.4694 3.6004C 26.1963 1.25818 22.2823 0 18.269 0C 14.2557 0 10.3417 1.25818 7.0686 3.6004C 3.79556 5.94262 1.32539 9.25303 0 13.0734C 3.56745 8.82463 10.4232 5.93931 18.2733 5.93931Z'/%3E %3Cpath id='path3_fill' d='M 7.42789 3.58338C 7.46008 4.3243 7.27355 5.05819 6.89193 5.69213C 6.51031 6.32607 5.95075 6.83156 5.28411 7.1446C 4.61747 7.45763 3.87371 7.56414 3.14702 7.45063C 2.42032 7.33712 1.74336 7.0087 1.20184 6.50695C 0.660328 6.0052 0.27861 5.35268 0.105017 4.63202C -0.0685757 3.91135 -0.0262361 3.15494 0.226675 2.45856C 0.479587 1.76217 0.931697 1.15713 1.52576 0.720033C 2.11983 0.282935 2.82914 0.0334395 3.56389 0.00313344C 4.54667 -0.0374033 5.50529 0.316706 6.22961 0.987835C 6.95393 1.65896 7.38484 2.59235 7.42789 3.58338L 7.42789 3.58338Z'/%3E %3Cpath id='path4_fill' d='M 2.27471 4.39629C 1.84363 4.41508 1.41671 4.30445 1.04799 4.07843C 0.679268 3.8524 0.385328 3.52114 0.203371 3.12656C 0.0214136 2.73198 -0.0403798 2.29183 0.0258116 1.86181C 0.0920031 1.4318 0.283204 1.03126 0.575213 0.710883C 0.867222 0.39051 1.24691 0.164708 1.66622 0.0620592C 2.08553 -0.0405897 2.52561 -0.0154714 2.93076 0.134235C 3.33591 0.283941 3.68792 0.551505 3.94222 0.90306C 4.19652 1.25462 4.34169 1.67436 4.35935 2.10916C 4.38299 2.69107 4.17678 3.25869 3.78597 3.68746C 3.39516 4.11624 2.85166 4.37116 2.27471 4.39629L 2.27471 4.39629Z'/%3E %3C/defs%3E %3C/svg%3E");
+  --jp-image-jupyterlab: url("data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8' standalone='no'?%3E %3Csvg width='2340px' height='475px' viewBox='0 0 2340 475' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E %3C!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch --%3E %3Ctitle%3Efulllogo-greytext-orangebody-greymoons (1)%3C/title%3E %3Cdesc%3ECreated with Sketch.%3C/desc%3E %3Cdefs%3E%3C/defs%3E %3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E %3Cg id='fulllogo-greytext-orangebody-greymoons-(1)' transform='translate(-1.000000, 0.000000)'%3E %3Cg id='logo.svg'%3E %3Cg id='Canvas'%3E %3Cg id='logo'%3E %3Cg id='Group' transform='translate(480.136401, 64.271493)' fill='%234E4E4E'%3E %3Cg id='g'%3E %3Cg id='path' transform='translate(0.000000, 58.875566)'%3E %3Cg id='path0-fill'%3E %3Cg id='path0_fill-link' transform='translate(0.087603, 0.140294)'%3E %3Cpath d='M53.3355435,169.825478 C53.3355435,218.573715 49.6145164,234.489998 39.6915562,246.239175 C28.8596226,256.241558 14.6917527,261.773703 0,261.738653 L3.72108399,290.736944 C26.4929546,291.05239 48.5678886,282.825219 65.6565516,267.655396 C83.4350028,249.155866 89.6368411,223.573485 89.6368411,184.32557 L89.6368411,0 L53.2528751,0 L53.2528751,170.075561 L53.3355435,169.825478 L53.3355435,169.825478 Z' id='path0_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(155.045296, 56.837104)'%3E %3Cg id='path1-fill'%3E %3Cg id='path1_fill-link' transform='translate(1.562453, 1.799842)'%3E %3Cpath d='M168.193269,147.993399 C168.193269,168.992814 168.193269,187.491397 169.846638,203.407681 L138.010762,203.407681 L135.944052,170.075561 L135.116419,170.075561 C128.414778,181.725273 118.752432,191.363898 107.124815,197.998683 C95.4971981,204.634415 82.3249517,208.025695 68.9641417,207.823924 C37.5416084,207.823924 0,190.158005 0,118.828386 L0,0 L36.383966,0 L36.383966,112.744921 C36.383966,151.410256 47.9606739,177.408495 80.9542865,177.408495 C91.3042404,177.21809 101.368363,173.953746 109.884538,168.023742 C118.40166,162.094684 124.992382,153.76426 128.831913,144.077322 C131.038932,138.019434 132.159506,131.613893 132.139598,125.160987 L132.139598,0.166659651 L168.524133,0.166659651 L168.524133,147.993399 L168.193269,147.993399 L168.193269,147.993399 Z' id='path1_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(390.013322, 53.479638)'%3E %3Cg id='path2-fill'%3E %3Cg id='path2_fill-link' transform='translate(1.706458, 0.231425)'%3E %3Cpath d='M1.65381405,71.390434 C1.65381405,45.3915322 0.826907974,24.3924958 0,4.72664936 L32.6628441,4.72664936 L34.3166866,39.558435 L35.1435605,39.558435 C42.2892598,27.0784279 52.6826336,16.8028478 65.2013064,9.84162876 C77.7198844,2.88047602 91.8878492,-0.501787321 106.174887,0.0601848095 C154.466708,0.0601848095 190.850295,41.7250654 190.850295,103.388587 C190.850295,176.468788 147.107133,212.550876 99.8903801,212.550876 C87.7699757,213.063357 75.7256035,210.390119 64.9396495,204.795453 C54.1536954,199.19984 44.9970298,190.874152 38.368577,180.635895 L37.5416084,180.635895 L37.5416084,291.047653 L1.57112667,291.047653 L1.57112667,71.0570844 L1.65381405,71.390434 L1.65381405,71.390434 Z M37.6243716,125.555057 C37.7192696,130.622085 38.2728258,135.671115 39.2781193,140.63773 C42.2418581,152.955278 49.223927,163.913472 59.1049842,171.755098 C68.9861361,179.597671 81.1938543,183.868979 93.7713999,183.885083 C132.223025,183.885083 154.466708,151.970102 154.466708,105.389253 C154.466708,64.640649 133.380572,29.8088823 95.0118055,29.8088823 C82.1080419,30.1727345 69.6953591,34.8727841 59.7468021,43.1619074 C49.7981502,51.4511254 42.8846241,62.8535957 40.1050879,75.5568779 C38.6476778,80.4583203 37.8140729,85.5263902 37.6243716,90.6395508 L37.6243716,125.471696 L37.6243716,125.555057 L37.6243716,125.555057 Z' id='path2_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(606.740726, 56.837104)'%3E %3Cg id='path3-fill'%3E %3Cg id='path3_fill-link' transform='translate(0.751226, 1.989299)'%3E %3Cpath d='M39.4435509,0 L83.1869976,120.077855 C87.7349933,133.494254 92.696426,149.493898 96.0043954,161.743242 L96.8310796,161.743242 C100.552107,149.57726 104.686476,133.99442 109.648477,119.328553 L149.339749,0.0833297308 L187.790995,0.0833297308 L133.297145,144.993347 C107.249956,214.657638 89.5541727,250.405335 64.7469145,272.238361 C52.2117459,283.987538 36.8473643,292.23176 20.176594,296.15352 L11.0806025,265.07215 C22.7444345,261.156073 33.5525725,255.016719 42.9165728,246.989425 C56.1480712,235.847458 66.6231654,221.753751 73.5121375,205.824205 C74.9829149,203.073289 75.9626116,200.083657 76.4062908,196.991719 C76.0796936,193.65917 75.2428654,190.398615 73.9255744,187.324675 L0,0.0833297308 L39.6915562,0.0833297308 L39.4435509,0 L39.4435509,0 Z' id='path3_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(822.748104, 0.000000)'%3E %3Cg id='path4-fill'%3E %3Cg id='path4_fill-link' transform='translate(1.464050, 0.378914)'%3E %3Cpath d='M66.5660938,0 L66.5660938,58.3307832 L118.578943,58.3307832 L118.578943,86.4962206 L66.5660938,86.4962206 L66.5660938,195.991386 C66.5660938,220.990239 73.5948059,235.489384 93.8540683,235.489384 C100.961657,235.601164 108.051991,234.759975 114.940394,232.989499 L116.593763,260.73832 C106.245989,264.410945 95.3094877,266.106585 84.3446399,265.738091 C77.0731367,266.187104 69.7919636,265.033311 63.0083179,262.356283 C56.224767,259.679256 50.1019946,255.544356 45.0665206,250.238613 C34.7301235,239.323047 31.0090964,221.240322 31.0090964,197.325163 L31.0090964,86.4962206 L0,86.4962206 L0,58.3307832 L31.0090964,58.3307832 L31.0090964,9.5829252 L66.5660938,0 L66.5660938,0 Z' id='path4_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(974.433286, 53.479638)'%3E %3Cg id='path5-fill'%3E %3Cg id='path5_fill-link' transform='translate(0.990034, 0.610339)'%3E %3Cpath d='M34.399355,112.995005 C35.2263237,162.992711 66.6487622,183.575321 102.949681,183.575321 C121.928341,184.175899 140.808406,180.59232 158.270214,173.075613 L164.472242,199.491604 C143.550116,208.345878 121.004957,212.634237 98.3194905,212.074392 C36.797403,212.074392 0,170.909172 0,109.578148 C0,48.2478809 35.5570922,0 93.7713999,0 C159.01442,0 176.462008,58.3307832 176.462008,95.745891 C176.400386,101.515804 175.987044,107.276245 175.221981,112.995005 L34.6474551,112.995005 L34.399355,112.995005 L34.399355,112.995005 Z M140.987584,86.5795817 C141.400926,63.0805652 131.478819,26.4988788 90.6291466,26.4988788 C53.8317436,26.4988788 37.7897085,60.9140295 34.8955552,86.5795817 L141.070063,86.5795817 L140.987584,86.5795817 L140.987584,86.5795817 Z' id='path5_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(1201.961058, 53.479638)'%3E %3Cg id='path6-fill'%3E %3Cg id='path6_fill-link' transform='translate(1.179640, 0.705068)'%3E %3Cpath d='M1.65381405,68.0012375 C1.65381405,44.085605 1.24035817,23.5031845 0,4.58733214 L31.8359703,4.58733214 L33.076281,44.502221 L34.7301235,44.502221 C43.826115,17.1701102 65.73922,0.00419486247 90.050278,0.00419486247 C93.5357191,-0.0471615344 97.0121538,0.373241684 100.386201,1.25413912 L100.386201,36.0859721 C96.313454,35.1910719 92.151497,34.7717088 87.9829986,34.8360295 C62.3488666,34.8360295 44.239552,54.5851233 39.2781193,82.2505837 C38.2546235,87.94443 37.7014466,93.7138698 37.6242768,99.4999817 L37.6242768,207.82866 L1.65381405,207.82866 L1.65381405,68.0012375 L1.65381405,68.0012375 Z' id='path6_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='g'%3E %3Cg id='path' transform='translate(293.890039, 0.000000)' fill='%23767677'%3E %3Cg id='path7-fill'%3E %3Cg id='path7_fill-link' transform='translate(0.804027, 0.898122)'%3E %3Cpath d='M55.8725729,26.9407873 C56.112994,32.507508 54.7095268,38.0208966 51.8398328,42.7836564 C48.9701388,47.5463216 44.7630555,51.3442716 39.750903,53.6969488 C34.7387506,56.0497207 29.1466868,56.8514081 23.682323,56.0007461 C18.2179591,55.1499894 13.1267408,52.6851536 9.05274227,48.9178956 C4.97878167,45.1507324 2.10516279,40.2504267 0.795434247,34.8370715 C-0.514291452,29.4237162 -0.201267275,23.7405742 1.69490178,18.50654 C3.59108031,13.2724111 6.98518793,8.72276194 11.4478702,5.43303983 C15.9104483,2.14331772 21.2411396,0.261373949 26.7654191,0.0253142041 C34.1660443,-0.290925454 41.3885342,2.3662139 46.8462618,7.41298877 C52.3039894,12.4597352 55.5505263,19.4833804 55.8725729,26.9407873 L55.8725729,26.9407873 Z' id='path7_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(13.560463, 290.300905)' fill='%23F37726'%3E %3Cg id='path8-fill'%3E %3Cg id='path8_fill-link' transform='translate(0.895231, 1.129548)'%3E %3Cpath d='M173.154323,67.5803588 C98.7328326,67.5803588 33.737818,40.331609 0,0 C12.5651264,36.1900787 35.9831379,67.5490983 67.0126171,89.7365987 C98.042665,111.923625 135.148653,123.842366 173.196036,123.842366 C211.24342,123.842366 248.349407,111.923625 279.379455,89.7365987 C310.408555,67.5490983 333.826851,36.1900787 346.392072,0 C312.571017,40.331609 247.576761,67.5803588 173.154323,67.5803588 L173.154323,67.5803588 Z' id='path8_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(13.560463, 39.929864)' fill='%23F37726'%3E %3Cg id='path9-fill'%3E %3Cg id='path9_fill-link' transform='translate(0.800427, 0.470045)'%3E %3Cpath d='M173.236802,56.2621968 C247.65924,56.2621968 312.654444,83.5110412 346.392072,123.842366 C333.826851,87.6525715 310.408555,56.2935519 279.379455,34.1060516 C248.349407,11.9185513 211.24342,0 173.196036,0 C135.148653,0 98.042665,11.9185513 67.0126171,34.1060516 C35.9831379,56.2935519 12.5651264,87.6525715 0,123.842366 C33.8205813,83.5944023 98.8153114,56.2621968 173.236802,56.2621968 L173.236802,56.2621968 Z' id='path9_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(13.560463, 401.936652)' fill='%23989798'%3E %3Cg id='path10-fill'%3E %3Cg id='path10_fill-link' transform='translate(1.464050, 1.557624)'%3E %3Cpath d='M70.4188026,33.9448237 C70.7239742,40.9634482 68.9556094,47.9154786 65.3377283,53.9206975 C61.7198471,59.9259165 56.4150371,64.7143478 50.095074,67.679729 C43.7751109,70.6450154 36.7240253,71.6539687 29.8347687,70.5787055 C22.9454174,69.5034422 16.5276174,66.3923686 11.3938324,61.6393657 C6.26012328,56.8863629 2.64131302,50.7051384 0.995595168,43.8784338 C-0.650119843,37.0516345 -0.248726724,29.8862755 2.14895241,23.2895718 C4.54664007,16.6927733 8.83278928,10.9613197 14.4646989,6.82076509 C20.0966749,2.68020101 26.8211634,0.31676739 33.7868313,0.0296826092 C43.103904,-0.354315876 52.191932,3.00010865 59.0587202,9.35761345 C65.9255083,15.7150804 70.0106747,24.5569445 70.4188026,33.9448237 L70.4188026,33.9448237 L70.4188026,33.9448237 Z' id='path10_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path' transform='translate(0.000000, 45.325792)' fill='%236F7070'%3E %3Cg id='path11-fill'%3E %3Cg id='path11_fill-link' transform='translate(1.372847, 0.568371)'%3E %3Cpath d='M21.5649874,41.6453987 C17.4782094,41.8233936 13.4308696,40.7754121 9.93528458,38.6343584 C6.43968061,36.49321 3.65303422,33.3552334 1.92802294,29.617436 C0.203007863,25.8796386 -0.38281358,21.7101634 0.244702327,17.6366481 C0.872219182,13.5632276 2.68486563,9.76897199 5.45320552,6.73408851 C8.2215454,3.69924292 11.8211106,1.56025429 15.7963052,0.587877535 C19.7714998,-0.384500167 23.9436007,-0.146558262 27.7845539,1.27158811 C31.6255071,2.68973069 34.9626759,5.22432451 37.3735222,8.55455253 C39.7843686,11.8848279 41.1606272,15.8609623 41.3280497,19.9797577 C41.5521646,25.4921043 39.597227,30.8690838 35.8922216,34.930758 C32.1872163,38.9925269 27.0346603,41.407346 21.5649874,41.6453987 L21.5649874,41.6453987 L21.5649874,41.6453987 Z' id='path11_fill'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cpath d='M1832.47628,326.153846 L1869.45866,326.153846 L1869.45866,28.0084615 L1832.47628,28.0084615 L1832.47628,326.153846 Z M2085.04506,326.153846 C2082.52354,312.296385 2081.68303,295.079538 2081.68303,277.442769 L2081.68303,201.436692 C2081.68303,160.704154 2066.55387,118.291923 2004.35623,118.291923 C1978.72071,118.291923 1954.34596,125.430615 1937.53578,136.348615 L1945.94087,160.704154 C1960.22952,151.465846 1979.98147,145.586923 1998.89292,145.586923 C2040.4981,145.586923 2045.1209,175.821385 2045.1209,192.618308 L2045.1209,196.817538 C1966.53333,196.397615 1922.82688,223.272692 1922.82688,272.403692 C1922.82688,301.798308 1943.8396,330.773 1985.02453,330.773 C2014.02208,330.773 2035.8753,316.495615 2047.22217,300.538538 L2048.48293,300.538538 L2051.42471,326.153846 L2085.04506,326.153846 Z M2045.96141,257.706385 C2045.96141,261.485692 2045.1209,265.684923 2043.86014,269.464231 C2037.97657,286.681077 2021.1664,303.478 1994.69038,303.478 C1975.77893,303.478 1959.80926,292.140077 1959.80926,268.204462 C1959.80926,228.731692 2005.61699,221.593 2045.96141,222.432846 L2045.96141,257.706385 Z M2178.7577,326.153846 L2180.43872,292.56 L2181.69948,292.56 C2196.82864,319.435077 2220.36289,330.773 2249.78069,330.773 C2295.16816,330.773 2340.97589,294.659615 2340.97589,222.012923 C2341.39614,160.284231 2305.67452,118.291923 2255.244,118.291923 C2222.46416,118.291923 2198.92991,132.989231 2185.90203,155.665077 L2185.06152,155.665077 L2185.06152,28.0084615 L2148.49939,28.0084615 L2148.49939,273.663462 C2148.49939,291.720154 2147.65888,312.296385 2146.81837,326.153846 L2178.7577,326.153846 Z M2185.06152,208.155462 C2185.06152,202.276538 2186.32228,197.237462 2187.16279,193.038231 C2194.72737,164.903385 2218.26161,147.686538 2243.47687,147.686538 C2282.98078,147.686538 2303.9935,182.540154 2303.9935,223.272692 C2303.9935,269.884154 2280.87951,301.378385 2242.21611,301.378385 C2215.31983,301.378385 2193.88686,283.741615 2186.74254,258.126308 C2185.90203,253.927077 2185.06152,249.307923 2185.06152,244.688769 L2185.06152,208.155462 Z' id='jupyterlab' fill='%23F37726'%3E%3C/path%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+  --jp-image-jupyterlab-workmark: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1860.8 475' style='enable-background:new 0 0 1860.8 475;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:%234E4E4E;%7D .st1%7Bfill:%23F37726;%7D %3C/style%3E %3Ctitle%3Efulllogo-greytext-orangebody-greymoons (1)%3C/title%3E %3Cdesc%3ECreated with Sketch.%3C/desc%3E %3Cg id='Canvas'%3E %3Cg id='logo'%3E %3Cg id='Group' transform='translate(480.136401, 64.271493)'%3E %3Cg id='g'%3E %3Cg id='path' transform='translate(0.000000, 58.875566)'%3E %3Cg id='path0-fill'%3E %3Cg id='path0_fill-link' transform='translate(0.087603, 0.140294)'%3E %3Cpath id='path0_fill' class='st0' d='M-426.9,169.8c0,48.7-3.7,64.7-13.6,76.4c-10.8,10-25,15.5-39.7,15.5l3.7,29 c22.8,0.3,44.8-7.9,61.9-23.1c17.8-18.5,24-44.1,24-83.3V0H-427v170.1L-426.9,169.8L-426.9,169.8z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_1_' transform='translate(155.045296, 56.837104)'%3E %3Cg id='path1-fill'%3E %3Cg id='path1_fill-link' transform='translate(1.562453, 1.799842)'%3E %3Cpath id='path1_fill' class='st0' d='M-312,148c0,21,0,39.5,1.7,55.4h-31.8l-2.1-33.3h-0.8c-6.7,11.6-16.4,21.3-28,27.9 c-11.6,6.6-24.8,10-38.2,9.8c-31.4,0-69-17.7-69-89V0h36.4v112.7c0,38.7,11.6,64.7,44.6,64.7c10.3-0.2,20.4-3.5,28.9-9.4 c8.5-5.9,15.1-14.3,18.9-23.9c2.2-6.1,3.3-12.5,3.3-18.9V0.2h36.4V148H-312L-312,148z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_2_' transform='translate(390.013322, 53.479638)'%3E %3Cg id='path2-fill'%3E %3Cg id='path2_fill-link' transform='translate(1.706458, 0.231425)'%3E %3Cpath id='path2_fill' class='st0' d='M-478.6,71.4c0-26-0.8-47-1.7-66.7h32.7l1.7,34.8h0.8c7.1-12.5,17.5-22.8,30.1-29.7 c12.5-7,26.7-10.3,41-9.8c48.3,0,84.7,41.7,84.7,103.3c0,73.1-43.7,109.2-91,109.2c-12.1,0.5-24.2-2.2-35-7.8 c-10.8-5.6-19.9-13.9-26.6-24.2h-0.8V291h-36v-220L-478.6,71.4L-478.6,71.4z M-442.6,125.6c0.1,5.1,0.6,10.1,1.7,15.1 c3,12.3,9.9,23.3,19.8,31.1c9.9,7.8,22.1,12.1,34.7,12.1c38.5,0,60.7-31.9,60.7-78.5c0-40.7-21.1-75.6-59.5-75.6 c-12.9,0.4-25.3,5.1-35.3,13.4c-9.9,8.3-16.9,19.7-19.6,32.4c-1.5,4.9-2.3,10-2.5,15.1V125.6L-442.6,125.6L-442.6,125.6z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_3_' transform='translate(606.740726, 56.837104)'%3E %3Cg id='path3-fill'%3E %3Cg id='path3_fill-link' transform='translate(0.751226, 1.989299)'%3E %3Cpath id='path3_fill' class='st0' d='M-440.8,0l43.7,120.1c4.5,13.4,9.5,29.4,12.8,41.7h0.8c3.7-12.2,7.9-27.7,12.8-42.4 l39.7-119.2h38.5L-346.9,145c-26,69.7-43.7,105.4-68.6,127.2c-12.5,11.7-27.9,20-44.6,23.9l-9.1-31.1 c11.7-3.9,22.5-10.1,31.8-18.1c13.2-11.1,23.7-25.2,30.6-41.2c1.5-2.8,2.5-5.7,2.9-8.8c-0.3-3.3-1.2-6.6-2.5-9.7L-480.2,0.1 h39.7L-440.8,0L-440.8,0z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_4_' transform='translate(822.748104, 0.000000)'%3E %3Cg id='path4-fill'%3E %3Cg id='path4_fill-link' transform='translate(1.464050, 0.378914)'%3E %3Cpath id='path4_fill' class='st0' d='M-413.7,0v58.3h52v28.2h-52V196c0,25,7,39.5,27.3,39.5c7.1,0.1,14.2-0.7,21.1-2.5 l1.7,27.7c-10.3,3.7-21.3,5.4-32.2,5c-7.3,0.4-14.6-0.7-21.3-3.4c-6.8-2.7-12.9-6.8-17.9-12.1c-10.3-10.9-14.1-29-14.1-52.9 V86.5h-31V58.3h31V9.6L-413.7,0L-413.7,0z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_5_' transform='translate(974.433286, 53.479638)'%3E %3Cg id='path5-fill'%3E %3Cg id='path5_fill-link' transform='translate(0.990034, 0.610339)'%3E %3Cpath id='path5_fill' class='st0' d='M-445.8,113c0.8,50,32.2,70.6,68.6,70.6c19,0.6,37.9-3,55.3-10.5l6.2,26.4 c-20.9,8.9-43.5,13.1-66.2,12.6c-61.5,0-98.3-41.2-98.3-102.5C-480.2,48.2-444.7,0-386.5,0c65.2,0,82.7,58.3,82.7,95.7 c-0.1,5.8-0.5,11.5-1.2,17.2h-140.6H-445.8L-445.8,113z M-339.2,86.6c0.4-23.5-9.5-60.1-50.4-60.1 c-36.8,0-52.8,34.4-55.7,60.1H-339.2L-339.2,86.6L-339.2,86.6z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_6_' transform='translate(1201.961058, 53.479638)'%3E %3Cg id='path6-fill'%3E %3Cg id='path6_fill-link' transform='translate(1.179640, 0.705068)'%3E %3Cpath id='path6_fill' class='st0' d='M-478.6,68c0-23.9-0.4-44.5-1.7-63.4h31.8l1.2,39.9h1.7c9.1-27.3,31-44.5,55.3-44.5 c3.5-0.1,7,0.4,10.3,1.2v34.8c-4.1-0.9-8.2-1.3-12.4-1.2c-25.6,0-43.7,19.7-48.7,47.4c-1,5.7-1.6,11.5-1.7,17.2v108.3h-36V68 L-478.6,68z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cpath id='jupyterlab' class='st1' d='M1352.3,326.2h37V28h-37V326.2z M1604.8,326.2c-2.5-13.9-3.4-31.1-3.4-48.7v-76 c0-40.7-15.1-83.1-77.3-83.1c-25.6,0-50,7.1-66.8,18.1l8.4,24.4c14.3-9.2,34-15.1,53-15.1c41.6,0,46.2,30.2,46.2,47v4.2 c-78.6-0.4-122.3,26.5-122.3,75.6c0,29.4,21,58.4,62.2,58.4c29,0,50.9-14.3,62.2-30.2h1.3l2.9,25.6H1604.8z M1565.7,257.7 c0,3.8-0.8,8-2.1,11.8c-5.9,17.2-22.7,34-49.2,34c-18.9,0-34.9-11.3-34.9-35.3c0-39.5,45.8-46.6,86.2-45.8V257.7z M1698.5,326.2 l1.7-33.6h1.3c15.1,26.9,38.7,38.2,68.1,38.2c45.4,0,91.2-36.1,91.2-108.8c0.4-61.7-35.3-103.7-85.7-103.7 c-32.8,0-56.3,14.7-69.3,37.4h-0.8V28h-36.6v245.7c0,18.1-0.8,38.6-1.7,52.5H1698.5z M1704.8,208.2c0-5.9,1.3-10.9,2.1-15.1 c7.6-28.1,31.1-45.4,56.3-45.4c39.5,0,60.5,34.9,60.5,75.6c0,46.6-23.1,78.1-61.8,78.1c-26.9,0-48.3-17.6-55.5-43.3 c-0.8-4.2-1.7-8.8-1.7-13.4V208.2z'/%3E %3C/svg%3E");
+  --jp-image-caretleft: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNWWFMmUAAABDSURBVChTnctBCgAwCANBf+3z0+YgFExr9TAEAmsA2uRZkWdFnsHd9+Q/HYFBK4rgOzqD74hGEY0iGkU38qzI8w22AMNb74XHwmKSAAAAAElFTkSuQmCC);
+  --jp-image-caretright: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNWWFMmUAAABKSURBVChTlctBCsBACARBf+3zTeYg7GJnJIdCbJioqt8wbjBuMGbme2ZvGDVyQ4w9+hqOIOeIhtfT3EBGEDcQjG4gGDcYNxi9ige5y++FbjFqAAAAAABJRU5ErkJggg==);
+  --jp-image-caretup: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNWWFMmUAAABHSURBVChTlctBDgAQDETR3rrHL11IlM+weBGfsYj4hlHBqGBUMCZ37we/YczBsL6lLcyD07BcaDDM/8roFUYFo4JRwXgX1gD97e+FKAUICwAAAABJRU5ErkJggg==);
+  --jp-image-caretdown: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNWWFMmUAAABDSURBVChTlcsxCgAwCENRb+3xUzIIlUZDhzf4MQHgm4yOjI6MjoxOOzITk/uvjcgNqB1lG9ATyjQgGR0ZHRkdGXeIA38574WaLSX0AAAAAElFTkSuQmCC);
+
+  /* Icons
+
+  These icons are used throughout JupyterLab.
+  */
+
+  /* The caret used for select dropdown styling. */
+
+  --jp-ui-select-caret: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3Csvg fill='%23616161' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 18 18'%3E %3Cpath d='M5.2,5.9L9,9.7l3.8-3.8l1.2,1.2l-4.9,5l-4.9-5L5.2,5.9z'/%3E %3Cpath fill='none' d='M0-0.6h18v18H0V-0.6z'/%3E %3C/svg%3E");
+
+  /* Icons used in the application. */
+
+  --jp-about-header-logo: url("data:image/svg+xml,%3Csvg width='39' height='51' viewBox='0 0 39 51' version='2.0' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:figma='http://www.figma.com/figma/ns'%3E %3Ctitle%3Elogo-5.svg%3C/title%3E %3Cdesc%3ECreated using Figma 0.90%3C/desc%3E %3Cg id='Canvas' transform='translate(-1638 -2281)' figma:type='canvas'%3E %3Cg id='logo' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='g' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path7 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path0_fill' transform='translate(1669.3 2281.31)' fill='%23767677' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path8 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path1_fill' transform='translate(1639.74 2311.98)' fill='%23F37726' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path9 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path2_fill' transform='translate(1639.73 2285.48)' fill='%23F37726' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path10 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path3_fill' transform='translate(1639.8 2323.81)' fill='%23989798' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path11 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path4_fill' transform='translate(1638.36 2286.06)' fill='%236F7070' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cdefs%3E %3Cpath id='path0_fill' d='M 5.89353 2.844C 5.91889 3.43165 5.77085 4.01367 5.46815 4.51645C 5.16545 5.01922 4.72168 5.42015 4.19299 5.66851C 3.6643 5.91688 3.07444 6.00151 2.49805 5.91171C 1.92166 5.8219 1.38463 5.5617 0.954898 5.16401C 0.52517 4.76633 0.222056 4.24903 0.0839037 3.67757C -0.0542483 3.10611 -0.02123 2.50617 0.178781 1.95364C 0.378793 1.4011 0.736809 0.920817 1.20754 0.573538C 1.67826 0.226259 2.24055 0.0275919 2.82326 0.00267229C 3.60389 -0.0307115 4.36573 0.249789 4.94142 0.782551C 5.51711 1.31531 5.85956 2.05676 5.89353 2.844Z'/%3E %3Cpath id='path1_fill' d='M 18.2646 7.13411C 10.4145 7.13411 3.55872 4.2576 0 0C 1.32539 3.8204 3.79556 7.13081 7.0686 9.47303C 10.3417 11.8152 14.2557 13.0734 18.269 13.0734C 22.2823 13.0734 26.1963 11.8152 29.4694 9.47303C 32.7424 7.13081 35.2126 3.8204 36.538 0C 32.9705 4.2576 26.1148 7.13411 18.2646 7.13411Z'/%3E %3Cpath id='path2_fill' d='M 18.2733 5.93931C 26.1235 5.93931 32.9793 8.81583 36.538 13.0734C 35.2126 9.25303 32.7424 5.94262 29.4694 3.6004C 26.1963 1.25818 22.2823 0 18.269 0C 14.2557 0 10.3417 1.25818 7.0686 3.6004C 3.79556 5.94262 1.32539 9.25303 0 13.0734C 3.56745 8.82463 10.4232 5.93931 18.2733 5.93931Z'/%3E %3Cpath id='path3_fill' d='M 7.42789 3.58338C 7.46008 4.3243 7.27355 5.05819 6.89193 5.69213C 6.51031 6.32607 5.95075 6.83156 5.28411 7.1446C 4.61747 7.45763 3.87371 7.56414 3.14702 7.45063C 2.42032 7.33712 1.74336 7.0087 1.20184 6.50695C 0.660328 6.0052 0.27861 5.35268 0.105017 4.63202C -0.0685757 3.91135 -0.0262361 3.15494 0.226675 2.45856C 0.479587 1.76217 0.931697 1.15713 1.52576 0.720033C 2.11983 0.282935 2.82914 0.0334395 3.56389 0.00313344C 4.54667 -0.0374033 5.50529 0.316706 6.22961 0.987835C 6.95393 1.65896 7.38484 2.59235 7.42789 3.58338L 7.42789 3.58338Z'/%3E %3Cpath id='path4_fill' d='M 2.27471 4.39629C 1.84363 4.41508 1.41671 4.30445 1.04799 4.07843C 0.679268 3.8524 0.385328 3.52114 0.203371 3.12656C 0.0214136 2.73198 -0.0403798 2.29183 0.0258116 1.86181C 0.0920031 1.4318 0.283204 1.03126 0.575213 0.710883C 0.867222 0.39051 1.24691 0.164708 1.66622 0.0620592C 2.08553 -0.0405897 2.52561 -0.0154714 2.93076 0.134235C 3.33591 0.283941 3.68792 0.551505 3.94222 0.90306C 4.19652 1.25462 4.34169 1.67436 4.35935 2.10916C 4.38299 2.69107 4.17678 3.25869 3.78597 3.68746C 3.39516 4.11624 2.85166 4.37116 2.27471 4.39629L 2.27471 4.39629Z'/%3E %3C/defs%3E %3C/svg%3E");
+  --jp-about-header-wordmark: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1860.8 475' style='enable-background:new 0 0 1860.8 475;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:%234E4E4E;%7D .st1%7Bfill:%23F37726;%7D %3C/style%3E %3Ctitle%3Efulllogo-greytext-orangebody-greymoons (1)%3C/title%3E %3Cdesc%3ECreated with Sketch.%3C/desc%3E %3Cg id='Canvas'%3E %3Cg id='logo'%3E %3Cg id='Group' transform='translate(480.136401, 64.271493)'%3E %3Cg id='g'%3E %3Cg id='path' transform='translate(0.000000, 58.875566)'%3E %3Cg id='path0-fill'%3E %3Cg id='path0_fill-link' transform='translate(0.087603, 0.140294)'%3E %3Cpath id='path0_fill' class='st0' d='M-426.9,169.8c0,48.7-3.7,64.7-13.6,76.4c-10.8,10-25,15.5-39.7,15.5l3.7,29 c22.8,0.3,44.8-7.9,61.9-23.1c17.8-18.5,24-44.1,24-83.3V0H-427v170.1L-426.9,169.8L-426.9,169.8z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_1_' transform='translate(155.045296, 56.837104)'%3E %3Cg id='path1-fill'%3E %3Cg id='path1_fill-link' transform='translate(1.562453, 1.799842)'%3E %3Cpath id='path1_fill' class='st0' d='M-312,148c0,21,0,39.5,1.7,55.4h-31.8l-2.1-33.3h-0.8c-6.7,11.6-16.4,21.3-28,27.9 c-11.6,6.6-24.8,10-38.2,9.8c-31.4,0-69-17.7-69-89V0h36.4v112.7c0,38.7,11.6,64.7,44.6,64.7c10.3-0.2,20.4-3.5,28.9-9.4 c8.5-5.9,15.1-14.3,18.9-23.9c2.2-6.1,3.3-12.5,3.3-18.9V0.2h36.4V148H-312L-312,148z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_2_' transform='translate(390.013322, 53.479638)'%3E %3Cg id='path2-fill'%3E %3Cg id='path2_fill-link' transform='translate(1.706458, 0.231425)'%3E %3Cpath id='path2_fill' class='st0' d='M-478.6,71.4c0-26-0.8-47-1.7-66.7h32.7l1.7,34.8h0.8c7.1-12.5,17.5-22.8,30.1-29.7 c12.5-7,26.7-10.3,41-9.8c48.3,0,84.7,41.7,84.7,103.3c0,73.1-43.7,109.2-91,109.2c-12.1,0.5-24.2-2.2-35-7.8 c-10.8-5.6-19.9-13.9-26.6-24.2h-0.8V291h-36v-220L-478.6,71.4L-478.6,71.4z M-442.6,125.6c0.1,5.1,0.6,10.1,1.7,15.1 c3,12.3,9.9,23.3,19.8,31.1c9.9,7.8,22.1,12.1,34.7,12.1c38.5,0,60.7-31.9,60.7-78.5c0-40.7-21.1-75.6-59.5-75.6 c-12.9,0.4-25.3,5.1-35.3,13.4c-9.9,8.3-16.9,19.7-19.6,32.4c-1.5,4.9-2.3,10-2.5,15.1V125.6L-442.6,125.6L-442.6,125.6z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_3_' transform='translate(606.740726, 56.837104)'%3E %3Cg id='path3-fill'%3E %3Cg id='path3_fill-link' transform='translate(0.751226, 1.989299)'%3E %3Cpath id='path3_fill' class='st0' d='M-440.8,0l43.7,120.1c4.5,13.4,9.5,29.4,12.8,41.7h0.8c3.7-12.2,7.9-27.7,12.8-42.4 l39.7-119.2h38.5L-346.9,145c-26,69.7-43.7,105.4-68.6,127.2c-12.5,11.7-27.9,20-44.6,23.9l-9.1-31.1 c11.7-3.9,22.5-10.1,31.8-18.1c13.2-11.1,23.7-25.2,30.6-41.2c1.5-2.8,2.5-5.7,2.9-8.8c-0.3-3.3-1.2-6.6-2.5-9.7L-480.2,0.1 h39.7L-440.8,0L-440.8,0z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_4_' transform='translate(822.748104, 0.000000)'%3E %3Cg id='path4-fill'%3E %3Cg id='path4_fill-link' transform='translate(1.464050, 0.378914)'%3E %3Cpath id='path4_fill' class='st0' d='M-413.7,0v58.3h52v28.2h-52V196c0,25,7,39.5,27.3,39.5c7.1,0.1,14.2-0.7,21.1-2.5 l1.7,27.7c-10.3,3.7-21.3,5.4-32.2,5c-7.3,0.4-14.6-0.7-21.3-3.4c-6.8-2.7-12.9-6.8-17.9-12.1c-10.3-10.9-14.1-29-14.1-52.9 V86.5h-31V58.3h31V9.6L-413.7,0L-413.7,0z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_5_' transform='translate(974.433286, 53.479638)'%3E %3Cg id='path5-fill'%3E %3Cg id='path5_fill-link' transform='translate(0.990034, 0.610339)'%3E %3Cpath id='path5_fill' class='st0' d='M-445.8,113c0.8,50,32.2,70.6,68.6,70.6c19,0.6,37.9-3,55.3-10.5l6.2,26.4 c-20.9,8.9-43.5,13.1-66.2,12.6c-61.5,0-98.3-41.2-98.3-102.5C-480.2,48.2-444.7,0-386.5,0c65.2,0,82.7,58.3,82.7,95.7 c-0.1,5.8-0.5,11.5-1.2,17.2h-140.6H-445.8L-445.8,113z M-339.2,86.6c0.4-23.5-9.5-60.1-50.4-60.1 c-36.8,0-52.8,34.4-55.7,60.1H-339.2L-339.2,86.6L-339.2,86.6z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cg id='path_6_' transform='translate(1201.961058, 53.479638)'%3E %3Cg id='path6-fill'%3E %3Cg id='path6_fill-link' transform='translate(1.179640, 0.705068)'%3E %3Cpath id='path6_fill' class='st0' d='M-478.6,68c0-23.9-0.4-44.5-1.7-63.4h31.8l1.2,39.9h1.7c9.1-27.3,31-44.5,55.3-44.5 c3.5-0.1,7,0.4,10.3,1.2v34.8c-4.1-0.9-8.2-1.3-12.4-1.2c-25.6,0-43.7,19.7-48.7,47.4c-1,5.7-1.6,11.5-1.7,17.2v108.3h-36V68 L-478.6,68z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cpath id='jupyterlab' class='st1' d='M1352.3,326.2h37V28h-37V326.2z M1604.8,326.2c-2.5-13.9-3.4-31.1-3.4-48.7v-76 c0-40.7-15.1-83.1-77.3-83.1c-25.6,0-50,7.1-66.8,18.1l8.4,24.4c14.3-9.2,34-15.1,53-15.1c41.6,0,46.2,30.2,46.2,47v4.2 c-78.6-0.4-122.3,26.5-122.3,75.6c0,29.4,21,58.4,62.2,58.4c29,0,50.9-14.3,62.2-30.2h1.3l2.9,25.6H1604.8z M1565.7,257.7 c0,3.8-0.8,8-2.1,11.8c-5.9,17.2-22.7,34-49.2,34c-18.9,0-34.9-11.3-34.9-35.3c0-39.5,45.8-46.6,86.2-45.8V257.7z M1698.5,326.2 l1.7-33.6h1.3c15.1,26.9,38.7,38.2,68.1,38.2c45.4,0,91.2-36.1,91.2-108.8c0.4-61.7-35.3-103.7-85.7-103.7 c-32.8,0-56.3,14.7-69.3,37.4h-0.8V28h-36.6v245.7c0,18.1-0.8,38.6-1.7,52.5H1698.5z M1704.8,208.2c0-5.9,1.3-10.9,2.1-15.1 c7.6-28.1,31.1-45.4,56.3-45.4c39.5,0,60.5,34.9,60.5,75.6c0,46.6-23.1,78.1-61.8,78.1c-26.9,0-48.3-17.6-55.5-43.3 c-0.8-4.2-1.7-8.8-1.7-13.4V208.2z'/%3E %3C/svg%3E");
+  --jp-icon-bug: url("data:image/svg+xml,%3Csvg fill='%23616161' height='48' viewBox='0 0 24 24' width='48' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3Cpath d='M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z'/%3E %3C/svg%3E");
+  --jp-icon-caretdown: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 18 18' style='enable-background:new 0 0 18 18;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23616161%7D %3C/style%3E %3Cpath class='st1' d='M5.2,7.5L9,11.2l3.8-3.8H5.2z'/%3E %3Cpath class='st0' d='M0,0h18v18H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-caretleft: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 18 18' style='enable-background:new 0 0 18 18;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23616161%7D %3C/style%3E %3Cpath class='st1' d='M10.8,12.8L7.1,9l3.8-3.8l0,7.6H10.8z'/%3E %3Cpath class='st0' d='M0,0h18v18H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-caretright: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 18 18' style='enable-background:new 0 0 18 18;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23616161%7D %3C/style%3E %3Cpath class='st1' d='M7.2,5.2L10.9,9l-3.8,3.8V5.2H7.2z'/%3E %3Cpath class='st0' d='M0,0h18v18H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-caretup: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 18 18' style='enable-background:new 0 0 18 18;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23616161%7D %3C/style%3E %3Cpath class='st1' d='M5.2,10.5L9,6.8l3.8,3.8H5.2z'/%3E %3Cpath class='st0' d='M0,0h18v18H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-checkmark-disabled: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 24 24' style='enable-background:new 0 0 24 24;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bopacity:0.3;%7D %3C/style%3E %3Cpath class='st0' d='M0,0h24v24H0V0z'/%3E %3Cpath class='st1' d='M9,16.2L4.8,12l-1.4,1.4L9,19L21,7l-1.4-1.4L9,16.2z'/%3E %3C/svg%3E");
+  --jp-icon-checkmark: url("data:image/svg+xml,%3Csvg fill='%23616161' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E %3C/svg%3E");
+  --jp-icon-circle: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3Csvg fill='%23616161' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 18 18'%3E %3Cpath fill='none' d='M0,0h18v18H0V0z'/%3E %3Ccircle cx='9' cy='9' r='8'/%3E %3C/svg%3E");
+  --jp-icon-close-circle: url("data:image/svg+xml,%3Csvg fill='%23ffffff' height='16' width='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E %3C!-- The black circle background --%3E %3Ccircle cx='12' cy='12' r='11' fill='%23616161'/%3E %3C!-- The cross (close icon) --%3E %3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' fill='%23fff'/%3E %3C/svg%3E");
+  --jp-icon-close: url("data:image/svg+xml,%3Csvg fill='%23616161' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3C/svg%3E");
+  --jp-icon-console-selected: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg clip-path='url(%23clip0)'%3E %3Cpath d='M180 19.8H20V179.7H180V19.8Z' fill='white'/%3E %3Cpath d='M145 127.3H105V140.1H145V127.3Z' fill='%230288D1'/%3E %3Cpath d='M51.1 77L74 99.9L50.7 123.2L61.2 133.7L84.5 110.4L95 99.9L84.5 89.4L61.6 66.5L51.1 77Z' fill='%230288D1'/%3E %3C/g%3E %3Cdefs%3E %3CclipPath id='clip0'%3E %3Crect width='200' height='200' fill='white'/%3E %3C/clipPath%3E %3C/defs%3E %3C/svg%3E");
+  --jp-icon-console: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' style='enable-background:new 0 0 200 200;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:%230288D1;%7D .st1%7Bfill:none;stroke:%23757575;stroke-width:6;stroke-miterlimit:10;%7D .st2%7Bdisplay:none;%7D .st3%7Bdisplay:inline;fill:none;stroke:%239E9E9E;stroke-width:0.25;stroke-miterlimit:10;%7D .st4%7Bfill:%23FFFFFF;%7D %3C/style%3E %3Crect x='20' y='19.8' class='st0' width='160' height='159.9'/%3E %3Cg%3E %3Cpath class='st1' d='M169.7,30.3'/%3E %3C/g%3E %3Cg class='st2'%3E %3Cline class='st3' x1='100' y1='0' x2='100' y2='200'/%3E %3Cpath class='st3' d='M195.9,100'/%3E %3Cpath class='st3' d='M4,100'/%3E %3Cline class='st3' x1='0' y1='200' x2='200' y2='0'/%3E %3Cline class='st3' x1='100' y1='0' x2='200' y2='100'/%3E %3Cline class='st3' x1='0' y1='100' x2='100' y2='199.9'/%3E %3Cline class='st3' x1='200' y1='100' x2='100' y2='200'/%3E %3Cline class='st3' x1='100' y1='0.1' x2='0' y2='100'/%3E %3Cline class='st3' x1='130' y1='0' x2='130' y2='200'/%3E %3Cline class='st3' x1='70' y1='0' x2='70' y2='200'/%3E %3Cline class='st3' x1='30' y1='0' x2='30' y2='200'/%3E %3Cline class='st3' x1='170' y1='0' x2='170' y2='200'/%3E %3Cline class='st3' x1='200' y1='100' x2='0' y2='100'/%3E %3Cline class='st3' x1='200' y1='130' x2='0' y2='130'/%3E %3Cline class='st3' x1='200' y1='70' x2='0' y2='70'/%3E %3Cline class='st3' x1='200' y1='30' x2='0' y2='30'/%3E %3Cline class='st3' x1='200' y1='170' x2='0' y2='170'/%3E %3Cline class='st3' x1='20' y1='0.1' x2='20' y2='200.1'/%3E %3Cline class='st3' x1='180' y1='0' x2='180' y2='200'/%3E %3Cline class='st3' x1='0' y1='180' x2='200' y2='180'/%3E %3Cline class='st3' x1='0' y1='20' x2='200' y2='20'/%3E %3Cline class='st3' x1='160' y1='0' x2='160' y2='200'/%3E %3Cline class='st3' x1='100' y1='15' x2='185' y2='100'/%3E %3Cline class='st3' x1='15' y1='100' x2='100' y2='185'/%3E %3Cline class='st3' x1='185' y1='100' x2='100' y2='185'/%3E %3Cline class='st3' x1='100' y1='15' x2='15' y2='100'/%3E %3Cline class='st3' x1='0' y1='0' x2='200' y2='200'/%3E %3Cline class='st3' x1='60' y1='0' x2='60' y2='200'/%3E %3Cline class='st3' x1='140' y1='0' x2='140' y2='200'/%3E %3Cline class='st3' x1='0' y1='140' x2='200' y2='140'/%3E %3Cline class='st3' x1='0' y1='60' x2='200' y2='60'/%3E %3Cline class='st3' x1='190' y1='200' x2='0' y2='10'/%3E %3Cline class='st3' x1='10' y1='0' x2='200' y2='190'/%3E %3Cpath class='st3' d='M200,200'/%3E %3Cpath class='st3' d='M0,0'/%3E %3Cline class='st3' x1='190' y1='200' x2='0' y2='10'/%3E %3Cline class='st3' x1='10' y1='0' x2='200' y2='190'/%3E %3Cline class='st3' x1='0' y1='190' x2='190' y2='0'/%3E %3Cline class='st3' x1='200' y1='10' x2='10' y2='200'/%3E %3Cline class='st3' x1='40' y1='0' x2='40' y2='200'/%3E %3Cline class='st3' x1='200' y1='160' x2='0' y2='160'/%3E %3Cline class='st3' x1='200' y1='40' x2='0' y2='40'/%3E %3Crect x='71.7' y='71.7' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -41.4167 100.0406)' class='st3' width='56.7' height='56.7'/%3E %3Cline class='st3' x1='0' y1='150' x2='200' y2='150'/%3E %3Cline class='st3' x1='150' y1='200' x2='150' y2='0'/%3E %3Cline class='st3' x1='50' y1='200' x2='50' y2='0'/%3E %3Cline class='st3' x1='200' y1='50' x2='0' y2='50'/%3E %3Cline class='st3' x1='110' y1='0' x2='110' y2='200'/%3E %3Cline class='st3' x1='120' y1='0' x2='120' y2='200'/%3E %3Cline class='st3' x1='80' y1='200' x2='80' y2='0'/%3E %3Cline class='st3' x1='90' y1='200' x2='90' y2='0'/%3E %3Cline class='st3' x1='0' y1='70' x2='200' y2='70'/%3E %3Cline class='st3' x1='0' y1='130' x2='200' y2='130'/%3E %3Cline class='st3' x1='0' y1='90' x2='200' y2='90'/%3E %3Cline class='st3' x1='0' y1='80' x2='200' y2='80'/%3E %3Cline class='st3' x1='200' y1='120' x2='0' y2='120'/%3E %3Cline class='st3' x1='200' y1='110' x2='0' y2='110'/%3E %3Cline class='st3' x1='10' y1='0.1' x2='10' y2='200.1'/%3E %3Cline class='st3' x1='190' y1='0.1' x2='190' y2='200.1'/%3E %3Cline class='st3' x1='0' y1='10' x2='200' y2='10'/%3E %3Cline class='st3' x1='0' y1='190' x2='200' y2='190'/%3E %3C/g%3E %3Cg%3E %3Crect x='105' y='127.3' class='st4' width='40' height='12.8'/%3E %3C/g%3E %3Cpolygon class='st4' points='51.1,77 74,99.9 50.7,123.2 61.2,133.7 84.5,110.4 95,99.9 84.5,89.4 61.6,66.5 '/%3E %3C/svg%3E");
+  --jp-icon-download: url("data:image/svg+xml,%3Csvg fill='%23616161' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z'/%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3C/svg%3E");
+  --jp-icon-edit: url("data:image/svg+xml,%3Csvg fill='%23616161' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3C/svg%3E");
+  --jp-icon-ellipses: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3Csvg fill='%23616161' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 24 24'%3E %3Cg%3E %3Ccircle cx='12' cy='12' r='2'/%3E %3Cg%3E %3Ccircle cx='5' cy='12' r='2'/%3E %3Ccircle cx='19' cy='12' r='2'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+  --jp-icon-file-upload: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23616161' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z'/%3E%3C/svg%3E");
+  --jp-icon-filter-list: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23616161' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z'/%3E%3C/svg%3E");
+  --jp-icon-home: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23616161' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E");
+  --jp-icon-inspector: url("data:image/svg+xml,%3Csvg fill='%23616161' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+  --jp-icon-inverse-circle: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 18 18' style='enable-background:new 0 0 18 18;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23FFFFFF;%7D %3C/style%3E %3Cpath class='st0' d='M0,0h18v18H0V0z'/%3E %3Ccircle class='st1' cx='9' cy='9' r='8'/%3E %3C/svg%3E");
+  --jp-icon-inverse-close-circle: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:%23FFFFFF;%7D %3C/style%3E %3Cg%3E %3Cg%3E %3Cg%3E %3Cpath class='st0' d='M8,0.7C3.9,0.7,0.7,3.9,0.7,8s3.3,7.3,7.3,7.3s7.3-3.3,7.3-7.3S12.1,0.7,8,0.7z M12.7,11.7l-0.9,0.9L8,8.9 l-3.7,3.7l-0.9-0.9L7.1,8L3.3,4.3l0.9-0.9L8,7.1l3.7-3.7l0.9,0.9L8.9,8L12.7,11.7z'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+  --jp-icon-inverse-close: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:%23FFFFFF;%7D .st1%7Bfill:none;%7D %3C/style%3E %3Cpath class='st0' d='M12.7,4.3l-0.9-0.9L8,7.1L4.3,3.3L3.3,4.3L7.1,8l-3.7,3.7l0.9,0.9L8,8.9l3.7,3.7l0.9-0.9L8.9,8L12.7,4.3z'/%3E %3Cpath class='st1' d='M0,0h16v16H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-jupyter: url("data:image/svg+xml,%3Csvg width='39' height='51' viewBox='0 0 39 51' version='2.0' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:figma='http://www.figma.com/figma/ns'%3E %3Ctitle%3Elogo-5.svg%3C/title%3E %3Cdesc%3ECreated using Figma 0.90%3C/desc%3E %3Cg id='Canvas' transform='translate(-1638 -2281)' figma:type='canvas'%3E %3Cg id='logo' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='g' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path7 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path0_fill' transform='translate(1669.3 2281.31)' fill='%23767677' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path8 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path1_fill' transform='translate(1639.74 2311.98)' fill='%23F37726' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path9 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path2_fill' transform='translate(1639.73 2285.48)' fill='%23F37726' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path10 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path3_fill' transform='translate(1639.8 2323.81)' fill='%23989798' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3Cg id='path' style='mix-blend-mode:normal;' figma:type='group'%3E %3Cg id='path11 fill' style='mix-blend-mode:normal;' figma:type='vector'%3E %3Cuse xlink:href='%23path4_fill' transform='translate(1638.36 2286.06)' fill='%236F7070' style='mix-blend-mode:normal;'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/g%3E %3Cdefs%3E %3Cpath id='path0_fill' d='M 5.89353 2.844C 5.91889 3.43165 5.77085 4.01367 5.46815 4.51645C 5.16545 5.01922 4.72168 5.42015 4.19299 5.66851C 3.6643 5.91688 3.07444 6.00151 2.49805 5.91171C 1.92166 5.8219 1.38463 5.5617 0.954898 5.16401C 0.52517 4.76633 0.222056 4.24903 0.0839037 3.67757C -0.0542483 3.10611 -0.02123 2.50617 0.178781 1.95364C 0.378793 1.4011 0.736809 0.920817 1.20754 0.573538C 1.67826 0.226259 2.24055 0.0275919 2.82326 0.00267229C 3.60389 -0.0307115 4.36573 0.249789 4.94142 0.782551C 5.51711 1.31531 5.85956 2.05676 5.89353 2.844Z'/%3E %3Cpath id='path1_fill' d='M 18.2646 7.13411C 10.4145 7.13411 3.55872 4.2576 0 0C 1.32539 3.8204 3.79556 7.13081 7.0686 9.47303C 10.3417 11.8152 14.2557 13.0734 18.269 13.0734C 22.2823 13.0734 26.1963 11.8152 29.4694 9.47303C 32.7424 7.13081 35.2126 3.8204 36.538 0C 32.9705 4.2576 26.1148 7.13411 18.2646 7.13411Z'/%3E %3Cpath id='path2_fill' d='M 18.2733 5.93931C 26.1235 5.93931 32.9793 8.81583 36.538 13.0734C 35.2126 9.25303 32.7424 5.94262 29.4694 3.6004C 26.1963 1.25818 22.2823 0 18.269 0C 14.2557 0 10.3417 1.25818 7.0686 3.6004C 3.79556 5.94262 1.32539 9.25303 0 13.0734C 3.56745 8.82463 10.4232 5.93931 18.2733 5.93931Z'/%3E %3Cpath id='path3_fill' d='M 7.42789 3.58338C 7.46008 4.3243 7.27355 5.05819 6.89193 5.69213C 6.51031 6.32607 5.95075 6.83156 5.28411 7.1446C 4.61747 7.45763 3.87371 7.56414 3.14702 7.45063C 2.42032 7.33712 1.74336 7.0087 1.20184 6.50695C 0.660328 6.0052 0.27861 5.35268 0.105017 4.63202C -0.0685757 3.91135 -0.0262361 3.15494 0.226675 2.45856C 0.479587 1.76217 0.931697 1.15713 1.52576 0.720033C 2.11983 0.282935 2.82914 0.0334395 3.56389 0.00313344C 4.54667 -0.0374033 5.50529 0.316706 6.22961 0.987835C 6.95393 1.65896 7.38484 2.59235 7.42789 3.58338L 7.42789 3.58338Z'/%3E %3Cpath id='path4_fill' d='M 2.27471 4.39629C 1.84363 4.41508 1.41671 4.30445 1.04799 4.07843C 0.679268 3.8524 0.385328 3.52114 0.203371 3.12656C 0.0214136 2.73198 -0.0403798 2.29183 0.0258116 1.86181C 0.0920031 1.4318 0.283204 1.03126 0.575213 0.710883C 0.867222 0.39051 1.24691 0.164708 1.66622 0.0620592C 2.08553 -0.0405897 2.52561 -0.0154714 2.93076 0.134235C 3.33591 0.283941 3.68792 0.551505 3.94222 0.90306C 4.19652 1.25462 4.34169 1.67436 4.35935 2.10916C 4.38299 2.69107 4.17678 3.25869 3.78597 3.68746C 3.39516 4.11624 2.85166 4.37116 2.27471 4.39629L 2.27471 4.39629Z'/%3E %3C/defs%3E %3C/svg%3E");
+  --jp-icon-kernel-running: url("data:image/svg+xml,%3Csvg fill='%23616161' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3Cpath d='M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'/%3E %3C/svg%3E");
+  --jp-icon-keyboard-selected: url("data:image/svg+xml,%3Csvg fill='%23ffffff' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z'/%3E%3C/svg%3E");
+  --jp-icon-keyboard: url("data:image/svg+xml,%3Csvg fill='%23616161' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z'/%3E%3C/svg%3E");
+  --jp-icon-launcher-selected: url("data:image/svg+xml,%3Csvg fill='%23ffffff' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E");
+  --jp-icon-launcher: url("data:image/svg+xml,%3Csvg fill='%23616161' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E");
+  --jp-icon-link: url("data:image/svg+xml,%3Csvg fill='%23616161' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3Cpath d='M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'/%3E %3C/svg%3E");
+  --jp-icon-more: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23616161' width='18' height='18' viewBox='0 0 18 18'%3E%3Cpath d='M4 7.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5S5.5 9.83 5.5 9 4.83 7.5 4 7.5zm10 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-5 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5S9.83 7.5 9 7.5z'/%3E%3C/svg%3E");
+  --jp-icon-new-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23616161' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M20 6h-8l-2-2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-1 8h-3v3h-2v-3h-3v-2h3V9h2v3h3v2z'/%3E%3C/svg%3E");
+  --jp-icon-search-white: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 18 18'%3E %3Cpath fill='%23FFFFFF' d='M12.1,10.9h-0.7l-0.2-0.2c0.8-0.9,1.3-2.2,1.3-3.5c0-3-2.4-5.4-5.4-5.4S1.8,4.2,1.8,7.1s2.4,5.4,5.4,5.4 c1.3,0,2.5-0.5,3.5-1.3l0.2,0.2v0.7l4.1,4.1l1.2-1.2L12.1,10.9z M7.1,10.9c-2.1,0-3.7-1.7-3.7-3.7s1.7-3.7,3.7-3.7s3.7,1.7,3.7,3.7 S9.2,10.9,7.1,10.9z'/%3E %3Cpath fill='none' d='M0,0h18v18H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-search: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 18 18'%3E %3Cpath fill='%23616161' d='M12.1,10.9h-0.7l-0.2-0.2c0.8-0.9,1.3-2.2,1.3-3.5c0-3-2.4-5.4-5.4-5.4S1.8,4.2,1.8,7.1s2.4,5.4,5.4,5.4 c1.3,0,2.5-0.5,3.5-1.3l0.2,0.2v0.7l4.1,4.1l1.2-1.2L12.1,10.9z M7.1,10.9c-2.1,0-3.7-1.7-3.7-3.7s1.7-3.7,3.7-3.7s3.7,1.7,3.7,3.7 S9.2,10.9,7.1,10.9z'/%3E %3Cpath fill='none' d='M0,0h18v18H0V0z'/%3E %3C/svg%3E");
+  --jp-icon-search-arrow-up: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 20 20' style='enable-background:new 0 0 20 20;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23646464;%7D %3C/style%3E %3Crect class='st0' width='20' height='20'/%3E %3Cpolygon class='st1' points='15.4,13.3 9.9,7.7 4.4,13.2 3.6,12.5 9.9,6.3 16.1,12.6 '/%3E %3C/svg%3E");
+  --jp-icon-search-arrow-down: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 20 20' style='enable-background:new 0 0 20 20;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23646464;%7D %3C/style%3E %3Crect class='st0' width='20' height='20'/%3E %3Cpolygon class='st1' points='9.9,13.6 3.6,7.4 4.4,6.6 9.9,12.2 15.4,6.7 16.1,7.4 '/%3E %3C/svg%3E");
+  --jp-icon-search-case-sensitive: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 20 20' style='enable-background:new 0 0 20 20;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23414141;%7D .st2%7Bfill:%23FFFFFF;%7D %3C/style%3E %3Cg%3E %3Crect class='st0' width='20' height='20'/%3E %3Crect x='2' y='2' class='st1' width='16' height='16'/%3E %3Cpath class='st2' d='M7.6,8h0.9l3.5,8h-1.1L10,14H6l-0.9,2H4L7.6,8z M8,9.1L6.4,13h3.2L8,9.1z'/%3E %3Cpath class='st2' d='M16.6,9.8c-0.2,0.1-0.4,0.1-0.7,0.1c-0.2,0-0.4-0.1-0.6-0.2c-0.1-0.1-0.2-0.4-0.2-0.7 c-0.3,0.3-0.6,0.5-0.9,0.7c-0.3,0.1-0.7,0.2-1.1,0.2c-0.3,0-0.5,0-0.7-0.1c-0.2-0.1-0.4-0.2-0.6-0.3c-0.2-0.1-0.3-0.3-0.4-0.5 c-0.1-0.2-0.1-0.4-0.1-0.7c0-0.3,0.1-0.6,0.2-0.8c0.1-0.2,0.3-0.4,0.4-0.5C12,7,12.2,6.9,12.5,6.8c0.2-0.1,0.5-0.1,0.7-0.2 c0.3-0.1,0.5-0.1,0.7-0.1c0.2,0,0.4-0.1,0.6-0.1c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.2,0.2-0.4c0-1-1.1-1-1.3-1 c-0.4,0-1.4,0-1.4,1.2h-0.9c0-0.4,0.1-0.7,0.2-1c0.1-0.2,0.3-0.4,0.5-0.6c0.2-0.2,0.5-0.3,0.8-0.3C13.3,4,13.6,4,13.9,4 c0.3,0,0.5,0,0.8,0.1c0.3,0,0.5,0.1,0.7,0.2c0.2,0.1,0.4,0.3,0.5,0.5C16,5,16,5.2,16,5.6v2.9c0,0.2,0,0.4,0,0.5 c0,0.1,0.1,0.2,0.3,0.2c0.1,0,0.2,0,0.3,0V9.8z M15.2,6.9c-1.2,0.6-3.1,0.2-3.1,1.4c0,1.4,3.1,1,3.1-0.5V6.9z'/%3E %3C/g%3E %3C/svg%3E");
+  --jp-icon-search-regex: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 20 20' style='enable-background:new 0 0 20 20;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%23414141;%7D .st2%7Bfill:%23FFFFFF;%7D %3C/style%3E %3Cg id='Regex_Icon_2_'%3E %3Crect class='st0' width='20' height='20'/%3E %3Crect x='2' y='2' class='st1' width='16' height='16'/%3E %3Ccircle class='st2' cx='5.5' cy='14.5' r='1.5'/%3E %3Cg%3E %3Crect x='12' y='4' class='st2' width='1' height='8'/%3E %3Crect x='8.5' y='7.5' transform='matrix(0.866 -0.5 0.5 0.866 -2.3255 7.3219)' class='st2' width='8' height='1'/%3E %3Crect x='12' y='4' transform='matrix(0.5 -0.866 0.866 0.5 -0.6779 14.8252)' class='st2' width='1' height='8'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+  --jp-icon-settings-selected: url("data:image/svg+xml,%3Csvg fill='%23ffffff' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z'/%3E%3C/svg%3E");
+  --jp-icon-settings: url("data:image/svg+xml,%3Csvg fill='%23616161' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z'/%3E%3C/svg%3E");
+  --jp-icon-stop-circle: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='stop-circle' class='svg-inline--fa fa-stop-circle fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' %3E %3Cpath fill='%23616161' d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm96 328c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16h160c8.8 0 16 7.2 16 16v160z' %3E%3C/path%3E %3C/svg%3E");
+  --jp-icon-text-editor-selected: url("data:image/svg+xml,%3Csvg fill='%23ffffff' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15 15H3v2h12v-2zm0-8H3v2h12V7zM3 13h18v-2H3v2zm0 8h18v-2H3v2zM3 3v2h18V3H3z'/%3E%3C/svg%3E");
+  --jp-icon-text-editor: url("data:image/svg+xml,%3Csvg fill='%23616161' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15 15H3v2h12v-2zm0-8H3v2h12V7zM3 13h18v-2H3v2zm0 8h18v-2H3v2zM3 3v2h18V3H3z'/%3E%3C/svg%3E");
+  --jp-icon-undo: url("data:image/svg+xml,%3Csvg fill='%23616161' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M0 0h24v24H0z' fill='none'/%3E %3Cpath d='M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z'/%3E %3C/svg%3E");
+  --jp-icon-vega: url("data:image/svg+xml,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 22 22' style='enable-background:new 0 0 22 22;' xml:space='preserve'%3E %3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;fill:none;stroke:%239E9E9E;stroke-width:2.000000e-02;stroke-miterlimit:10;%7D .st2%7Bfill:none;stroke:%234CAF50;stroke-width:2;stroke-miterlimit:10;%7D .st3%7Bfill:none;stroke:%23FFFFFF;stroke-width:2;stroke-miterlimit:10;%7D .st4%7Bfill:none;stroke:%23FFFFFF;stroke-width:3;stroke-miterlimit:10;%7D .st5%7Bfill:%23FF5CB4;%7D %3C/style%3E %3Cg class='st0'%3E %3Cline class='st1' x1='11' y1='0' x2='11' y2='22'/%3E %3Cpath class='st1' d='M21.5,11'/%3E %3Cpath class='st1' d='M0.4,11'/%3E %3Cline class='st1' x1='0' y1='22' x2='22' y2='0'/%3E %3Cline class='st1' x1='11' y1='0' x2='22' y2='11'/%3E %3Cline class='st1' x1='0' y1='11' x2='11' y2='22'/%3E %3Cline class='st1' x1='22' y1='11' x2='11' y2='22'/%3E %3Cline class='st1' x1='11' y1='0' x2='0' y2='11'/%3E %3Cline class='st1' x1='14.3' y1='0' x2='14.3' y2='22'/%3E %3Cline class='st1' x1='7.7' y1='0' x2='7.7' y2='22'/%3E %3Cline class='st1' x1='3.3' y1='0' x2='3.3' y2='22'/%3E %3Cline class='st1' x1='18.7' y1='0' x2='18.7' y2='22'/%3E %3Cline class='st1' x1='22' y1='11' x2='0' y2='11'/%3E %3Cline class='st1' x1='22' y1='14.3' x2='0' y2='14.3'/%3E %3Cline class='st1' x1='22' y1='7.7' x2='0' y2='7.7'/%3E %3Cline class='st1' x1='22' y1='3.3' x2='0' y2='3.3'/%3E %3Cline class='st1' x1='22' y1='18.7' x2='0' y2='18.7'/%3E %3Cline class='st1' x1='2.2' y1='0' x2='2.2' y2='22'/%3E %3Cline class='st1' x1='19.8' y1='0' x2='19.8' y2='22'/%3E %3Cline class='st1' x1='0' y1='19.8' x2='22' y2='19.8'/%3E %3Cline class='st1' x1='0' y1='2.2' x2='22' y2='2.2'/%3E %3Cline class='st1' x1='17.6' y1='0' x2='17.6' y2='22'/%3E %3Cline class='st1' x1='11' y1='1.6' x2='20.3' y2='11'/%3E %3Cline class='st1' x1='1.6' y1='11' x2='11' y2='20.3'/%3E %3Cline class='st1' x1='20.3' y1='11' x2='11' y2='20.3'/%3E %3Cline class='st1' x1='11' y1='1.6' x2='1.6' y2='11'/%3E %3Cline class='st1' x1='0' y1='0' x2='22' y2='22'/%3E %3Cline class='st1' x1='6.6' y1='0' x2='6.6' y2='22'/%3E %3Cline class='st1' x1='15.4' y1='0' x2='15.4' y2='22'/%3E %3Cline class='st1' x1='0' y1='15.4' x2='22' y2='15.4'/%3E %3Cline class='st1' x1='0' y1='6.6' x2='22' y2='6.6'/%3E %3Cline class='st1' x1='20.9' y1='22' x2='0' y2='1.1'/%3E %3Cline class='st1' x1='1.1' y1='0' x2='22' y2='20.9'/%3E %3Cpath class='st1' d='M22,22'/%3E %3Cpath class='st1' d='M0,0'/%3E %3Cline class='st1' x1='20.9' y1='22' x2='0' y2='1.1'/%3E %3Cline class='st1' x1='1.1' y1='0' x2='22' y2='20.9'/%3E %3Cline class='st1' x1='0' y1='20.9' x2='20.9' y2='0'/%3E %3Cline class='st1' x1='22' y1='1.1' x2='1.1' y2='22'/%3E %3Cline class='st1' x1='4.4' y1='0' x2='4.4' y2='22'/%3E %3Cline class='st1' x1='22' y1='17.6' x2='0' y2='17.6'/%3E %3Cline class='st1' x1='22' y1='4.4' x2='0' y2='4.4'/%3E %3Crect x='7.9' y='7.9' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -4.5558 10.9994)' class='st1' width='6.2' height='6.2'/%3E %3Cline class='st1' x1='0' y1='16.5' x2='22' y2='16.5'/%3E %3Cline class='st1' x1='16.5' y1='22' x2='16.5' y2='0'/%3E %3Cline class='st1' x1='5.5' y1='22' x2='5.5' y2='0'/%3E %3Cline class='st1' x1='22' y1='5.5' x2='0' y2='5.5'/%3E %3Cline class='st1' x1='12.1' y1='0' x2='12.1' y2='22'/%3E %3Cline class='st1' x1='13.2' y1='0' x2='13.2' y2='22'/%3E %3Cline class='st1' x1='8.8' y1='22' x2='8.8' y2='0'/%3E %3Cline class='st1' x1='9.9' y1='22' x2='9.9' y2='0'/%3E %3Cline class='st1' x1='0' y1='7.7' x2='22' y2='7.7'/%3E %3Cline class='st1' x1='0' y1='14.3' x2='22' y2='14.3'/%3E %3Cline class='st1' x1='0' y1='9.9' x2='22' y2='9.9'/%3E %3Cline class='st1' x1='0' y1='8.8' x2='22' y2='8.8'/%3E %3Cline class='st1' x1='22' y1='13.2' x2='0' y2='13.2'/%3E %3Cline class='st1' x1='22' y1='12.1' x2='0' y2='12.1'/%3E %3Cline class='st1' x1='1.1' y1='0' x2='1.1' y2='22'/%3E %3Cline class='st1' x1='20.9' y1='0' x2='20.9' y2='22'/%3E %3Cline class='st1' x1='0' y1='1.1' x2='22' y2='1.1'/%3E %3Cline class='st1' x1='0' y1='20.9' x2='22' y2='20.9'/%3E %3C/g%3E %3Cpath class='st2' d='M9.5,11.8'/%3E %3Cpath class='st2' d='M13.2,16.5'/%3E %3Cpath class='st3' d='M7.7,17.6'/%3E %3Cpath class='st4' d='M9.5,17.6'/%3E %3Cpath class='st4' d='M9.4,7.8'/%3E %3Cpath class='st4' d='M14.3,13.2'/%3E %3Cpath class='st4' d='M14.3,17.6'/%3E %3Cg%3E %3Cpolygon class='st5' points='10.6,5.4 12.8,2.2 2.2,2.2 2.2,9.5 6.2,2.9 '/%3E %3Cpath class='st5' d='M15.8,2.2l-4.4,6.6L7,6.3l-4.8,8v5.5h17.6V2.2H15.8z M8.8,17.6H5.5v-4.4h3.3V17.6z M13.2,17.6H9.8V9.8h3.4 V17.6z M17.6,17.6h-3.4V6.5h3.4V17.6z'/%3E %3C/g%3E %3C/svg%3E");
+}
+
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+/* Set the default typography for monospace elements */
+tt,
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--jp-code-font-family);
+  font-size: var(--jp-code-font-size);
+  line-height: var(--jp-code-line-height);
+}
+

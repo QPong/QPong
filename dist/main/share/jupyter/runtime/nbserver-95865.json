@@ -1,0 +1,11 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "/Users/kirais/icsharp",
+  "password": false,
+  "pid": 95865,
+  "port": 8889,
+  "secure": false,
+  "token": "14d9059987f73b7f0db3ea7b27583deaa3ba1f61edea5a1c",
+  "url": "http://localhost:8889/"
+}

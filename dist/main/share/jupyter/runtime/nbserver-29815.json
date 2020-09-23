@@ -1,0 +1,11 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "/Users/kirais/Documents/GitHub/topocm_content/holoviews-examples",
+  "password": false,
+  "pid": 29815,
+  "port": 8889,
+  "secure": false,
+  "token": "8d4c50cbb297f577b74f4e7607f748971f83f6359a064805",
+  "url": "http://localhost:8889/"
+}

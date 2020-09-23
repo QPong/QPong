@@ -1,0 +1,11 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "/Users/kirais/Downloads",
+  "password": false,
+  "pid": 822,
+  "port": 8888,
+  "secure": false,
+  "token": "c221bf6466abd81c433453cba2345fb546bfaf88901c3154",
+  "url": "http://localhost:8888/"
+}

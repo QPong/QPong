@@ -1,0 +1,11 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "/Users/kirais",
+  "password": false,
+  "pid": 91780,
+  "port": 8888,
+  "secure": false,
+  "token": "e08ba0c8e853c8d71054a2c0a80ca086994792126f0d4db9",
+  "url": "http://localhost:8888/"
+}
