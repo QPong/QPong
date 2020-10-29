@@ -40,7 +40,7 @@ def main():
     pygame.init()
 
     # hardware acceleration to reduce flickering. Works only in full screen
-    flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
+    flags = DOUBLEBUF | HWSURFACE | pygame.RESIZABLE
     screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 
     pygame.display.set_caption('QPong')
