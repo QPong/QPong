@@ -25,7 +25,7 @@ main_dir = os.path.split(os.path.abspath(__file__))[0]
 data_dir = os.path.join(main_dir, '..', 'data')
 
 
-def load_image(name, colorkey=None, scale=WIDTH_UNIT/13):
+def load_image(name, colorkey=None, scale=WIDTH_UNIT/16):
     fullname = os.path.join(data_dir, 'images', name)
     try:
         image = pygame.image.load(fullname)
