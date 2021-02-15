@@ -98,7 +98,7 @@ class CircuitGridModel:
                 if node:
                     if node.node_type == node_types.IDEN:
                         # Identity gate
-                        qc.iden(qr[wire_num])
+                        qc.i(qr[wire_num])
                     elif node.node_type == node_types.X:
                         if node.radians == 0:
                             if node.ctrl_a != -1:
