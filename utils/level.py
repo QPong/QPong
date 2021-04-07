@@ -43,7 +43,7 @@ class Level:
         # player paddle for detection of collision. It is invisible on the screen
 
         self.right_paddle.image = pygame.Surface([WIDTH_UNIT, int(round(ball.screenheight / 2 ** scene.qubit_num))])
-        self.right_paddle.image.fill((255, 0, 255))
+        self.right_paddle.image.fill((255, 255, 255))
         self.right_paddle.image.set_alpha(0)
         self.right_paddle.rect = self.right_paddle.image.get_rect()
         self.right_paddle.rect.x = self.right_statevector.xpos
