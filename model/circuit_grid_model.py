@@ -14,35 +14,36 @@
 # limitations under the License.
 #
 import numpy as np
-
 from qiskit import QuantumCircuit, QuantumRegister
 
 from model import circuit_node_types as node_types
-from utils.parameters import CIRCUIT_DEPTH
+from prepare import CIRCUIT_DEPTH
 
 
 class CircuitGridModel:
     """Grid-based model that is built when user interacts with circuit"""
+
     def __init__(self, max_wires, max_columns):
         self.max_wires = max_wires
         self.max_columns = max_columns
         self.nodes = np.empty((max_wires, max_columns), dtype=CircuitGridNode)
 
     def __str__(self):
-        retval = ''
+        retval = ""
         for wire_num in range(self.max_wires):
-            retval += '\n'
+            retval += "\n"
             for column_num in range(self.max_columns):
-                retval += str(self.get_node_gate_part(wire_num, column_num)) + ', '
-        return 'CircuitGridModel: ' + retval
+                retval += str(self.get_node_gate_part(wire_num, column_num)) + ", "
+        return "CircuitGridModel: " + retval
 
     def set_node(self, wire_num, column_num, circuit_grid_node):
-        self.nodes[wire_num][column_num] = \
-            CircuitGridNode(circuit_grid_node.node_type,
-                            circuit_grid_node.radians,
-                            circuit_grid_node.ctrl_a,
-                            circuit_grid_node.ctrl_b,
-                            circuit_grid_node.swap)
+        self.nodes[wire_num][column_num] = CircuitGridNode(
+            circuit_grid_node.node_type,
+            circuit_grid_node.radians,
+            circuit_grid_node.ctrl_a,
+            circuit_grid_node.ctrl_b,
+            circuit_grid_node.swap,
+        )
 
         # TODO: Decide whether to protect as shown below
         # if not self.nodes[wire_num][column_num]:
@@ -65,7 +66,10 @@ class CircuitGridModel:
                 if idx != wire_num:
                     other_node = nodes_in_column[idx]
                     if other_node:
-                        if other_node.ctrl_a == wire_num or other_node.ctrl_b == wire_num:
+                        if (
+                            other_node.ctrl_a == wire_num
+                            or other_node.ctrl_b == wire_num
+                        ):
                             return node_types.CTRL
                         elif other_node.swap == wire_num:
                             return node_types.SWAP
@@ -80,16 +84,21 @@ class CircuitGridModel:
             if wire_idx != control_wire_num:
                 other_node = nodes_in_column[wire_idx]
                 if other_node:
-                    if other_node.ctrl_a == control_wire_num or \
-                            other_node.ctrl_b == control_wire_num:
-                        gate_wire_num =  wire_idx
-                        print("Found gate: ",
-                              self.get_node_gate_part(gate_wire_num, column_num),
-                              " on wire: " , gate_wire_num)
+                    if (
+                        other_node.ctrl_a == control_wire_num
+                        or other_node.ctrl_b == control_wire_num
+                    ):
+                        gate_wire_num = wire_idx
+                        print(
+                            "Found gate: ",
+                            self.get_node_gate_part(gate_wire_num, column_num),
+                            " on wire: ",
+                            gate_wire_num,
+                        )
         return gate_wire_num
 
     def compute_circuit(self):
-        qr = QuantumRegister(self.max_wires, 'q')
+        qr = QuantumRegister(self.max_wires, "q")
         qc = QuantumCircuit(qr)
 
         for column_num in range(self.max_columns):
@@ -104,7 +113,9 @@ class CircuitGridModel:
                             if node.ctrl_a != -1:
                                 if node.ctrl_b != -1:
                                     # Toffoli gate
-                                    qc.ccx(qr[node.ctrl_a], qr[node.ctrl_b], qr[wire_num])
+                                    qc.ccx(
+                                        qr[node.ctrl_a], qr[node.ctrl_b], qr[wire_num]
+                                    )
                                 else:
                                     # Controlled X gate
                                     qc.cx(qr[node.ctrl_a], qr[wire_num])
@@ -170,8 +181,7 @@ class CircuitGridModel:
         return qc
 
     def reset_circuit(self):
-        self.nodes = np.empty((self.max_wires, self.max_columns),
-                              dtype=CircuitGridNode)
+        self.nodes = np.empty((self.max_wires, self.max_columns), dtype=CircuitGridNode)
         # the game crashes if the circuit is empty
         # initialize circuit with 3 identity gate at the end to prevent crash
         # identity gate are displayed by completely transparent PNG
@@ -182,6 +192,7 @@ class CircuitGridModel:
 
 class CircuitGridNode:
     """Represents a node in the circuit grid"""
+
     def __init__(self, node_type, radians=0.0, ctrl_a=-1, ctrl_b=-1, swap=-1):
         self.node_type = node_type
         self.radians = radians
@@ -190,8 +201,8 @@ class CircuitGridNode:
         self.swap = swap
 
     def __str__(self):
-        string = 'type: ' + str(self.node_type)
-        string += ', radians: ' + str(self.radians) if self.radians != 0 else ''
-        string += ', ctrl_a: ' + str(self.ctrl_a) if self.ctrl_a != -1 else ''
-        string += ', ctrl_b: ' + str(self.ctrl_b) if self.ctrl_b != -1 else ''
+        string = "type: " + str(self.node_type)
+        string += ", radians: " + str(self.radians) if self.radians != 0 else ""
+        string += ", ctrl_a: " + str(self.ctrl_a) if self.ctrl_a != -1 else ""
+        string += ", ctrl_b: " + str(self.ctrl_b) if self.ctrl_b != -1 else ""
         return string

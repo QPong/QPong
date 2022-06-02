@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 # Copyright 2019 the original author or authors.
 #
@@ -14,8 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-MOVE_LEFT = 1
-MOVE_RIGHT = 2
-MOVE_UP = 3
-MOVE_DOWN = 4
 
+from .ball import Ball
+from .player import Player
+from .scene import Scene
