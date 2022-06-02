@@ -14,20 +14,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import pygame
+import pygame as pg
 
 
-class HBox(pygame.sprite.RenderPlain):
+class HBox(pg.sprite.RenderPlain):
     """Arranges sprites horizontally"""
-    def __init__(self, xpos, ypos, *sprites):
-        pygame.sprite.RenderPlain.__init__(self, sprites)
-        self.xpos = xpos
-        self.ypos = ypos
+
+    def __init__(self, x, y, *sprites):
+        pg.sprite.RenderPlain.__init__(self, sprites)
+        self._x = x
+        self._y = y
         self.arrange()
 
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        self._x = value
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        self._y = value
+
     def arrange(self):
-        next_xpos = self.xpos
-        next_ypos = self.ypos
+        next_xpos = self._x
+        next_ypos = self._y
         sprite_list = self.sprites()
         for sprite in sprite_list:
             sprite.rect.left = next_xpos

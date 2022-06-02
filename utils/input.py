@@ -1,237 +1,399 @@
 import numpy as np
+import pygame as pg
 
-import pygame
-from pygame.locals import *
-from pygame import joystick
-
-from utils.gamepad import *
-from utils.navigation import MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
+from prepare import GAMEPAD, MOVES, QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P
 
 
-class Input:
+class Input(object):
     """Handle input events"""
 
     def __init__(self):
-        self.running = True
-        pygame.init()
-        pygame.joystick.init()
-        self.num_joysticks = pygame.joystick.get_count()
-        if self.num_joysticks > 0:
-            self.joystick = pygame.joystick.Joystick(0)
-            self.joystick.init()
+        pg.joystick.init()
 
-        self.gamepad_repeat_delay = 200
-        self.gamepad_neutral = True
-        self.gamepad_pressed_timer = 0
-        self.gamepad_last_update = pygame.time.get_ticks()
+        self._running = True
+        self._joysticks = []
+        self._num_joysticks = pg.joystick.get_count()
 
-    def handle_input(self, level, screen, scene):
+        if self._num_joysticks > 0:
+            for j in range(0, min(2, self._num_joysticks)):
+                self._joysticks += [pg.joystick.Joystick(j)]
+                self._joysticks[j].init()
 
+        self._gamepad_repeat_delay = 200
+        self._gamepad_neutral = True
+        self._gamepad_pressed_timer = 0
+        self._gamepad_last_update = pg.time.get_ticks()
+
+    @property
+    def running(self):
+        return self._running
+
+    @running.setter
+    def running(self, value):
+        self._running = value
+
+    def handle_input(self, players, screen):
         gamepad_move = False
-        circuit_grid = level.circuit_grid
 
         # use joystick if it's connected
-        if self.num_joysticks > 0:
-            joystick_hat = self.joystick.get_hat(0)
+        if self._num_joysticks > 0:
+            for j in range(0, min(2, self._num_joysticks)):
+                joystick_hat = self._joysticks[j].get_hat(0)
 
-            if joystick_hat == (0, 0):
-                self.gamepad_neutral = True
-                self.gamepad_pressed_timer = 0
-            else:
-                if self.gamepad_neutral:
-                    gamepad_move = True
-                    self.gamepad_neutral = False
+                if joystick_hat == (0, 0):
+                    self._gamepad_neutral = True
+                    self._gamepad_pressed_timer = 0
                 else:
-                    self.gamepad_pressed_timer += pygame.time.get_ticks() - self.gamepad_last_update
-            if self.gamepad_pressed_timer > self.gamepad_repeat_delay:
-                gamepad_move = True
-                self.gamepad_pressed_timer -= self.gamepad_repeat_delay
-            if gamepad_move:
-                if joystick_hat == (-1, 0):
-                    self.move_update_circuit_grid_display(screen,
-                                                          circuit_grid, MOVE_LEFT)
-                elif joystick_hat == (1, 0):
-                    self.move_update_circuit_grid_display(screen,
-                                                          circuit_grid, MOVE_RIGHT)
-                elif joystick_hat == (0, 1):
-                    self.move_update_circuit_grid_display(screen,
-                                                          circuit_grid, MOVE_UP)
-                elif joystick_hat == (0, -1):
-                    self.move_update_circuit_grid_display(screen,
-                                                          circuit_grid, MOVE_DOWN)
-            self.gamepad_last_update = pygame.time.get_ticks()
+                    if self._gamepad_neutral:
+                        gamepad_move = True
+                        self._gamepad_neutral = False
+                    else:
+                        self._gamepad_pressed_timer += (
+                            pg.time.get_ticks() - self._gamepad_last_update
+                        )
+
+                if self._gamepad_pressed_timer > self._gamepad_repeat_delay:
+                    gamepad_move = True
+                    self._gamepad_pressed_timer -= self._gamepad_repeat_delay
+
+                if gamepad_move:
+                    if joystick_hat == (-1, 0):
+                        players[j].move_update_circuit_grid_display(
+                            screen, MOVES["LEFT"]
+                        )
+                    elif joystick_hat == (1, 0):
+                        players[j].move_update_circuit_grid_display(
+                            screen, MOVES["RIGHT"]
+                        )
+                    elif joystick_hat == (0, 1):
+                        players[j].move_update_circuit_grid_display(screen, MOVES["UP"])
+                    elif joystick_hat == (0, -1):
+                        players[j].move_update_circuit_grid_display(
+                            screen, MOVES["DOWN"]
+                        )
+                self._gamepad_last_update = pg.time.get_ticks()
 
             # Check left thumbstick position
-            left_thumb_x = self.joystick.get_axis(0)
-            left_thumb_y = self.joystick.get_axis(1)
+            # left_thumb_x = self._joystick.get_axis(0)
+            # left_thumb_y = self._joystick.get_axis(1)
 
         # Handle Input Events
-        for event in pygame.event.get():
-            pygame.event.pump()
-
-            if event.type == QUIT:
-                self.running = False
-            elif event.type == JOYBUTTONDOWN:
-                if event.button == BTN_A:
-                    # Place X gate
-                    circuit_grid.handle_input_x()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.button == BTN_X:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self._running = False
+                pg.quit()
+            elif event.type == pg.JOYBUTTONDOWN:
+                if event.button == GAMEPAD["BTN_A"]:
+                    # TODO: Check if quantum player
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.circuit_grid.handle_input_x()
+                        player.circuit_grid.draw(screen)
+                        player.update_paddle(screen)
+                        pg.display.flip()
+                elif event.button == GAMEPAD["BTN_X"]:
                     # Place Y gate
-                    circuit_grid.handle_input_y()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.button == BTN_B:
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.circuit_grid.handle_input_y()
+                        player.circuit_grid.draw(screen)
+                        player.update_paddle(screen)
+                        pg.display.flip()
+                elif event.button == GAMEPAD["BTN_B"]:
                     # Place Z gate
-                    circuit_grid.handle_input_z()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.button == BTN_Y:
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.circuit_grid.handle_input_z()
+                        player.circuit_grid.draw(screen)
+                        player.update_paddle(screen)
+                        pg.display.flip()
+                elif event.button == GAMEPAD["BTN_Y"]:
                     # Place Hadamard gate
-                    circuit_grid.handle_input_h()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.button == BTN_RIGHT_TRIGGER:
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.circuit_grid.handle_input_h()
+                        player.circuit_grid.draw(screen)
+                        player.update_paddle(screen)
+                        pg.display.flip()
+                elif event.button == GAMEPAD["BTN_RIGHT_TRIGGER"]:
                     # Delete gate
-                    circuit_grid.handle_input_delete()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.button == BTN_RIGHT_THUMB:
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.circuit_grid.handle_input_delete()
+                        player.circuit_grid.draw(screen)
+                        player.update_paddle(screen)
+                        pg.display.flip()
+                elif event.button == GAMEPAD["BTN_RIGHT_THUMB"]:
                     # Add or remove a control
-                    circuit_grid.handle_input_ctrl()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.button == BTN_LEFT_BUMPER:
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.circuit_grid.handle_input_ctrl()
+                        player.circuit_grid.draw(screen)
+                        player.update_paddle(screen)
+                        pg.display.flip()
+                elif event.button == GAMEPAD["BTN_LEFT_BUMPER"]:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
-                    self.update_paddle(level, screen, scene)
+                    player = players[min(1, event.joy)]
+                    if player.player_type in (QUANTUM_COMPUTER_1P, QUANTUM_COMPUTER_2P):
+                        player.update_paddle(screen)
+                        pg.display.flip()
 
-            elif event.type == JOYAXISMOTION:
+            elif event.type == pg.JOYAXISMOTION:
                 # print("event: ", event)
-                if event.axis == AXIS_RIGHT_THUMB_X and self.joystick.get_axis(AXIS_RIGHT_THUMB_X) >= 0.95:
-                    circuit_grid.handle_input_rotate(np.pi / 8)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_X and self.joystick.get_axis(AXIS_RIGHT_THUMB_X) <= -0.95:
-                    circuit_grid.handle_input_rotate(-np.pi / 8)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_Y and self.joystick.get_axis(AXIS_RIGHT_THUMB_Y) <= -0.95:
-                    circuit_grid.handle_input_move_ctrl(MOVE_UP)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                if event.axis == AXIS_RIGHT_THUMB_Y and self.joystick.get_axis(AXIS_RIGHT_THUMB_Y) >= 0.95:
-                    circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
+                for j in range(0, min(2, self._num_joysticks)):
+                    if (
+                        event.axis == GAMEPAD["AXIS_RIGHT_THUMB_X"]
+                        and self._joysticks[j].get_axis(GAMEPAD["AXIS_RIGHT_THUMB_X"])
+                        >= 0.95
+                    ):
 
-            elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    self.running = False
-                elif event.key == K_a:
-                    circuit_grid.move_to_adjacent_node(MOVE_LEFT)
-                    circuit_grid.draw(screen)
-                    pygame.display.flip()
-                elif event.key == K_d:
-                    circuit_grid.move_to_adjacent_node(MOVE_RIGHT)
-                    circuit_grid.draw(screen)
-                    pygame.display.flip()
-                elif event.key == K_w:
-                    circuit_grid.move_to_adjacent_node(MOVE_UP)
-                    circuit_grid.draw(screen)
-                    pygame.display.flip()
-                elif event.key == K_s:
-                    circuit_grid.move_to_adjacent_node(MOVE_DOWN)
-                    circuit_grid.draw(screen)
-                    pygame.display.flip()
-                elif event.key == K_x:
-                    circuit_grid.handle_input_x()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_y:
-                    circuit_grid.handle_input_y()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_z:
-                    circuit_grid.handle_input_z()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_h:
-                    circuit_grid.handle_input_h()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_SPACE:
-                    circuit_grid.handle_input_delete()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_c:
+                        player = players[min(1, event.joy)]
+
+                        if player.player_type in (
+                            QUANTUM_COMPUTER_1P,
+                            QUANTUM_COMPUTER_2P,
+                        ):
+                            player.circuit_grid.handle_input_rotate(np.pi / 8)
+                            player.circuit_grid.draw(screen)
+                            player.update_paddle(screen)
+                            pg.display.flip()
+                    if (
+                        event.axis == GAMEPAD["AXIS_RIGHT_THUMB_X"]
+                        and self._joysticks[j].get_axis(GAMEPAD["AXIS_RIGHT_THUMB_X"])
+                        <= -0.95
+                    ):
+
+                        player = players[min(1, event.joy)]
+
+                        if player.player_type in (
+                            QUANTUM_COMPUTER_1P,
+                            QUANTUM_COMPUTER_2P,
+                        ):
+                            player.circuit_grid.handle_input_rotate(-np.pi / 8)
+                            player.circuit_grid.draw(screen)
+                            player.update_paddle(screen)
+                            pg.display.flip()
+                    if (
+                        event.axis == GAMEPAD["AXIS_RIGHT_THUMB_Y"]
+                        and self._joysticks[j].get_axis(GAMEPAD["AXIS_RIGHT_THUMB_Y"])
+                        <= -0.95
+                    ):
+                        player = players[min(1, event.joy)]
+                        if player.player_type in (
+                            QUANTUM_COMPUTER_1P,
+                            QUANTUM_COMPUTER_2P,
+                        ):
+                            player.circuit_grid.handle_input_move_ctrl(MOVES["UP"])
+                            player.circuit_grid.draw(screen)
+                            player.update_paddle(screen)
+                            pg.display.flip()
+                    if (
+                        event.axis == GAMEPAD["AXIS_RIGHT_THUMB_Y"]
+                        and self._joysticks[j].get_axis(GAMEPAD["AXIS_RIGHT_THUMB_Y"])
+                        >= 0.95
+                    ):
+                        player = players[min(1, event.joy)]
+                        if player.player_type in (
+                            QUANTUM_COMPUTER_1P,
+                            QUANTUM_COMPUTER_2P,
+                        ):
+                            player.circuit_grid.handle_input_move_ctrl(MOVES["DOWN"])
+                            player.circuit_grid.draw(screen)
+                            player.update_paddle(screen)
+                            pg.display.flip()
+
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self._running = False
+                    pg.quit()
+                elif event.key == pg.K_a:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.move_to_adjacent_node(MOVES["LEFT"])
+                        players[0].circuit_grid.draw(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_d:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.move_to_adjacent_node(MOVES["RIGHT"])
+                        players[0].circuit_grid.draw(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_w:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.move_to_adjacent_node(MOVES["UP"])
+                        players[0].circuit_grid.draw(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_s:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.move_to_adjacent_node(MOVES["DOWN"])
+                        players[0].circuit_grid.draw(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_r:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.handle_input_x()
+                        players[0].circuit_grid.draw(screen)
+                        players[0].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_t:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.handle_input_y()
+                        players[0].circuit_grid.draw(screen)
+                        players[0].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_y:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.handle_input_z()
+                        players[0].circuit_grid.draw(screen)
+                        players[0].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_u:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.handle_input_h()
+                        players[0].circuit_grid.draw(screen)
+                        players[0].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_i:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.handle_input_delete()
+                        players[0].circuit_grid.draw(screen)
+                        players[0].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_o:
                     # Add or remove a control
-                    circuit_grid.handle_input_ctrl()
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_UP:
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].circuit_grid.handle_input_ctrl()
+                        players[0].circuit_grid.draw(screen)
+                        players[0].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_UP:
                     # Move a control qubit up
-                    circuit_grid.handle_input_move_ctrl(MOVE_UP)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_DOWN:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.move_to_adjacent_node(MOVES["UP"])
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_DOWN:
                     # Move a control qubit down
-                    circuit_grid.handle_input_move_ctrl(MOVE_DOWN)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_LEFT:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.move_to_adjacent_node(MOVES["DOWN"])
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_LEFT:
                     # Rotate a gate
-                    circuit_grid.handle_input_rotate(-np.pi / 8)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_RIGHT:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.move_to_adjacent_node(MOVES["LEFT"])
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_RIGHT:
                     # Rotate a gate
-                    circuit_grid.handle_input_rotate(np.pi / 8)
-                    circuit_grid.draw(screen)
-                    self.update_paddle(level, screen, scene)
-                    pygame.display.flip()
-                elif event.key == K_TAB:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.move_to_adjacent_node(MOVES["RIGHT"])
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_v:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.handle_input_x()
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_b:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.handle_input_y()
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_n:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.handle_input_z()
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_m:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.handle_input_h()
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_COMMA:
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.handle_input_delete()
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_PERIOD:
+                    # Add or remove a control
+                    if players[1].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[1].circuit_grid.handle_input_ctrl()
+                        players[1].circuit_grid.draw(screen)
+                        players[1].update_paddle(screen)
+                        pg.display.flip()
+                elif event.key == pg.K_TAB:
                     # Update visualizations
                     # TODO: Refactor following code into methods, etc.
-                    self.update_paddle(level, screen, scene)
-
-    def update_paddle(self, level, screen, scene):
-        # Update visualizations
-        # TODO: Refactor following code into methods, etc.
-
-        circuit_grid_model = level.circuit_grid_model
-        right_statevector = level.right_statevector
-        circuit_grid = level.circuit_grid
-        statevector_grid = level.statevector_grid
-
-        circuit = circuit_grid_model.compute_circuit()
-        statevector_grid.paddle_before_measurement(
-            circuit, scene.qubit_num, 100)
-        right_statevector.arrange()
-        circuit_grid.draw(screen)
-        pygame.display.flip()
-
-    def move_update_circuit_grid_display(self, screen, circuit_grid, direction):
-        circuit_grid.move_to_adjacent_node(direction)
-        circuit_grid.draw(screen)
-        pygame.display.flip()
+                    if players[0].player_type in (
+                        QUANTUM_COMPUTER_1P,
+                        QUANTUM_COMPUTER_2P,
+                    ):
+                        players[0].update_paddle(screen)
