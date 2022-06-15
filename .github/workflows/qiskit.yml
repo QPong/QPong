@@ -1,0 +1,92 @@
+name: Qiskit tests
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  stable:
+    runs-on: ubuntu-latest
+    env:
+      python-version: "3.9"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check if Qiskit
+      run: |
+        echo "PASS=True" >> $GITHUB_ENV
+        qiskit=$(cat ecosystem.json | jq .qiskit)
+        
+        if [[ "${qiskit}" == "false" ]]; then
+            echo "PASS=False" >> $GITHUB_ENV
+            echo "::notice file=ecosystem.json::Qiskit is not use here !"
+        else
+            echo "::notice file=ecosystem.json::Qiskit is using here !"
+        fi
+        
+    - name: Set up Python ${{ env.python-version }}
+      if: ${{ env.PASS == 'True' }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ env.python-version }}
+    - name: Set up tox env
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        pver=${{ env.python-version }}
+        tox_env="-epy${pver/./}"
+        echo tox_env
+        echo TOX_ENV=$tox_env >> $GITHUB_ENV
+    - name: Install dependencies
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        pip install qiskit --upgrade
+    - name: Test using tox envs
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        tox ${{ env.TOX_ENV }}
+
+  dev:
+    runs-on: ubuntu-latest
+    env:
+      python-version: "3.9"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check if Qiskit
+      run: |
+        echo "PASS=True" >> $GITHUB_ENV
+        qiskit=$(cat ecosystem.json | jq .qiskit)
+        
+        if [[ "${qiskit}" == "false" ]]; then
+            echo "PASS=False" >> $GITHUB_ENV
+            echo "::notice file=ecosystem.json::Qiskit is not use here !"
+        else
+            echo "::notice file=ecosystem.json::Qiskit is using here !"
+        fi
+        
+    - name: Set up Python ${{ env.python-version }}
+      if: ${{ env.PASS == 'True' }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ env.python-version }}
+    - name: Set up tox env
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        pver=${{ env.python-version }}
+        tox_env="-epy${pver/./}"
+        echo tox_env
+        echo TOX_ENV=$tox_env >> $GITHUB_ENV
+    - name: Install dependencies
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        git clone https://github.com/Qiskit/qiskit-terra.git
+        cd qiskit-terra
+        pip install cython
+        pip uninstall qiskit-terra --yes
+        pip install .
+    - name: Test using tox envs
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        tox ${{ env.TOX_ENV }}
