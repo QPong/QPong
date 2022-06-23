@@ -63,7 +63,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
         for qb_idx in range(len(quantum_state)):
             if abs(quantum_state[qb_idx]) > 0:
                 self.paddle.set_alpha(int(round(abs(quantum_state[qb_idx]) * 255)))
-                self.image.blit(self.paddle, (0, y * self.block_size))
+                self.image.blit(self.paddle, (0, qb_idx * self.block_size))
 
     def paddle_after_measurement(self, circuit, qubit_num, shot_num):
         self.update()
