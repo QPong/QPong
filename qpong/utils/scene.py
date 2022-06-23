@@ -27,7 +27,7 @@ from qpong.utils.parameters import (
     NORMAL,
     EXPERT,
 )
-from qpong.utils.fonts import REPLAY_FONT, PLAYER_FONT
+from qpong.utils.fonts import GAMEOVER_FONT, REPLAY_FONT, SCORE_FONT, PLAYER_FONT, CREDIT_FONT
 from qpong.utils.colors import WHITE, BLACK, GRAY
 from qpong.utils.gamepad import *
 
