@@ -24,11 +24,10 @@ class VBox(pygame.sprite.RenderPlain):
     Arranges sprites vertically
     """
 
-    def __init__(self, xpos, ypos, orientation, *sprites):
+    def __init__(self, xpos, ypos, *sprites):
         pygame.sprite.RenderPlain.__init__(self, sprites)
         self.xpos = xpos
         self.ypos = ypos
-        self.orientation = orientation
         self.arrange()
 
     def arrange(self):
