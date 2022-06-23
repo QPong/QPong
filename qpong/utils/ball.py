@@ -49,8 +49,8 @@ class Ball(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.xpospos = 0
-        self.ypospos = 0
+        self.xpos = 0
+        self.ypos = 0
         self.speed = 0
         self.initial_speed_factor = 0.8
         self.direction = 0
@@ -69,17 +69,17 @@ class Ball(pygame.sprite.Sprite):
     def update(self):
         radians = math.radians(self.direction)
 
-        self.xpospos += self.speed * math.sin(radians)
-        self.ypospos -= self.speed * math.cos(radians)
+        self.xpos += self.speed * math.sin(radians)
+        self.ypos -= self.speed * math.cos(radians)
 
         # Update ball position
-        self.rect.x = self.xpospos
-        self.rect.y = self.ypospos
+        self.rect.x = self.xpos
+        self.rect.y = self.ypos
 
-        if self.ypospos <= self.top_edge:
+        if self.ypos <= self.top_edge:
             self.direction = (180 - self.direction) % 360
             self.sound.edge_sound.play()
-        if self.ypospos > self.bottom_edge - 1 * self.height:
+        if self.ypos > self.bottom_edge - 1 * self.height:
             self.direction = (180 - self.direction) % 360
             self.sound.edge_sound.play()
 
