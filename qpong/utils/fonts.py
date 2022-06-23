@@ -21,9 +21,9 @@ from qpong.utils.parameters import WIDTH_UNIT
 
 pygame.font.init()
 
-GAMEOVER_FONT = pygame.font.Font("data/font/bit5x3.ttf", 10 * WIDTH_UNIT)
-CREDIT_FONT = pygame.font.Font("data/font/bit5x3.ttf", 2 * WIDTH_UNIT)
-REPLAY_FONT = pygame.font.Font("data/font/bit5x3.ttf", 5 * WIDTH_UNIT)
-SCORE_FONT = pygame.font.Font("data/font/bit5x3.ttf", 12 * WIDTH_UNIT)
-VECTOR_FONT = pygame.font.Font("data/font/bit5x3.ttf", 3 * WIDTH_UNIT)
-PLAYER_FONT = pygame.font.Font("data/font/bit5x3.ttf", 3 * WIDTH_UNIT)
+GAMEOVER_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 10 * WIDTH_UNIT)
+CREDIT_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 2 * WIDTH_UNIT)
+REPLAY_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 5 * WIDTH_UNIT)
+SCORE_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 12 * WIDTH_UNIT)
+VECTOR_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 3 * WIDTH_UNIT)
+PLAYER_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 3 * WIDTH_UNIT)
