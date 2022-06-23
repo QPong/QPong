@@ -3,11 +3,11 @@ TODO
 """
 import pygame
 
-from model.circuit_grid_model import CircuitGridModel
-from model import circuit_node_types as node_types
+from qpong.model.circuit_grid_model import CircuitGridModel
+from qpong.model import circuit_node_types as node_types
 from qpong.containers.vbox import VBox
 from qpong.viz.statevector_grid import StatevectorGrid
-from controls.circuit_grid import CircuitGrid, CircuitGridNode
+from qpong.controls.circuit_grid import CircuitGrid, CircuitGridNode
 
 from qpong.utils.parameters import WIDTH_UNIT, CIRCUIT_DEPTH
 
