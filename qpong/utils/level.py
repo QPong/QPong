@@ -21,10 +21,9 @@ Game level
 import pygame
 
 from qpong.model.circuit_grid_model import CircuitGridModel
-from qpong.model import circuit_node_types as node_types
 from qpong.containers.vbox import VBox
 from qpong.viz.statevector_grid import StatevectorGrid
-from qpong.controls.circuit_grid import CircuitGrid, CircuitGridNode
+from qpong.controls.circuit_grid import CircuitGrid
 
 from qpong.utils.parameters import WIDTH_UNIT, CIRCUIT_DEPTH
 
@@ -51,14 +50,6 @@ class Level:
         """
         scene.qubit_num = self.level
         self.circuit_grid_model = CircuitGridModel(scene.qubit_num, CIRCUIT_DEPTH)
-
-        # the game crashes if the circuit is empty
-        # initialize circuit with identity gate at the end of each line to prevent crash
-        # identity gate are displayed by completely transparent PNG
-        for i in range(scene.qubit_num):
-            self.circuit_grid_model.set_node(
-                i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN)
-            )
 
         self.circuit = self.circuit_grid_model.construct_circuit()
         self.statevector_grid = StatevectorGrid(self.circuit, scene.qubit_num, 100)

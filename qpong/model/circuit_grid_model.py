@@ -23,7 +23,6 @@ from qiskit import QuantumCircuit, QuantumRegister
 
 from qpong.model import circuit_node_types as node_types
 
-
 NODE_IDENTIFIERS = {
     0: "i",
     1: "x",
@@ -195,9 +194,6 @@ class CircuitGridModel:
             CircuitGridNode(node_types.EMPTY),
             dtype=CircuitGridNode,
         )
-
-        # for i in range(self.max_wires):
-        #    self.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
 
 
 class CircuitGridNode:

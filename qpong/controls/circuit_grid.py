@@ -586,11 +586,6 @@ class CircuitGridGate(pygame.sprite.Sprite):
             self.image, self.rect = load_image("gate_images/t_gate.png", -1)
         elif node.node_type == node_types.TDG:
             self.image, self.rect = load_image("gate_images/tdg_gate.png", -1)
-        elif node.node_type == node_types.IDEN:
-            # a completely transparent PNG is used to place
-            # at the end of the circuit to prevent crash
-            # the game crashes if the circuit is empty
-            self.image, self.rect = load_image("gate_images/transparent.png", -1)
         elif node.node_type == node_types.CTRL:
             if self.wire_num > self.circuit_grid_model.get_gate_wire_for_control_node(
                 self.wire_num, self.column_num
