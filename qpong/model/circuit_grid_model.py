@@ -25,17 +25,17 @@ from qpong.model import circuit_node_types as node_types
 
 
 NODE_IDENTIFIERS = {
-    0: 'i',
-    1: 'x',
-    2: 'y',
-    3: 'z',
-    4: 's',
-    5: 'sdg',
-    6: 't',
-    7: 'tdg',
-    8: 'h',
-    9: 'swap',
-    10: 'c',
+    0: "i",
+    1: "x",
+    2: "y",
+    3: "z",
+    4: "s",
+    5: "sdg",
+    6: "t",
+    7: "tdg",
+    8: "h",
+    9: "swap",
+    10: "c",
 }
 
 # pylint: disable=too-few-public-methods
@@ -47,8 +47,11 @@ class CircuitGridModel:
     def __init__(self, max_wires, max_columns):
         self.max_wires = max_wires
         self.max_columns = max_columns
-        self.nodes = np.full((max_wires, max_columns),
-                CircuitGridNode(node_types.EMPTY), dtype=CircuitGridNode)
+        self.nodes = np.full(
+            (max_wires, max_columns),
+            CircuitGridNode(node_types.EMPTY),
+            dtype=CircuitGridNode,
+        )
 
     def __str__(self):
         retval = ""
@@ -111,10 +114,7 @@ class CircuitGridModel:
         for idx in range(self.max_wires):
             if idx != wire_num:
                 other_node = nodes_in_column[idx]
-                if wire_num in(
-                    other_node.ctrl_a,
-                    other_node.ctrl_b
-                ):
+                if wire_num in (other_node.ctrl_a, other_node.ctrl_b):
                     return node_types.CTRL
                 if other_node.swap == wire_num:
                     return node_types.SWAP
@@ -134,10 +134,7 @@ class CircuitGridModel:
         for wire_idx in range(self.max_wires):
             if wire_idx != control_wire_num:
                 other_node = nodes_in_column[wire_idx]
-                if control_wire_num in (
-                    other_node.ctrl_a,
-                    other_node.ctrl_b
-                ):
+                if control_wire_num in (other_node.ctrl_a, other_node.ctrl_b):
                     gate_wire_num = wire_idx
                     print(
                         "Found gate: ",
@@ -177,13 +174,13 @@ class CircuitGridModel:
                     args.append(register[wire_num])
                     args.append(register[node.swap])
                 else:
-                    if node.radians !=  0:
+                    if node.radians != 0:
                         attr.append("r")
                     if node.node_type != node_types.EMPTY:
                         args.append(register[wire_num])
                         attr.append(NODE_IDENTIFIERS[node.node_type])
 
-                attr = ''.join(attr)
+                attr = "".join(attr)
                 if hasattr(circuit, attr):
                     getattr(circuit, attr)(*args)
 
@@ -193,11 +190,15 @@ class CircuitGridModel:
         """
         Reset circuit by reinitializing nodes matrix
         """
-        self.nodes = np.full((self.max_wires, self.max_columns),
-                CircuitGridNode(node_types.EMPTY) , dtype=CircuitGridNode)
+        self.nodes = np.full(
+            (self.max_wires, self.max_columns),
+            CircuitGridNode(node_types.EMPTY),
+            dtype=CircuitGridNode,
+        )
 
-        #for i in range(self.max_wires):
+        # for i in range(self.max_wires):
         #    self.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
+
 
 class CircuitGridNode:
     """

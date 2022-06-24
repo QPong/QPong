@@ -25,6 +25,7 @@ import pygame
 from qpong.utils import gamepad
 from qpong.utils.navigation import MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
 
+
 class Input:
     """
     Handle input events
@@ -89,8 +90,8 @@ class Input:
             self.gamepad_last_update = pygame.time.get_ticks()
 
             # Check left thumbstick position
-            #left_thumb_x = self.joystick.get_axis(0)
-            #left_thumb_y = self.joystick.get_axis(1)
+            # left_thumb_x = self.joystick.get_axis(0)
+            # left_thumb_y = self.joystick.get_axis(1)
 
         # Handle Input Events
         for event in pygame.event.get():
@@ -137,7 +138,6 @@ class Input:
                     pygame.display.flip()
                 elif event.button == gamepad.BTN_LEFT_BUMPER:
                     # Update visualizations
-                    # TODO: Refactor following code into methods, etc.
                     self.update_paddle(level, screen, scene)
 
             elif event.type == pygame.JOYAXISMOTION:
@@ -251,7 +251,6 @@ class Input:
                     pygame.display.flip()
                 elif event.key == pygame.K_TAB:
                     # Update visualizations
-                    # TODO: Refactor following code into methods, etc.
                     self.update_paddle(level, screen, scene)
 
     @staticmethod
@@ -260,7 +259,6 @@ class Input:
         Update state vector paddle
         """
         # Update visualizations
-        # TODO: Refactor following code into methods, etc.
 
         circuit_grid_model = level.circuit_grid_model
         right_statevector = level.right_statevector
