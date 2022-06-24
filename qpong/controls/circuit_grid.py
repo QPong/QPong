@@ -299,7 +299,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                         )
                         == -1
                     ):
-                        if self.selected_wire < self.circuit_grid_model.max_wires:
+                        if self.selected_wire + 1 < self.circuit_grid_model.max_wires:
                             if (
                                 self.place_ctrl_qubit(
                                     self.selected_wire, self.selected_wire + 1
@@ -307,7 +307,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                                 == -1
                             ):
                                 print("Can't place control qubit")
-                                self.display_exceptional_condition()
+                                #self.display_exceptional_condition()
 
     def handle_input_move_ctrl(self, direction):
         # pylint: disable=too-many-branches disable=too-many-statements disable=too-many-nested-blocks
@@ -422,7 +422,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         Returns:
             integer: wire number of control qubit, otherwise -1.
         """
-        if self.circuit_node_types.max_wires <= candidate_ctrl_wire_num < 0:
+        if self.circuit_grid_model.max_wires <= candidate_ctrl_wire_num < 0:
             return -1
         candidate_wire_gate_part = self.circuit_grid_model.get_node_gate_part(
             candidate_ctrl_wire_num, self.selected_column

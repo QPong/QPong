@@ -83,8 +83,14 @@ class CircuitGridModel:
         Parameters:
         wire_num (integer): wire number
         column_num (integer): column number
+
+        Returns:
         """
-        return self.nodes[wire_num][column_num]
+
+        if wire_num < self.max_wires and column_num < self.max_columns:
+            return self.nodes[wire_num][column_num]
+
+        return None
 
     def get_node_gate_part(self, wire_num, column_num):
         """
@@ -95,8 +101,8 @@ class CircuitGridModel:
         wire_num (integer): wire number
         column_num (integer): column number
         """
-        requested_node = self.nodes[wire_num][column_num]
-        if requested_node.node_type != node_types.EMPTY:
+        requested_node = self.get_node(wire_num, column_num)
+        if requested_node and requested_node.node_type != node_types.EMPTY:
             # Node is occupied so return its gate
             return requested_node.node_type
 
