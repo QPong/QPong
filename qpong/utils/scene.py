@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 # Copyright 2019 the original author or authors.
 #
@@ -14,8 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+A container for managing game screens
+"""
+
 import pygame
-from pygame.locals import *
 
 from qpong.utils.parameters import (
     WIDTH_UNIT,
@@ -29,11 +32,13 @@ from qpong.utils.parameters import (
 )
 from qpong.utils.fonts import GAMEOVER_FONT, REPLAY_FONT, SCORE_FONT, PLAYER_FONT, CREDIT_FONT
 from qpong.utils.colors import WHITE, BLACK, GRAY
-from qpong.utils.gamepad import *
+from qpong.utils import gamepad
 
 
 class Scene:
-    """Display Game Over screen and handle play again"""
+    """
+    Display Game Over screen and handle play again
+    """
 
     def __init__(self):
         super().__init__()
@@ -43,7 +48,10 @@ class Scene:
         self.qubit_num = 3
 
     def start(self, screen, ball):
-        """Show start screen"""
+        # pylint: disable=too-many-branches disable=too-many-return-statements
+        """
+        Show start screen
+        """
 
         screen.fill(BLACK)
 
@@ -79,33 +87,33 @@ class Scene:
             for event in pygame.event.get():
                 pygame.event.pump()
 
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     pygame.quit()
-                elif event.type == JOYBUTTONDOWN:
-                    if event.button == BTN_A:
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    if event.button == gamepad.BTN_A:
                         # easy mode
                         ball.initial_speed_factor = EASY
                         return True
-                    elif event.button == BTN_B:
+                    if event.button == gamepad.BTN_B:
                         # normal mode
                         ball.initial_speed_factor = NORMAL
                         return True
-                    elif event.button == BTN_X:
+                    if event.button == gamepad.BTN_X:
                         # expert mode
                         ball.initial_speed_factor = EXPERT
                         return True
-                elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
                         return False
-                    elif event.key == K_a:
+                    if event.key == pygame.K_a:
                         # easy mode
                         ball.initial_speed_factor = EASY
                         return True
-                    elif event.key == K_b:
+                    if event.key == pygame.K_b:
                         # normal mode
                         ball.initial_speed_factor = NORMAL
                         return True
-                    elif event.key == K_x:
+                    if event.key == pygame.K_x:
                         # expert mode
                         ball.initial_speed_factor = EXPERT
                         return True
@@ -120,7 +128,9 @@ class Scene:
         self.begin = False
 
     def gameover(self, screen, player):
-        """Display Game Over screen"""
+        """
+        Display Game Over screen
+        """
         if player == CLASSICAL_COMPUTER:
 
             screen.fill(BLACK)
@@ -163,7 +173,12 @@ class Scene:
 
             self.credits(screen)
 
-    def dashed_line(self, screen, ball):
+    @staticmethod
+    def dashed_line(screen, ball):
+        """
+        Show dashed line diving the playing field
+        """
+
         for i in range(10, ball.screenheight, 2 * WIDTH_UNIT):  # draw dashed line
             pygame.draw.rect(
                 screen,
@@ -172,7 +187,11 @@ class Scene:
                 0,
             )
 
-    def score(self, screen, ball):
+    @staticmethod
+    def score(screen, ball):
+        """
+        Show score for both player
+        """
         # Print the score
         text = PLAYER_FONT.render("Classical Computer", 1, GRAY)
         text_pos = text.get_rect(
@@ -200,7 +219,11 @@ class Scene:
         )
         screen.blit(text, text_pos)
 
-    def credits(self, screen):
+    @staticmethod
+    def credits(screen):
+        """
+        Show credits screen
+        """
         credit_text = "Credits"
         text = CREDIT_FONT.render(credit_text, 1, WHITE)
         text_pos = text.get_rect(
@@ -232,7 +255,9 @@ class Scene:
         screen.blit(text, text_pos)
 
     def replay(self, screen, score, circuit_grid_model, circuit_grid):
-        """Pause the game and ask if the player wants to play again"""
+        """
+        Pause the game and ask if the player wants to play again
+        """
         blink_time = pygame.time.get_ticks()
 
         while not self.restart:
@@ -240,7 +265,7 @@ class Scene:
             for event in pygame.event.get():
                 pygame.event.pump()
 
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     pygame.quit()
                 else:
                     self.restart = True

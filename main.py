@@ -1,6 +1,3 @@
-"""
-Quantum version of the classic Pong game
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -17,6 +14,10 @@ Quantum version of the classic Pong game
 # limitations under the License.
 #
 #
+
+"""
+Quantum version of the classic Pong game
+"""
 
 import random
 
@@ -44,6 +45,10 @@ if not pygame.mixer:
 
 
 def main():
+    """
+    Main game loop
+    """
+
     pygame.init()
 
     # hardware acceleration to reduce flickering. Works only in full screen

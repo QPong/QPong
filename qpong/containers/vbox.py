@@ -1,7 +1,3 @@
-"""
-TODO
-"""
-
 # Copyright 2019 the original author or authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +12,17 @@ TODO
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+Vertical pygame.sprite container
+"""
+
 import pygame
 
-
+# pylint: disable=too-few-public-methods
 class VBox(pygame.sprite.RenderPlain):
     """
-    Arranges sprites vertically
+    A container that arranges sprites vertically
     """
 
     def __init__(self, xpos, ypos, *sprites):
@@ -32,7 +33,8 @@ class VBox(pygame.sprite.RenderPlain):
 
     def arrange(self):
         """
-        TODO
+        Arrange sprites vertically, each sucessive one going just
+        above the previous
         """
         next_xpos = self.xpos
         next_ypos = self.ypos

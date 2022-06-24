@@ -1,6 +1,3 @@
-"""
-Gamepad button and axis mappings, currently specific to PS4 gamepads
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -17,6 +14,10 @@ Gamepad button and axis mappings, currently specific to PS4 gamepads
 # limitations under the License.
 #
 #
+
+"""
+Gamepad button and axis mappings, currently specific to PS4 gamepads
+"""
 
 BTN_X = 0  # PS4 gamepad is 3, PS3 gamepad is 2
 BTN_Y = 3

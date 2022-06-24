@@ -1,6 +1,3 @@
-"""
-TODO
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -16,10 +13,14 @@ TODO
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+Utilities for loading resources (images and sounds)
+"""
+
 import os
 
 import pygame
-from pygame.constants import RLEACCEL
 from qpong.utils.parameters import WIDTH_UNIT
 
 main_dir = os.path.split(os.path.abspath(__file__))[0]
@@ -27,18 +28,24 @@ data_dir = os.path.join(main_dir, "..", "data")
 
 
 def load_image(name, colorkey=None, scale=WIDTH_UNIT / 13):
+    """
+    Load image with pygame
+
+    Parameters:
+    name (string): file name
+    """
     fullname = os.path.join(data_dir, "images", name)
     try:
         image = pygame.image.load(fullname)
     except pygame.error:
         print("Cannot load image:", fullname)
         error_message = pygame.get_error()
-        raise SystemExit(error_message)
+        raise SystemExit(error_message) from pygame.error
     image = image.convert()
     if colorkey is not None:
         if colorkey == -1:
             colorkey = image.get_at((0, 0))
-        image.set_colorkey(colorkey, RLEACCEL)
+        image.set_colorkey(colorkey, pygame.RLEACCEL)
     image = pygame.transform.scale(
         image, tuple(round(scale * x) for x in image.get_rect().size)
     )
@@ -46,17 +53,21 @@ def load_image(name, colorkey=None, scale=WIDTH_UNIT / 13):
 
 
 def load_sound(name):
-    class NoneSound:
-        def play(self):
-            pass
+    # pylint: disable=too-few-public-methods
+    """
+    Load sound with pygame mixer
 
+    Parameters:
+    name (string): file name
+    """
     if not pygame.mixer or not pygame.mixer.get_init():
-        return NoneSound()
+        pygame.mixer.init()
+
     fullname = os.path.join(data_dir, "sound", name)
     try:
         sound = pygame.mixer.Sound(fullname)
     except pygame.error:
         print("Cannot load sound: %s" % fullname)
         error_message = pygame.get_error()
-        raise SystemExit(error_message)
+        raise SystemExit(error_message) from pygame.error
     return sound

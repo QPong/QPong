@@ -1,6 +1,23 @@
+#
+# Copyright 2019 the original author or authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 """
-TODO
+Game level
 """
+
 import pygame
 
 from qpong.model.circuit_grid_model import CircuitGridModel
@@ -13,16 +30,25 @@ from qpong.utils.parameters import WIDTH_UNIT, CIRCUIT_DEPTH
 
 
 class Level:
-    """Start up a level"""
+    """
+    Start up a level
+    """
 
     def __init__(self):
         self.level = 3  # game level
         self.win = False  # flag for winning the game
         self.left_paddle = pygame.sprite.Sprite()
         self.right_paddle = pygame.sprite.Sprite()
+        self.circuit = None
+        self.circuit_grid = None
+        self.circuit_grid_model = None
+        self.statevector_grid = None
+        self.right_statevector = None
 
     def setup(self, scene, ball):
-        """Setup a level with a certain level number"""
+        """
+        Setup a level with a certain level number
+        """
         scene.qubit_num = self.level
         self.circuit_grid_model = CircuitGridModel(scene.qubit_num, CIRCUIT_DEPTH)
 
@@ -62,9 +88,11 @@ class Level:
         self.right_paddle.rect.x = self.right_statevector.xpos
 
     def levelup(self):
-        """Increase level by 1"""
+        """
+        Increase level by 1
+        """
         if self.level <= 3:
             self.level += self.level
-            self.setup()
+            #self.setup()
         else:
             self.win = True  # win the game if level is higher than 3
