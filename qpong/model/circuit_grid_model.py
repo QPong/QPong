@@ -1,6 +1,3 @@
-"""
-TODO
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -15,6 +12,10 @@ TODO
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+"""
+Grid-based model underlying the circuit grid for the quantum player
+"""
 
 import numpy as np
 
@@ -37,7 +38,7 @@ NODE_IDENTIFIERS = {
     10: 'c',
 }
 
-
+# pylint: disable=too-few-public-methods
 class CircuitGridModel:
     """
     Grid-based model that is built when user interacts with circuit
@@ -58,6 +59,14 @@ class CircuitGridModel:
         return "CircuitGridModel: " + retval
 
     def set_node(self, wire_num, column_num, circuit_grid_node):
+        """
+        Assign node to a specified wire and column number
+
+        Parameters:
+        wire_num (integer): wire number
+        column_num (integer): column number
+        circuit_grid_node (CircuitGridNode): node to be assigned
+        """
         self.nodes[wire_num][column_num] = CircuitGridNode(
             circuit_grid_node.node_type,
             circuit_grid_node.radians,
@@ -66,14 +75,26 @@ class CircuitGridModel:
             circuit_grid_node.swap,
         )
 
-
     def get_node(self, wire_num, column_num):
         """
-        Get node on a specified wire_num and column_num
+        Get node on a specified wire and column
+        number
+
+        Parameters:
+        wire_num (integer): wire number
+        column_num (integer): column number
         """
         return self.nodes[wire_num][column_num]
 
     def get_node_gate_part(self, wire_num, column_num):
+        """
+        Get gate underlying node on specified wire
+        and column number
+
+        Parameters:
+        wire_num (integer): wire number
+        column_num (integer): column number
+        """
         requested_node = self.nodes[wire_num][column_num]
         if requested_node.node_type != node_types.EMPTY:
             # Node is occupied so return its gate
@@ -94,10 +115,13 @@ class CircuitGridModel:
 
         return node_types.EMPTY
 
-
     def get_gate_wire_for_control_node(self, control_wire_num, column_num):
         """
         Get wire for gate that belongs to a control node on the given wire
+
+        Parameters:
+        control_wire_num (integer): wire number of control qubit
+        column_num (integer): column number
         """
         gate_wire_num = -1
         nodes_in_column = self.nodes[:, column_num]
@@ -159,7 +183,6 @@ class CircuitGridModel:
 
         return circuit
 
-
     def reset_circuit(self):
         """
         Reset circuit by reinitializing nodes matrix
@@ -169,7 +192,6 @@ class CircuitGridModel:
 
         #for i in range(self.max_wires):
         #    self.set_node(i, CIRCUIT_DEPTH - 1, CircuitGridNode(node_types.IDEN))
-
 
 class CircuitGridNode:
     """

@@ -1,6 +1,24 @@
+#
+# Copyright 2019 the original author or authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+
 """
-TODO
+A QPong ball
 """
+
 import math
 import random
 
@@ -24,6 +42,11 @@ from qpong.utils.sound import Sound
 
 
 class Ball(pygame.sprite.Sprite):
+    """
+    A QPong ball
+    """
+
+    # pylint: disable=too-many-instance-attributes
     def __init__(self):
         super().__init__()
 
@@ -67,6 +90,9 @@ class Ball(pygame.sprite.Sprite):
         self.score = Score()
 
     def update(self):
+        """
+        Update ball
+        """
         radians = math.radians(self.direction)
 
         self.xpos += self.speed * math.sin(radians)
@@ -84,7 +110,9 @@ class Ball(pygame.sprite.Sprite):
             self.sound.edge_sound.play()
 
     def reset(self):
-
+        """
+        Reset ball position and speed to initial settings.
+        """
         self.ypos = self.screenheight / 2
         self.speed = self.width_unit * self.initial_speed_factor
 
@@ -99,21 +127,32 @@ class Ball(pygame.sprite.Sprite):
             self.reset_position = LEFT
 
     def bounce_edge(self):
+        """
+        Bounce ball off a screen edge
+        """
         self.direction = (360 - self.direction) % 360
         self.speed *= 1.1
         self.sound.bounce_sound.play()
 
     def get_xpos(self):
+        """
+        Get ball's x position
+        """
         xpos = self.xpos
         return xpos
 
     def get_ypos(self):
+        """
+        Get ball's y position
+        """
         ypos = self.ypos
         return ypos
 
     # 1 = comp, 2 = player, none = 0
     def action(self):
-
+        """
+        Decide ball action based on the ball's position
+        """
         if self.xpos < self.left_edge:
             # reset the ball when it reaches beyond left edge
             self.reset()
@@ -158,4 +197,7 @@ class Ball(pygame.sprite.Sprite):
             self.measure_flag = NO
 
     def check_score(self, player):
+        """
+        Check a player score
+        """
         return self.score.get_score(player)

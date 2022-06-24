@@ -1,4 +1,3 @@
-"""Module for Containers"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -14,4 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+Sprite container
+"""
+
 from .vbox import VBox

@@ -1,6 +1,3 @@
-"""
-TODO
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -16,7 +13,13 @@ TODO
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+Various fonts used through out the game
+"""
+
 import pygame
+
 from qpong.utils.parameters import WIDTH_UNIT
 
 pygame.font.init()

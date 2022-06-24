@@ -1,6 +1,3 @@
-"""
-TODO
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -16,18 +13,27 @@ TODO
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+Statevector grid for quantum player
+"""
+
+from copy import deepcopy
+
 import pygame
+
 from qiskit import BasicAer, execute, ClassicalRegister
 from qpong.utils.colors import WHITE, BLACK
 from qpong.utils.fonts import VECTOR_FONT
 from qpong.utils.parameters import WIDTH_UNIT
 from qpong.utils.states import comp_basis_states
-from copy import deepcopy
 from qpong.utils.ball import Ball
 
 
 class StatevectorGrid(pygame.sprite.Sprite):
-    """Displays a statevector grid"""
+    """
+    Displays a statevector grid
+    """
 
     def __init__(self, circuit, qubit_num, num_shots):
         pygame.sprite.Sprite.__init__(self)
@@ -45,6 +51,10 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.paddle_before_measurement(circuit, qubit_num, num_shots)
 
     def display_statevector(self, qubit_num):
+        """
+        Draw computational basis for a statevector of a specified
+        number of qubits
+        """
         for qb_idx in range(2**qubit_num):
             text = VECTOR_FONT.render("|" + self.basis_states[qb_idx] + ">", 1, WHITE)
             text_height = text.get_height()
@@ -52,6 +62,11 @@ class StatevectorGrid(pygame.sprite.Sprite):
             self.image.blit(text, (2 * WIDTH_UNIT, qb_idx * self.block_size + y_offset))
 
     def paddle_before_measurement(self, circuit, qubit_num, shot_num):
+        """
+        Get statevector from circuit, and set the
+        paddle(s) alpha values according to basis
+        state(s) probabilitie(s)
+        """
         self.update()
         self.display_statevector(qubit_num)
 
@@ -60,20 +75,22 @@ class StatevectorGrid(pygame.sprite.Sprite):
         result_sim = job_sim.result()
         quantum_state = result_sim.get_statevector(circuit, decimals=3)
 
-        for qb_idx in range(len(quantum_state)):
-            if abs(quantum_state[qb_idx]) > 0:
-                self.paddle.set_alpha(int(round(abs(quantum_state[qb_idx]) * 255)))
-                self.image.blit(self.paddle, (0, qb_idx * self.block_size))
+        for basis_state, ampl in enumerate(quantum_state):
+            self.paddle.set_alpha(int(round(abs(ampl)**2 * 255)))
+            self.image.blit(self.paddle, (0, basis_state * self.block_size))
 
     def paddle_after_measurement(self, circuit, qubit_num, shot_num):
+        """
+        Measure all qubits on circuit
+        """
         self.update()
         self.display_statevector(qubit_num)
 
         backend_sv_sim = BasicAer.get_backend("qasm_simulator")
-        cr = ClassicalRegister(qubit_num)
+        creg = ClassicalRegister(qubit_num)
         measure_circuit = deepcopy(circuit)  # make a copy of circuit
         measure_circuit.add_register(
-            cr
+            creg
         )  # add classical registers for measurement readout
         measure_circuit.measure(measure_circuit.qregs[0], measure_circuit.cregs[0])
         job_sim = execute(measure_circuit, backend_sv_sim, shots=shot_num)
@@ -88,6 +105,9 @@ class StatevectorGrid(pygame.sprite.Sprite):
         return int(list(counts.keys())[0], 2)
 
     def update(self):
+        """
+        Update statevector grid
+        """
         self.image = pygame.Surface(
             [(self.circuit.width() + 1) * 3 * WIDTH_UNIT, self.ball.screenheight]
         )

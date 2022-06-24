@@ -1,6 +1,3 @@
-"""
-TODO
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -16,6 +13,11 @@ TODO
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+"""
+Constant for navigating the circuit grid
+"""
+
 MOVE_LEFT = 1
 MOVE_RIGHT = 2
 MOVE_UP = 3

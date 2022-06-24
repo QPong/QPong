@@ -1,6 +1,3 @@
-"""
-TODO
-"""
 #
 # Copyright 2019 the original author or authors.
 #
@@ -16,12 +13,17 @@ TODO
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-MAX_NUM_QUBITS = 10
 
+"""
+Constants and utilities for quantum states
+"""
+
+MAX_NUM_QUBITS = 10
 
 def comp_basis_states(num_qubits):
     """
-    TODO
+    Get computational basis states for a quantum state with
+    a specified number of qubits
     """
     num_qb = min(num_qubits, MAX_NUM_QUBITS)
     basis_states = []
