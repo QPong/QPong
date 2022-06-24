@@ -93,6 +93,6 @@ class Level:
         """
         if self.level <= 3:
             self.level += self.level
-            #self.setup()
+            # self.setup()
         else:
             self.win = True  # win the game if level is higher than 3

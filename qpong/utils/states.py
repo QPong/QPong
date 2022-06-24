@@ -20,6 +20,7 @@ Constants and utilities for quantum states
 
 MAX_NUM_QUBITS = 10
 
+
 def comp_basis_states(num_qubits):
     """
     Get computational basis states for a quantum state with

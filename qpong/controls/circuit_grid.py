@@ -119,13 +119,6 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         """
         self.highlight_selected_node(0, 0)
 
-    # def display_exceptional_condition(self):
-    #     """
-    #     TODO
-    #     """
-    #     # TODO: Make cursor appearance indicate condition such as unable to place a gate
-    #     return
-
     def move_to_adjacent_node(self, direction):
         """
         Moves cursor to an adjacent node on the circuit grid
@@ -237,9 +230,9 @@ class CircuitGrid(pygame.sprite.RenderPlain):
             if gate_wire_num >= 0:
                 self.delete_controls_for_gate(gate_wire_num, self.selected_column)
         elif selected_node_gate_part not in (
-                node_types.SWAP,
-                node_types.CTRL,
-                node_types.TRACE
+            node_types.SWAP,
+            node_types.CTRL,
+            node_types.TRACE,
         ):
             circuit_grid_node = CircuitGridNode(node_types.EMPTY)
             self.circuit_grid_model.set_node(
@@ -253,14 +246,13 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         """
         Place/Remove control below/above a node placed under the cursor
         """
-        # TODO: Handle Toffoli gates. For now, control qubit is assumed to be in ctrl_a variable
-        #       with ctrl_b variable reserved for Toffoli gates
+
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part in (
             node_types.X,
             node_types.Y,
             node_types.Z,
-            node_types.H
+            node_types.H,
         ):
             circuit_grid_node = self.circuit_grid_model.get_node(
                 self.selected_wire, self.selected_column
@@ -307,17 +299,13 @@ class CircuitGrid(pygame.sprite.RenderPlain):
                                 == -1
                             ):
                                 print("Can't place control qubit")
-                                #self.display_exceptional_condition()
 
     def handle_input_move_ctrl(self, direction):
         # pylint: disable=too-many-branches disable=too-many-statements disable=too-many-nested-blocks
         """
         Move control on a node placed under the cursor in specified direction
         """
-        # TODO: Handle Toffoli gates. For now, control qubit is assumed to be in ctrl_a variable
-        #       with ctrl_b variable reserved for Toffoli gates
-        # TODO: Simplify the logic in this method, including considering not actually ever
-        #       placing a TRACE, but rather always dynamically calculating if a TRACE s/b displayed
+
         selected_node_gate_part = self.get_selected_node_gate_part()
         if selected_node_gate_part in (
             node_types.X,
@@ -393,11 +381,7 @@ class CircuitGrid(pygame.sprite.RenderPlain):
         radians (float): Angle of rortation (in radians)
         """
         selected_node_gate_part = self.get_selected_node_gate_part()
-        if selected_node_gate_part in (
-            node_types.X,
-            node_types.Y,
-            node_types.Z
-        ):
+        if selected_node_gate_part in (node_types.X, node_types.Y, node_types.Z):
             circuit_grid_node = self.circuit_grid_model.get_node(
                 self.selected_wire, self.selected_column
             )
@@ -475,9 +459,6 @@ class CircuitGrid(pygame.sprite.RenderPlain):
             control_wire_num = control_b_wire_num
 
         if control_wire_num >= 0:
-            # TODO: If this is a controlled gate, remove the connecting TRACE
-            # parts between the gate and the control
-            # TODO: Refactor with similar code in this method
             for wire_idx in range(
                 min(gate_wire_num, control_wire_num),
                 max(gate_wire_num, control_wire_num) + 1,
@@ -532,16 +513,13 @@ class CircuitGridGate(pygame.sprite.Sprite):
         Update images on the circuit grid, and selected_node
         since the last update.
         """
-        node = self.circuit_grid_model.get_node(
-            self.wire_num, self.column_num
-        )
+        node = self.circuit_grid_model.get_node(self.wire_num, self.column_num)
 
         if node.node_type == node_types.H:
             self.image, self.rect = load_image("gate_images/h_gate.png", -1)
         elif node.node_type == node_types.X:
             if node.ctrl_a >= 0 or node.ctrl_b >= 0:
                 # This is a control-X gate or Toffoli gate
-                # TODO: Handle Toffoli gates more completely
                 if self.wire_num > max(node.ctrl_a, node.ctrl_b):
                     self.image, self.rect = load_image(
                         "gate_images/not_gate_below_ctrl.png", -1
@@ -614,7 +592,6 @@ class CircuitGridGate(pygame.sprite.Sprite):
             # the game crashes if the circuit is empty
             self.image, self.rect = load_image("gate_images/transparent.png", -1)
         elif node.node_type == node_types.CTRL:
-            # TODO: Handle Toffoli gates correctly
             if self.wire_num > self.circuit_grid_model.get_gate_wire_for_control_node(
                 self.wire_num, self.column_num
             ):

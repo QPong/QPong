@@ -19,10 +19,12 @@ Game score
 """
 import pygame
 
+
 class Score(pygame.sprite.Sprite):
     """
     Score container for ongoing game
     """
+
     def __init__(self):
         super().__init__()
 
@@ -53,7 +55,6 @@ class Score(pygame.sprite.Sprite):
         if player == 0:
             return self.computer
         return self.player
-
 
     def reset_score(self):
         """

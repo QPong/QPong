@@ -22,12 +22,18 @@ import unittest
 
 from qpong.utils.states import comp_basis_states
 
+
 class TestUtilsStates(unittest.TestCase):
     """
     Test utility function for generating computational basis states
     """
 
     def test_comp_basis_states_length(self):
+        """
+        Test how many basis states are generated
+        for a given number of qubits
+        """
+
         basis_state = comp_basis_states(3)
 
         self.assertEqual(len(basis_state), 8)
@@ -41,7 +47,22 @@ class TestUtilsStates(unittest.TestCase):
         self.assertEqual(len(basis_state), 2)
 
     def test_comp_basis_states(self):
+        """
+        Test if computational basis states
+        strings.
+        """
+
         basis_state = comp_basis_states(3)
 
         for i, state in enumerate(basis_state):
             self.assertEqual(state, format(i, "03b"))
+
+        basis_state = comp_basis_states(2)
+
+        for i, state in enumerate(basis_state):
+            self.assertEqual(state, format(i, "02b"))
+
+        basis_state = comp_basis_states(1)
+
+        for i, state in enumerate(basis_state):
+            self.assertEqual(state, format(i, "01b"))
