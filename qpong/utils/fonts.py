@@ -22,7 +22,8 @@ import pygame
 
 from qpong.utils.parameters import WIDTH_UNIT
 
-pygame.font.init()
+if not pygame.font.get_init():
+    pygame.font.init()
 
 GAMEOVER_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 10 * WIDTH_UNIT)
 CREDIT_FONT = pygame.font.Font("qpong/data/font/bit5x3.ttf", 2 * WIDTH_UNIT)

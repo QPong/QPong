@@ -33,12 +33,15 @@ class Input:
 
     def __init__(self):
         self.running = True
-        pygame.init()
-        pygame.joystick.init()
+
+        if not pygame.joystick.get_init():
+            pygame.joystick.init()
+
         self.num_joysticks = pygame.joystick.get_count()
         if self.num_joysticks > 0:
             self.joystick = pygame.joystick.Joystick(0)
-            self.joystick.init()
+            if not self.joystick.get_init():
+                self.joystick.init()
 
         self.gamepad_repeat_delay = 200
         self.gamepad_neutral = True

@@ -1,3 +1,4 @@
+# pylint: disable=duplicate-code
 #
 # Copyright 2019 the original author or authors.
 #
@@ -38,18 +39,22 @@ from qpong.utils.parameters import (
 )
 from qpong.utils.colors import BLACK
 
-if not pygame.font:
-    print("Warning, fonts disabled")
-if not pygame.mixer:
-    print("Warning, sound disabled")
-
-
 def main():
     """
     Main game loop
     """
 
-    pygame.init()
+    if not pygame.get_init():
+        print("Warning, fonts disabled")
+        pygame.init()
+
+    if not pygame.font.get_init():
+        print("Warning, fonts disabled")
+        pygame.font.init()
+
+    if not pygame.mixer.get_init():
+        print("Warning, sound disabled")
+        pygame.mixer.init()
 
     # hardware acceleration to reduce flickering. Works only in full screen
     flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
