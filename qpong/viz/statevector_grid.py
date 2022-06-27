@@ -23,11 +23,12 @@ from copy import deepcopy
 import pygame
 
 from qiskit import BasicAer, execute, ClassicalRegister
+
 from qpong.utils.colors import WHITE, BLACK
-from qpong.utils.fonts import VECTOR_FONT
 from qpong.utils.parameters import WIDTH_UNIT
 from qpong.utils.states import comp_basis_states
 from qpong.utils.ball import Ball
+from qpong.utils.font import Font
 
 
 class StatevectorGrid(pygame.sprite.Sprite):
@@ -40,6 +41,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.image = None
         self.rect = None
         self.ball = Ball()
+        self.font = Font()
         self.block_size = int(round(self.ball.screenheight / 2**qubit_num))
         self.basis_states = comp_basis_states(circuit.width())
         self.circuit = circuit
@@ -56,7 +58,9 @@ class StatevectorGrid(pygame.sprite.Sprite):
         number of qubits
         """
         for qb_idx in range(2**qubit_num):
-            text = VECTOR_FONT.render("|" + self.basis_states[qb_idx] + ">", 1, WHITE)
+            text = self.font.vector_font.render(
+                "|" + self.basis_states[qb_idx] + ">", 1, WHITE
+            )
             text_height = text.get_height()
             y_offset = self.block_size * 0.5 - text_height * 0.5
             self.image.blit(text, (2 * WIDTH_UNIT, qb_idx * self.block_size + y_offset))

@@ -15,7 +15,7 @@
 #
 
 """
-Utilities for loading resources (images and sounds)
+Utilities for loading resources (fonts, images and sounds)
 """
 
 import os
@@ -34,11 +34,14 @@ def load_image(name, colorkey=None, scale=WIDTH_UNIT / 13):
     Parameters:
     name (string): file name
     """
-    fullname = os.path.join(data_dir, "images", name)
+    if not pygame.get_init():
+        pygame.init()
+
+    full_name = os.path.join(data_dir, "images", name)
     try:
-        image = pygame.image.load(fullname)
+        image = pygame.image.load(full_name)
     except pygame.error:
-        print("Cannot load image:", fullname)
+        print("Cannot load image:", full_name)
         error_message = pygame.get_error()
         raise SystemExit(error_message) from pygame.error
     image = image.convert()
@@ -53,21 +56,40 @@ def load_image(name, colorkey=None, scale=WIDTH_UNIT / 13):
 
 
 def load_sound(name):
-    # pylint: disable=too-few-public-methods
     """
     Load sound with pygame mixer
 
     Parameters:
     name (string): file name
     """
-    if not pygame.mixer or not pygame.mixer.get_init():
+    if not pygame.mixer.get_init():
         pygame.mixer.init()
 
-    fullname = os.path.join(data_dir, "sound", name)
+    full_name = os.path.join(data_dir, "sound", name)
     try:
-        sound = pygame.mixer.Sound(fullname)
+        sound = pygame.mixer.Sound(full_name)
     except pygame.error:
-        print("Cannot load sound: %s" % fullname)
+        print("Cannot load sound: %s" % full_name)
         error_message = pygame.get_error()
         raise SystemExit(error_message) from pygame.error
     return sound
+
+
+def load_font(name, size=2 * WIDTH_UNIT):
+    """
+    Load font with pygame font
+
+    Parameters:
+    name (string): file name
+    """
+    if not pygame.font.get_init():
+        pygame.font.init()
+
+    full_name = os.path.join(data_dir, "font", name)
+    try:
+        font = pygame.font.Font(full_name, size)
+    except pygame.error:
+        print("Cannot load font: %s" % full_name)
+        error_message = pygame.get_error()
+        raise SystemExit(error_message) from pygame.error
+    return font

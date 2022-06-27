@@ -30,15 +30,9 @@ from qpong.utils.parameters import (
     NORMAL,
     EXPERT,
 )
-from qpong.utils.fonts import (
-    GAMEOVER_FONT,
-    REPLAY_FONT,
-    SCORE_FONT,
-    PLAYER_FONT,
-    CREDIT_FONT,
-)
 from qpong.utils.colors import WHITE, BLACK, GRAY
 from qpong.utils import gamepad
+from qpong.utils.font import Font
 
 
 class Scene:
@@ -52,6 +46,7 @@ class Scene:
         self.begin = False
         self.restart = False
         self.qubit_num = 3
+        self.font = Font()
 
     def start(self, screen, ball):
         # pylint: disable=too-many-branches disable=too-many-return-statements
@@ -62,27 +57,27 @@ class Scene:
         screen.fill(BLACK)
 
         gameover_text = "QPong"
-        text = GAMEOVER_FONT.render(gameover_text, 1, WHITE)
+        text = self.font.gameover_font.render(gameover_text, 1, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 15))
         screen.blit(text, text_pos)
 
         gameover_text = "Select difficulty level"
-        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        text = self.font.replay_font.render(gameover_text, 5, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 30))
         screen.blit(text, text_pos)
 
         gameover_text = "[A] Easy  "
-        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        text = self.font.replay_font.render(gameover_text, 5, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 35))
         screen.blit(text, text_pos)
 
         gameover_text = "[B] Normal"
-        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        text = self.font.replay_font.render(gameover_text, 5, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 40))
         screen.blit(text, text_pos)
 
         gameover_text = "[X] Expert"
-        text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+        text = self.font.replay_font.render(gameover_text, 5, WHITE)
         text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 45))
         screen.blit(text, text_pos)
 
@@ -142,17 +137,17 @@ class Scene:
             screen.fill(BLACK)
 
             gameover_text = "Game Over"
-            text = GAMEOVER_FONT.render(gameover_text, 1, WHITE)
+            text = self.font.gameover_font.render(gameover_text, 1, WHITE)
             text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 10))
             screen.blit(text, text_pos)
 
             gameover_text = "Classical computer"
-            text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+            text = self.font.replay_font.render(gameover_text, 5, WHITE)
             text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 22))
             screen.blit(text, text_pos)
 
             gameover_text = "still rules the world"
-            text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+            text = self.font.replay_font.render(gameover_text, 5, WHITE)
             text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 27))
             screen.blit(text, text_pos)
 
@@ -163,17 +158,17 @@ class Scene:
             screen.fill(BLACK)
 
             gameover_text = "Congratulations!"
-            text = GAMEOVER_FONT.render(gameover_text, 5, WHITE)
+            text = self.font.gameover_font.render(gameover_text, 5, WHITE)
             text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 10))
             screen.blit(text, text_pos)
 
             gameover_text = "You demonstrated quantum supremacy"
-            text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+            text = self.font.replay_font.render(gameover_text, 5, WHITE)
             text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 22))
             screen.blit(text, text_pos)
 
             gameover_text = "for the first time in human history!"
-            text = REPLAY_FONT.render(gameover_text, 5, WHITE)
+            text = self.font.replay_font.render(gameover_text, 5, WHITE)
             text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 27))
             screen.blit(text, text_pos)
 
@@ -193,45 +188,43 @@ class Scene:
                 0,
             )
 
-    @staticmethod
-    def score(screen, ball):
+    def score(self, screen, ball):
         """
         Show score for both player
         """
         # Print the score
-        text = PLAYER_FONT.render("Classical Computer", 1, GRAY)
+        text = self.font.player_font.render("Classical Computer", 1, GRAY)
         text_pos = text.get_rect(
             center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5)
         )
         screen.blit(text, text_pos)
 
-        text = PLAYER_FONT.render("Quantum Computer", 1, GRAY)
+        text = self.font.player_font.render("Quantum Computer", 1, GRAY)
         text_pos = text.get_rect(
             center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 1.5)
         )
         screen.blit(text, text_pos)
 
         score_print = str(ball.check_score(0))
-        text = SCORE_FONT.render(score_print, 1, GRAY)
+        text = self.font.score_font.render(score_print, 1, GRAY)
         text_pos = text.get_rect(
             center=(round(WINDOW_WIDTH * 0.25) + WIDTH_UNIT * 4.5, WIDTH_UNIT * 8)
         )
         screen.blit(text, text_pos)
 
         score_print = str(ball.check_score(1))
-        text = SCORE_FONT.render(score_print, 1, GRAY)
+        text = self.font.score_font.render(score_print, 1, GRAY)
         text_pos = text.get_rect(
             center=(round(WINDOW_WIDTH * 0.75) - WIDTH_UNIT * 4.5, WIDTH_UNIT * 8)
         )
         screen.blit(text, text_pos)
 
-    @staticmethod
-    def credits(screen):
+    def credits(self, screen):
         """
         Show credits screen
         """
         credit_text = "Credits"
-        text = CREDIT_FONT.render(credit_text, 1, WHITE)
+        text = self.font.credit_font.render(credit_text, 1, WHITE)
         text_pos = text.get_rect(
             center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WIDTH_UNIT * 8)
         )
@@ -240,21 +233,21 @@ class Scene:
         credit_text = (
             "Made by Huang Junye, James Weaver, Jarrod Reilly and Anastasia Jeffery"
         )
-        text = CREDIT_FONT.render(credit_text, 1, WHITE)
+        text = self.font.credit_font.render(credit_text, 1, WHITE)
         text_pos = text.get_rect(
             center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WIDTH_UNIT * 5)
         )
         screen.blit(text, text_pos)
 
         credit_text = "Initiated at IBM Qiskit Camp 2019"
-        text = CREDIT_FONT.render(credit_text, 1, WHITE)
+        text = self.font.credit_font.render(credit_text, 1, WHITE)
         text_pos = text.get_rect(
             center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WIDTH_UNIT * 3)
         )
         screen.blit(text, text_pos)
 
         credit_text = "Powered by JavaFXpert/quantum-circuit-game"
-        text = CREDIT_FONT.render(credit_text, 1, WHITE)
+        text = self.font.credit_font.render(credit_text, 1, WHITE)
         text_pos = text.get_rect(
             center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WIDTH_UNIT * 1)
         )
@@ -288,7 +281,7 @@ class Scene:
                 blink_time = pygame.time.get_ticks()
             if pygame.time.get_ticks() - blink_time > 500:
                 replay_text = "Press Any Key to Play Again"
-                text = REPLAY_FONT.render(replay_text, 1, WHITE)
+                text = self.font.replay_font.render(replay_text, 1, WHITE)
                 text_pos = text.get_rect(center=(WINDOW_WIDTH / 2, WIDTH_UNIT * 40))
                 screen.blit(text, text_pos)
                 pygame.display.flip()

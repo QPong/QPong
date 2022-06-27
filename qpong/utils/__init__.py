@@ -20,4 +20,5 @@ Utilities for loading resources and quantum states
 
 from .resources import load_image
 from .resources import load_sound
+from .resources import load_font
 from .states import comp_basis_states
