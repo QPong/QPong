@@ -26,13 +26,14 @@ from qpong.model import circuit_node_types as node_types
 
 class TestCircuitGridModel(unittest.TestCase):
     """
-    Test utility function for generating computational basis states
+    Unit tests for circuit grid model
     """
 
     def test_circuit_node_initialization(self):
         """
         Test circuit node initialization
         """
+
         node = CircuitGridNode(node_types.X)
 
         self.assertEqual(node.node_type, node_types.X)
@@ -45,6 +46,7 @@ class TestCircuitGridModel(unittest.TestCase):
         """
         Test circuit grid model initialization
         """
+
         model = CircuitGridModel(3, 3)
 
         for wire_num in range(model.max_wires):
@@ -57,6 +59,7 @@ class TestCircuitGridModel(unittest.TestCase):
         """
         Test get node
         """
+
         model = CircuitGridModel(3, 3)
         node = CircuitGridNode(node_types.X)
         model.set_node(0, 0, node)
@@ -71,6 +74,7 @@ class TestCircuitGridModel(unittest.TestCase):
         """
         Test reset circuit
         """
+
         model = CircuitGridModel(3, 3)
         node1 = CircuitGridNode(node_types.Y)
         node2 = CircuitGridNode(node_types.X)

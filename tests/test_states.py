@@ -25,7 +25,7 @@ from qpong.utils.states import comp_basis_states
 
 class TestUtilsStates(unittest.TestCase):
     """
-    Test utility function for generating computational basis states
+    Unit tests for quantum state utilities
     """
 
     def test_comp_basis_states_length(self):
