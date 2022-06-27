@@ -13,9 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# pylint: disable=duplicate-code
 
 """
-Test circuit grid model
+Test circuit grid
 """
 
 import unittest
@@ -32,17 +33,17 @@ from qpong.utils.navigation import MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
 
 class TestCircuitGrid(unittest.TestCase):
     """
-    Test utility function for generating computational basis states
+    Unit tests for circuit grid
     """
 
     def test_circuit_grid_initialization(self):
         """
-        Test circuit node initialization
+        Test circuit grid initialization
         """
 
         pygame.init()
 
-        flags = pygame.DOUBLEBUF
+        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
         qubit_num = 3
@@ -60,9 +61,10 @@ class TestCircuitGrid(unittest.TestCase):
         """
         Test highlight selected node
         """
+
         pygame.init()
 
-        flags = pygame.DOUBLEBUF
+        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
         qubit_num = 3
@@ -85,9 +87,10 @@ class TestCircuitGrid(unittest.TestCase):
         """
         Test reset cursor
         """
+
         pygame.init()
 
-        flags = pygame.DOUBLEBUF
+        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
         qubit_num = 3
@@ -95,6 +98,7 @@ class TestCircuitGrid(unittest.TestCase):
         grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
 
         grid.highlight_selected_node(2, 2)
+
         grid.reset_cursor()
 
         self.assertEqual(grid.selected_column, 0)
@@ -106,9 +110,10 @@ class TestCircuitGrid(unittest.TestCase):
         """
         Test move cursor to adjacent node
         """
+
         pygame.init()
 
-        flags = pygame.DOUBLEBUF
+        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
         qubit_num = 3
