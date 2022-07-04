@@ -33,6 +33,10 @@ jobs:
       max-parallel: 2
       matrix:
         python-version: [3.9]
+    env:
+      DISPLAY: ":0"  # X
+      SDL_VIDEODRIVER: "dummy"
+      SDL_AUDIODRIVER: "disk"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -50,11 +54,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-    - name: Test using tox envs
+    - name: Install xvfb and pulseaudio
       run: |
-        tox ${{ env.TOX_ENV }}
+          sudo apt-get install xvfb pulseaudio
+    - name: Test using tox envs under xvfb
+      run: |
+        pulseaudio -D --start
+        xvfb-run --auto-servernum python -m unittest -v
   coverage:
     runs-on: ubuntu-latest
+    env:
+      DISPLAY: ":0"
+      SDL_VIDEODRIVER: "dummy"
+      SDL_AUDIODRIVER: "disk"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -66,9 +78,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-    - name: Run coverage
+    - name: Install xvfb and pulseaudio
       run: |
-        tox -ecoverage
+          sudo apt-get install xvfb pulseaudio
+    - name: Run coverage under xvfb
+      run: |
+        pulseaudio -D --start
+        xvfb-run --auto-servernum coverage3 run -m pytest
+        coverage3 report --fail-under=80
   black:
     runs-on: ubuntu-latest
     steps:
