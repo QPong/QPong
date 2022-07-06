@@ -31,18 +31,18 @@ class Score(pygame.sprite.Sprite):
         self.player = 0
         self.computer = 0
 
-    # Player = 0, Computer = 1
-    def update(self, score):
+    # Computer = 0, Player = 1
+    def update(self, player):
         """
         Get score for a specified player
 
         Parameters:
-        score (integer):
+        player (integer):
         """
-        if score == 0:
+        if player == 0:
             self.computer += 1
 
-        if score == 1:
+        if player == 1:
             self.player += 1
 
     def get_score(self, player):
