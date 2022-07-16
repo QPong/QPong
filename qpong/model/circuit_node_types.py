@@ -15,7 +15,7 @@
 #
 
 """
-NO
+Node types
 """
 
 EMPTY = -1
