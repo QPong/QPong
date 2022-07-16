@@ -32,31 +32,9 @@ class TestResources(unittest.TestCase):
     Unit tests for resource loading utilities
     """
 
-    def test_load_font(self):
+    def setUp(self):
         """
-        Test load font
-        """
-
-        bit_font = load_font("bit5x3.ttf")
-
-        self.assertEqual(bit_font is not None, True)
-
-    def test_load_sound(self):
-        """
-        Test load sound
-        """
-
-        sound1 = load_sound("4384__noisecollector__pongblipd4.wav")
-        sound2 = load_sound("4390__noisecollector__pongblipf-4.wav")
-        sound3 = load_sound("4391__noisecollector__pongblipf-5.wav")
-
-        self.assertEqual(sound1 is not None, True)
-        self.assertEqual(sound2 is not None, True)
-        self.assertEqual(sound3 is not None, True)
-
-    def test_load_image(self):
-        """
-        Test load image
+        Set up
         """
 
         pygame.init()
@@ -64,8 +42,42 @@ class TestResources(unittest.TestCase):
         flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
-        image1 = load_image("gate_images/h_gate.png")
-        image2 = load_image("gate_images/not_gate.png")
+        self.bit_font = load_font("bit5x3.ttf")
 
-        self.assertEqual(image1 is not None, True)
-        self.assertEqual(image2 is not None, True)
+        self.sound1 = load_sound("4384__noisecollector__pongblipd4.wav")
+        self.sound2 = load_sound("4390__noisecollector__pongblipf-4.wav")
+        self.sound3 = load_sound("4391__noisecollector__pongblipf-5.wav")
+
+        self.image1 = load_image("gate_images/h_gate.png")
+        self.image2 = load_image("gate_images/not_gate.png")
+
+    def test_load_font(self):
+        """
+        Test load font
+        """
+
+        self.assertEqual(self.bit_font is not None, True)
+
+    def test_load_sound(self):
+        """
+        Test load sound
+        """
+
+        self.assertEqual(self.sound1 is not None, True)
+        self.assertEqual(self.sound2 is not None, True)
+        self.assertEqual(self.sound3 is not None, True)
+
+    def test_load_image(self):
+        """
+        Test load image
+        """
+
+        self.assertEqual(self.image1 is not None, True)
+        self.assertEqual(self.image2 is not None, True)
+
+    def tearDown(self):
+        """
+        Tear down
+        """
+
+        pygame.quit()
