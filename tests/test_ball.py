@@ -35,32 +35,36 @@ class TestBall(unittest.TestCase):
     Unit tests for QPong ball
     """
 
+    def setUp(self):
+        """
+        Set up
+        """
+
+        self.ball = Ball()
+
     def test_ball_initialization(self):
         """
         Test ball initialization
         """
 
-        ball = Ball()
-
-        self.assertEqual(ball.xpos, ball.left_edge + ball.width_unit * 15)
-        self.assertEqual(ball.ypos, 0.7 * WINDOW_HEIGHT / 2)
-
-        self.assertEqual(ball.initial_speed_factor, 0.8)
-        self.assertEqual(ball.ball_action, NOTHING)
-        self.assertEqual(ball.measure_flag, NO)
-
-        self.assertEqual(ball.reset_position, RIGHT)
+        self.assertEqual(
+            self.ball.xpos, self.ball.left_edge + self.ball.width_unit * 15
+        )
+        self.assertEqual(self.ball.ypos, 0.7 * WINDOW_HEIGHT / 2)
+        self.assertEqual(self.ball.initial_speed_factor, 0.8)
+        self.assertEqual(self.ball.ball_action, NOTHING)
+        self.assertEqual(self.ball.measure_flag, NO)
+        self.assertEqual(self.ball.reset_position, RIGHT)
 
     def test_reset_ball(self):
         """
-        Test highlight selected node
+        Test ball reset
         """
 
-        ball = Ball()
+        self.ball.reset()
 
-        ball.reset()
-
-        self.assertEqual(ball.xpos, ball.right_edge - ball.width_unit * 15)
-        self.assertEqual(ball.ypos, 0.7 * WINDOW_HEIGHT / 2)
-
-        self.assertEqual(ball.reset_position, LEFT)
+        self.assertEqual(
+            self.ball.xpos, self.ball.right_edge - self.ball.width_unit * 15
+        )
+        self.assertEqual(self.ball.ypos, 0.7 * WINDOW_HEIGHT / 2)
+        self.assertEqual(self.ball.reset_position, LEFT)
