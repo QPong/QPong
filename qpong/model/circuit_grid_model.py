@@ -177,7 +177,9 @@ class CircuitGridModel:
                         attr.append("r")
                     if node.node_type != node_types.EMPTY:
                         args.append(register[wire_num])
-                        attr.append(NODE_IDENTIFIERS[node.node_type])
+                        if node.node_type in NODE_IDENTIFIERS:
+                            # trace
+                            attr.append(NODE_IDENTIFIERS[node.node_type])
 
                 attr = "".join(attr)
                 if hasattr(circuit, attr):
