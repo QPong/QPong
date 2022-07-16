@@ -28,55 +28,56 @@ class TestScene(unittest.TestCase):
     Unit tests for score
     """
 
+    def setUp(self):
+        """
+        Set up
+        """
+
+        self.score = Score()
+
     def test_score_initialization(self):
         """
         Test score initialization
         """
 
-        score = Score()
-
-        self.assertEqual(score.player, 0)
-        self.assertEqual(score.computer, 0)
+        self.assertEqual(self.score.player, 0)
+        self.assertEqual(self.score.computer, 0)
 
     def test_score_update(self):
         """
         Test score update
         """
-        score = Score()
 
-        score.update(0)
+        self.score.update(0)
 
-        self.assertEqual(score.computer, 1)
-        self.assertEqual(score.player, 0)
+        self.assertEqual(self.score.computer, 1)
+        self.assertEqual(self.score.player, 0)
 
-        score.update(1)
+        self.score.update(1)
 
-        self.assertEqual(score.computer, 1)
-        self.assertEqual(score.player, 1)
+        self.assertEqual(self.score.computer, 1)
+        self.assertEqual(self.score.player, 1)
 
     def test_score_reset(self):
         """
         Test score reset
         """
-        score = Score()
 
-        score.update(0)
-        score.update(1)
+        self.score.update(0)
+        self.score.update(1)
 
-        score.reset_score()
+        self.score.reset_score()
 
-        self.assertEqual(score.computer, 0)
-        self.assertEqual(score.player, 0)
+        self.assertEqual(self.score.computer, 0)
+        self.assertEqual(self.score.player, 0)
 
     def test_score_getter(self):
         """
         Test score getter
         """
 
-        score = Score()
+        self.score.update(0)
+        self.score.update(1)
 
-        score.update(0)
-        score.update(1)
-
-        self.assertEqual(score.get_score(0), 1)
-        self.assertEqual(score.get_score(1), 1)
+        self.assertEqual(self.score.get_score(0), 1)
+        self.assertEqual(self.score.get_score(1), 1)
