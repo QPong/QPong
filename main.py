@@ -1,4 +1,3 @@
-# pylint: disable=duplicate-code
 #
 # Copyright 2019 the original author or authors.
 #
