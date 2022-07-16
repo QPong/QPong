@@ -62,7 +62,6 @@ class TestCircuitGridModel(unittest.TestCase):
         self.assertEqual(self.node_z.ctrl_a, -1.0)
         self.assertEqual(self.node_z.ctrl_b, -1.0)
 
-
     def test_circuit_grid_model_initialization(self):
         """
         Test circuit grid model initialization
@@ -71,7 +70,8 @@ class TestCircuitGridModel(unittest.TestCase):
         for wire_num in range(self.model.max_wires):
             for column_num in range(self.model.max_columns):
                 self.assertEqual(
-                    self.model.get_node(wire_num, column_num).node_type, node_types.EMPTY
+                    self.model.get_node(wire_num, column_num).node_type,
+                    node_types.EMPTY,
                 )
 
     def test_get_node(self):
@@ -101,5 +101,6 @@ class TestCircuitGridModel(unittest.TestCase):
         for wire_num in range(self.model.max_wires):
             for column_num in range(self.model.max_columns):
                 self.assertEqual(
-                    self.model.get_node(wire_num, column_num).node_type, node_types.EMPTY
+                    self.model.get_node(wire_num, column_num).node_type,
+                    node_types.EMPTY,
                 )

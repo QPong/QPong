@@ -43,16 +43,18 @@ class TestScene(unittest.TestCase):
         """
         Set up.
         """
+
         pygame.init()
 
         flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         self.screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 
-        self.scene = Scene()
-        self.level = Level()
         self.ball = Ball()
+        self.level = Level()
+        self.scene = Scene()
 
-    def inject_event(self, event=pygame.KEYDOWN, key=pygame.K_ESCAPE):
+    @staticmethod
+    def inject_event(event=pygame.KEYDOWN, key=pygame.K_ESCAPE):
         """
         Inject keyboard press event to pygame event queue
         """
@@ -90,6 +92,7 @@ class TestScene(unittest.TestCase):
 
     def tearDown(self):
         """
-        Quit pygame
+        Tear down
         """
+
         pygame.quit()

@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# pylint: disable=duplicate-code
 
 """
 Test circuit grid
@@ -38,9 +37,9 @@ class TestCircuitGrid(unittest.TestCase):
     Unit tests for circuit grid
     """
 
-    def test_circuit_grid_initialization(self):
+    def setUp(self):
         """
-        Test circuit grid initialization
+        Set up
         """
 
         pygame.init()
@@ -48,306 +47,205 @@ class TestCircuitGrid(unittest.TestCase):
         flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
+        qubit_num = 4
+        self.circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
+        self.grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, self.circuit_grid_model)
 
-        self.assertEqual(grid.selected_wire, 0)
-        self.assertEqual(grid.selected_column, 0)
-        self.assertEqual(grid.xpos, 0)
-        self.assertEqual(grid.ypos, 0.7 * WINDOW_HEIGHT)
+    def test_circuit_grid_initialization(self):
+        """
+        Test circuit grid initialization
+        """
 
-        pygame.quit()
+        self.assertEqual(self.grid.selected_wire, 0)
+        self.assertEqual(self.grid.selected_column, 0)
+        self.assertEqual(self.grid.xpos, 0)
+        self.assertEqual(self.grid.ypos, 0.7 * WINDOW_HEIGHT)
 
     def test_highlight_selected_node(self):
         """
         Test highlight selected node
         """
 
-        pygame.init()
+        self.grid.highlight_selected_node(1, 1)
 
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
+        self.assertEqual(self.grid.selected_wire, 1)
+        self.assertEqual(self.grid.selected_column, 1)
 
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
+        self.grid.highlight_selected_node(2, 2)
 
-        grid.highlight_selected_node(1, 1)
-
-        self.assertEqual(grid.selected_wire, 1)
-        self.assertEqual(grid.selected_column, 1)
-
-        grid.highlight_selected_node(2, 2)
-
-        self.assertEqual(grid.selected_wire, 2)
-        self.assertEqual(grid.selected_column, 2)
-
-        pygame.quit()
+        self.assertEqual(self.grid.selected_wire, 2)
+        self.assertEqual(self.grid.selected_column, 2)
 
     def test_reset_cursor(self):
         """
         Test reset cursor
         """
 
-        pygame.init()
+        self.grid.highlight_selected_node(2, 2)
+        self.grid.reset_cursor()
 
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
-
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
-
-        grid.highlight_selected_node(2, 2)
-
-        grid.reset_cursor()
-
-        self.assertEqual(grid.selected_column, 0)
-        self.assertEqual(grid.selected_wire, 0)
-
-        pygame.quit()
+        self.assertEqual(self.grid.selected_column, 0)
+        self.assertEqual(self.grid.selected_wire, 0)
 
     def test_move_to_adjacent_node(self):
         """
         Test move cursor to adjacent node
         """
 
-        pygame.init()
+        self.grid.move_to_adjacent_node(MOVE_RIGHT)
 
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
+        self.assertEqual(self.grid.selected_column, 1)
+        self.assertEqual(self.grid.selected_wire, 0)
 
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
 
-        grid.move_to_adjacent_node(MOVE_RIGHT)
+        self.assertEqual(self.grid.selected_column, 1)
+        self.assertEqual(self.grid.selected_wire, 1)
 
-        self.assertEqual(grid.selected_column, 1)
-        self.assertEqual(grid.selected_wire, 0)
+        self.grid.move_to_adjacent_node(MOVE_LEFT)
 
-        grid.move_to_adjacent_node(MOVE_DOWN)
+        self.assertEqual(self.grid.selected_column, 0)
+        self.assertEqual(self.grid.selected_wire, 1)
 
-        self.assertEqual(grid.selected_column, 1)
-        self.assertEqual(grid.selected_wire, 1)
+        self.grid.move_to_adjacent_node(MOVE_UP)
 
-        grid.move_to_adjacent_node(MOVE_LEFT)
-
-        self.assertEqual(grid.selected_column, 0)
-        self.assertEqual(grid.selected_wire, 1)
-
-        grid.move_to_adjacent_node(MOVE_UP)
-
-        self.assertEqual(grid.selected_column, 0)
-        self.assertEqual(grid.selected_wire, 0)
-
-        pygame.quit()
+        self.assertEqual(self.grid.selected_column, 0)
+        self.assertEqual(self.grid.selected_wire, 0)
 
     def test_get_selected_node_gate_part(self):
         """
         Test getting gate on currently selected node
         """
 
-        pygame.init()
-
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
-
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
-
         node1 = CircuitGridNode(node_types.Y)
         node2 = CircuitGridNode(node_types.X)
         node3 = CircuitGridNode(node_types.Z)
 
-        circuit_grid_model.set_node(0, 1, node1)
-        circuit_grid_model.set_node(1, 0, node2)
-        circuit_grid_model.set_node(2, 0, node3)
+        self.circuit_grid_model.set_node(0, 1, node1)
+        self.circuit_grid_model.set_node(1, 0, node2)
+        self.circuit_grid_model.set_node(2, 0, node3)
 
-        grid.move_to_adjacent_node(MOVE_RIGHT)
+        self.grid.move_to_adjacent_node(MOVE_RIGHT)
 
-        selected_gate = grid.get_selected_node_gate_part()
+        selected_gate = self.grid.get_selected_node_gate_part()
         self.assertEqual(node1.node_type, selected_gate)
 
-        grid.move_to_adjacent_node(MOVE_LEFT)
-        grid.move_to_adjacent_node(MOVE_DOWN)
+        self.grid.move_to_adjacent_node(MOVE_LEFT)
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
 
-        selected_gate = grid.get_selected_node_gate_part()
+        selected_gate = self.grid.get_selected_node_gate_part()
         self.assertEqual(node2.node_type, selected_gate)
 
-        grid.move_to_adjacent_node(MOVE_DOWN)
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
 
-        selected_gate = grid.get_selected_node_gate_part()
+        selected_gate = self.grid.get_selected_node_gate_part()
         self.assertEqual(node3.node_type, selected_gate)
 
-        pygame.quit()
-
-    def test_handle_input_x(self):
+    def test_handle_single_qubit_gate_inputs(self):
         """
-        Test handling input to place X gate on currently selected node
+        Test handling input placing single
+        qubit gates on circuit grid
         """
 
-        pygame.init()
+        # 0 X-------
+        # 1 Y------
+        # 2 Z------
+        # 3 H------
 
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
+        self.grid.handle_input_x()
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
+        self.grid.handle_input_y()
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
+        self.grid.handle_input_z()
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
+        self.grid.handle_input_h()
 
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
+        self.assertEqual(node_types.X, self.circuit_grid_model.get_node_gate_part(0, 0))
+        self.assertEqual(node_types.Y, self.circuit_grid_model.get_node_gate_part(1, 0))
+        self.assertEqual(node_types.Z, self.circuit_grid_model.get_node_gate_part(2, 0))
+        self.assertEqual(node_types.H, self.circuit_grid_model.get_node_gate_part(3, 0))
+
+        # 0 ---------
+        # 1 ---------
+        # 2 ---------
+        # 3 ---------
+
+        self.grid.handle_input_delete()
+        self.grid.move_to_adjacent_node(MOVE_UP)
+        self.grid.handle_input_delete()
+        self.grid.move_to_adjacent_node(MOVE_UP)
+        self.grid.handle_input_delete()
+        self.grid.move_to_adjacent_node(MOVE_UP)
+        self.grid.handle_input_delete()
 
         self.assertEqual(
-            node_types.EMPTY, grid.circuit_grid_model.get_node_gate_part(0, 0)
+            node_types.EMPTY, self.circuit_grid_model.get_node_gate_part(1, 0)
         )
-
-        grid.handle_input_x()
-
-        self.assertEqual(node_types.X, grid.circuit_grid_model.get_node_gate_part(0, 0))
-
-        grid.move_to_adjacent_node(MOVE_RIGHT)
-
-        grid.handle_input_x()
-
-        self.assertEqual(node_types.X, grid.circuit_grid_model.get_node_gate_part(0, 1))
-
-        grid.move_to_adjacent_node(MOVE_RIGHT)
-
-        grid.handle_input_x()
-
-        self.assertEqual(node_types.X, grid.circuit_grid_model.get_node_gate_part(0, 2))
-
-        grid.move_to_adjacent_node(MOVE_DOWN)
-
-        grid.handle_input_x()
-
-        self.assertEqual(node_types.X, grid.circuit_grid_model.get_node_gate_part(1, 2))
-
-        pygame.quit()
-
-    def test_handle_input_y(self):
-        """
-        Test handling input to place Y gate on currently selected node
-        """
-
-        pygame.init()
-
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
-
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
-
         self.assertEqual(
-            node_types.EMPTY, grid.circuit_grid_model.get_node_gate_part(0, 0)
+            node_types.EMPTY, self.circuit_grid_model.get_node_gate_part(1, 0)
         )
-
-        grid.handle_input_y()
-
-        self.assertEqual(node_types.Y, grid.circuit_grid_model.get_node_gate_part(0, 0))
-
-        grid.move_to_adjacent_node(MOVE_RIGHT)
-
-        grid.handle_input_y()
-
-        self.assertEqual(node_types.Y, grid.circuit_grid_model.get_node_gate_part(0, 1))
-
-        grid.move_to_adjacent_node(MOVE_RIGHT)
-
-        grid.handle_input_y()
-
-        self.assertEqual(node_types.Y, grid.circuit_grid_model.get_node_gate_part(0, 2))
-
-        grid.move_to_adjacent_node(MOVE_DOWN)
-
-        grid.handle_input_y()
-
-        self.assertEqual(node_types.Y, grid.circuit_grid_model.get_node_gate_part(1, 2))
-
-        pygame.quit()
-
-    def test_handle_input_z(self):
-        """
-        Test handling input to place Z gate on currently selected node
-        """
-
-        pygame.init()
-
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
-
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
-
         self.assertEqual(
-            node_types.EMPTY, grid.circuit_grid_model.get_node_gate_part(0, 0)
+            node_types.EMPTY, self.circuit_grid_model.get_node_gate_part(2, 0)
         )
-
-        grid.handle_input_z()
-
-        self.assertEqual(node_types.Z, grid.circuit_grid_model.get_node_gate_part(0, 0))
-
-        grid.move_to_adjacent_node(MOVE_RIGHT)
-
-        grid.handle_input_z()
-
-        self.assertEqual(node_types.Z, grid.circuit_grid_model.get_node_gate_part(0, 1))
-
-        grid.move_to_adjacent_node(MOVE_RIGHT)
-
-        grid.handle_input_z()
-
-        self.assertEqual(node_types.Z, grid.circuit_grid_model.get_node_gate_part(0, 2))
-
-        grid.move_to_adjacent_node(MOVE_DOWN)
-
-        grid.handle_input_z()
-
-        self.assertEqual(node_types.Z, grid.circuit_grid_model.get_node_gate_part(1, 2))
-
-        pygame.quit()
-
-    def test_handle_input_h(self):
-        """
-        Test handling input to place H gate on currently selected node
-        """
-
-        pygame.init()
-
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
-        _ = pygame.display.set_mode(WINDOW_SIZE, flags)
-
-        qubit_num = 3
-        circuit_grid_model = CircuitGridModel(qubit_num, CIRCUIT_DEPTH)
-        grid = CircuitGrid(0, 0.7 * WINDOW_HEIGHT, circuit_grid_model)
-
         self.assertEqual(
-            node_types.EMPTY, grid.circuit_grid_model.get_node_gate_part(0, 0)
+            node_types.EMPTY, self.circuit_grid_model.get_node_gate_part(3, 0)
         )
 
-        grid.handle_input_h()
+    def test_handle_multi_gate_inputs(self):
+        """
+        Test handling input placing multi
+        qubit gates on circuit grid
+        """
 
-        self.assertEqual(node_types.H, grid.circuit_grid_model.get_node_gate_part(0, 0))
+        # 0 | | | |
+        # 1 X Y Z H
+        # 2 -------
+        # 3 -------
 
-        grid.move_to_adjacent_node(MOVE_RIGHT)
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
 
-        grid.handle_input_h()
+        self.grid.handle_input_x()
+        self.grid.handle_input_ctrl()
 
-        self.assertEqual(node_types.H, grid.circuit_grid_model.get_node_gate_part(0, 1))
+        self.grid.move_to_adjacent_node(MOVE_RIGHT)
 
-        grid.move_to_adjacent_node(MOVE_RIGHT)
+        self.grid.handle_input_y()
+        self.grid.handle_input_ctrl()
 
-        grid.handle_input_h()
+        self.grid.move_to_adjacent_node(MOVE_RIGHT)
 
-        self.assertEqual(node_types.H, grid.circuit_grid_model.get_node_gate_part(0, 2))
+        self.grid.handle_input_z()
+        self.grid.handle_input_ctrl()
 
-        grid.move_to_adjacent_node(MOVE_DOWN)
+        self.grid.move_to_adjacent_node(MOVE_RIGHT)
 
-        grid.handle_input_h()
+        self.grid.handle_input_h()
+        self.grid.handle_input_ctrl()
 
-        self.assertEqual(node_types.H, grid.circuit_grid_model.get_node_gate_part(1, 2))
+        node1 = self.circuit_grid_model.get_node(1, 0)
+        node2 = self.circuit_grid_model.get_node(1, 1)
+        node3 = self.circuit_grid_model.get_node(1, 2)
+        node4 = self.circuit_grid_model.get_node(1, 3)
+
+        self.assertEqual(node_types.X, node1.node_type)
+        self.assertEqual(0, node1.ctrl_a)
+        self.assertEqual(-1, node1.ctrl_b)
+
+        self.assertEqual(node_types.Y, node2.node_type)
+        self.assertEqual(0, node2.ctrl_a)
+        self.assertEqual(-1, node2.ctrl_b)
+
+        self.assertEqual(node_types.Z, node3.node_type)
+        self.assertEqual(0, node3.ctrl_a)
+        self.assertEqual(-1, node3.ctrl_b)
+
+        self.assertEqual(node_types.H, node4.node_type)
+        self.assertEqual(0, node4.ctrl_a)
+        self.assertEqual(-1, node4.ctrl_b)
+
+    def tearDown(self):
+        """
+        Tear down
+        """
 
         pygame.quit()

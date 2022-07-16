@@ -25,6 +25,7 @@ import pygame
 from qpong.containers.vbox import VBox
 from qpong.utils.parameters import WINDOW_SIZE
 
+
 class TestVBox(unittest.TestCase):
     """
     Unit tests for VBox
@@ -52,8 +53,6 @@ class TestVBox(unittest.TestCase):
         self.rectangle = Block(50, 10)
         self.square = Block(20, 20)
         self.vbox = VBox(50, 10, self.rectangle, self.square)
-
-
 
     def test_vbox_initialization(self):
         """

@@ -32,6 +32,7 @@ from qpong.model import circuit_node_types as node_types
 
 from qpong.utils.parameters import WINDOW_SIZE
 
+
 class TestLevel(unittest.TestCase):
     """
     Unit tests for input
