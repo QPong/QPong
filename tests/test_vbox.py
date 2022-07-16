@@ -25,47 +25,53 @@ import pygame
 from qpong.containers.vbox import VBox
 from qpong.utils.parameters import WINDOW_SIZE
 
-
-class Block(pygame.sprite.Sprite):
-    # pylint: disable=too-few-public-methods
-    """
-    Testing block
-    """
-
-    def __init__(self, width, height):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = pygame.Surface([width, height])
-
-        self.rect = self.image.get_rect()
-
-
 class TestVBox(unittest.TestCase):
     """
     Unit tests for VBox
     """
 
-    def test_vbox_initialization(self):
-        """
-        Test vbox initialization
-        """
+    def setUp(self):
+        class Block(pygame.sprite.Sprite):
+            # pylint: disable=too-few-public-methods
+            """
+            Testing block
+            """
+
+            def __init__(self, width, height):
+                pygame.sprite.Sprite.__init__(self)
+
+                self.image = pygame.Surface([width, height])
+
+                self.rect = self.image.get_rect()
 
         pygame.init()
 
         flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
-        rectangle = Block(50, 10)
-        square = Block(20, 20)
-        vbox = VBox(50, 10, rectangle, square)
+        self.rectangle = Block(50, 10)
+        self.square = Block(20, 20)
+        self.vbox = VBox(50, 10, self.rectangle, self.square)
 
-        self.assertEqual(vbox.xpos, 50)
-        self.assertEqual(vbox.ypos, 10)
 
-        self.assertEqual(rectangle.rect.top, 10)
-        self.assertEqual(rectangle.rect.left, 50)
 
-        self.assertEqual(square.rect.top, 20)
-        self.assertEqual(square.rect.left, 50)
+    def test_vbox_initialization(self):
+        """
+        Test vbox initialization
+        """
+
+        self.assertEqual(self.vbox.xpos, 50)
+        self.assertEqual(self.vbox.ypos, 10)
+
+        self.assertEqual(self.rectangle.rect.top, 10)
+        self.assertEqual(self.rectangle.rect.left, 50)
+
+        self.assertEqual(self.square.rect.top, 20)
+        self.assertEqual(self.square.rect.left, 50)
+
+    def tearDown(self):
+        """
+        Tear down
+        """
 
         pygame.quit()
