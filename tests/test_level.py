@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# pylint: disable=duplicate-code
 
 """
 Test level
@@ -35,24 +34,9 @@ class Testlevel(unittest.TestCase):
     Unit tests for level
     """
 
-    def test_level_initialization(self):
+    def setUp(self):
         """
-        Test level initialization
-        """
-
-        level = Level()
-
-        self.assertEqual(level.level, 3)
-        self.assertEqual(level.win, False)
-        self.assertEqual(level.circuit is None, True)
-        self.assertEqual(level.circuit_grid is None, True)
-        self.assertEqual(level.circuit_grid_model is None, True)
-        self.assertEqual(level.statevector_grid is None, True)
-        self.assertEqual(level.right_statevector is None, True)
-
-    def test_level_setup(self):
-        """
-        Test level setup
+        Set up
         """
 
         pygame.init()
@@ -60,17 +44,40 @@ class Testlevel(unittest.TestCase):
         flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         _ = pygame.display.set_mode(WINDOW_SIZE, flags)
 
-        scene = Scene()
-        level = Level()
-        ball = Ball()
+        self.scene = Scene()
+        self.level = Level()
+        self.ball = Ball()
 
-        level.setup(scene, ball)
+    def test_level_initialization(self):
+        """
+        Test level initialization
+        """
 
-        self.assertEqual(scene.qubit_num, 3)
-        self.assertEqual(level.circuit is None, False)
-        self.assertEqual(level.circuit_grid is None, False)
-        self.assertEqual(level.circuit_grid_model is None, False)
-        self.assertEqual(level.statevector_grid is None, False)
-        self.assertEqual(level.right_statevector is None, False)
+        self.assertEqual(self.level.level, 3)
+        self.assertEqual(self.level.win, False)
+        self.assertEqual(self.level.circuit is None, True)
+        self.assertEqual(self.level.circuit_grid is None, True)
+        self.assertEqual(self.level.circuit_grid_model is None, True)
+        self.assertEqual(self.level.statevector_grid is None, True)
+        self.assertEqual(self.level.right_statevector is None, True)
+
+    def test_level_setup(self):
+        """
+        Test level setup
+        """
+
+        self.level.setup(self.scene, self.ball)
+
+        self.assertEqual(self.scene.qubit_num, 3)
+        self.assertEqual(self.level.circuit is None, False)
+        self.assertEqual(self.level.circuit_grid is None, False)
+        self.assertEqual(self.level.circuit_grid_model is None, False)
+        self.assertEqual(self.level.statevector_grid is None, False)
+        self.assertEqual(self.level.right_statevector is None, False)
+
+    def tearDown(self):
+        """
+        Tear down
+        """
 
         pygame.quit()
