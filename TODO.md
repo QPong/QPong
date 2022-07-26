@@ -1,8 +1,0 @@
-- [ ] Make cursor appearance indicate condition such as unable to place a gate
-- [ ] Handle Toffoli gates. For now, control qubit is assumed to be in ctrl_a variable with ctrl_b variable reserved for Toffoli gates
-- [ ] Simplify the logic in input_move_ctrl; consider not actually ever placing a TRACE, but rather always dynamically calculating if a TRACE should be displayed.
-- [ ] For controlled gates, delete_controls_for_gate should remove the connecting TRACE parts between the gate and the control delete_controls_for_gate
-- [ ] Extract update_paddle and move_update_circuit_grid_display outside of input.
-- [ ] Draw control-Y, control-H, and control-Z on the circuit grid
-- [ ] Fix trace line from target to qubit qubit (does not reach control qubit on the GUI)
-- [ ] Mock joystick movement for unit tests
