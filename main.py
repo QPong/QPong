@@ -1,6 +1,5 @@
-#!/usr/bin/env python
 #
-# Copyright 2019 the original author or authors.
+# Copyright 2022 the original author or authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,35 +14,53 @@
 # limitations under the License.
 #
 #
-"""Quantum version of the classic Pong game"""
+
+"""
+Quantum version of the classic Pong game
+"""
 
 import random
 
 import pygame
 from pygame import DOUBLEBUF, HWSURFACE, FULLSCREEN
 
-from utils.ball import Ball
-from utils.input import Input
-from utils.level import Level
-from utils.scene import Scene
-from utils.parameters import WINDOW_SIZE, CLASSICAL_COMPUTER, QUANTUM_COMPUTER, \
-    WIN_SCORE, WIDTH_UNIT, MEASURE_RIGHT
-from utils.colors import BLACK
-
-if not pygame.font:
-    print('Warning, fonts disabled')
-if not pygame.mixer:
-    print('Warning, sound disabled')
+from qpong.utils.ball import Ball
+from qpong.utils.input import Input
+from qpong.utils.level import Level
+from qpong.utils.scene import Scene
+from qpong.utils.parameters import (
+    WINDOW_SIZE,
+    CLASSICAL_COMPUTER,
+    QUANTUM_COMPUTER,
+    WIN_SCORE,
+    WIDTH_UNIT,
+    MEASURE_RIGHT,
+)
+from qpong.utils.colors import BLACK
 
 
 def main():
-    pygame.init()
+    """
+    Main game loop
+    """
+
+    if not pygame.get_init():
+        print("Warning, fonts disabled")
+        pygame.init()
+
+    if not pygame.font.get_init():
+        print("Warning, fonts disabled")
+        pygame.font.init()
+
+    if not pygame.mixer.get_init():
+        print("Warning, sound disabled")
+        pygame.mixer.init()
 
     # hardware acceleration to reduce flickering. Works only in full screen
     flags = DOUBLEBUF | HWSURFACE | FULLSCREEN
     screen = pygame.display.set_mode(WINDOW_SIZE, flags)
 
-    pygame.display.set_caption('QPong')
+    pygame.display.set_caption("QPong")
 
     # clock for timing
     clock = pygame.time.Clock()
@@ -56,11 +73,13 @@ def main():
 
     # define ball
     ball = Ball()
-    balls = pygame.sprite.Group()   # sprite group type is needed for sprite collide function in pygame
+    balls = (
+        pygame.sprite.Group()
+    )  # sprite group type is needed for sprite collide function in pygame
     balls.add(ball)
 
     # Show start screen to select difficulty
-    input.running = scene.start(screen, ball)     # start screen returns running flag
+    input.running = scene.start(screen, ball)  # start screen returns running flag
     level.setup(scene, ball)
 
     # Put all moving sprites a group so that they can be drawn together
@@ -87,28 +106,37 @@ def main():
 
         ball.update()  # update ball position
         scene.dashed_line(screen, ball)  # draw dashed line in the middle of the screen
-        scene.score(screen, ball)   # print score
+        scene.score(screen, ball)  # print score
 
         # level.statevector_grid.display_statevector(scene.qubit_num) # generate statevector grid
-        level.right_statevector.draw(screen)  # draw right paddle together with statevector grid
+        level.right_statevector.draw(
+            screen
+        )  # draw right paddle together with statevector grid
         level.circuit_grid.draw(screen)  # draw circuit grid
         moving_sprites.draw(screen)  # draw moving sprites
 
         # Show game over screen if the score reaches WIN_SCORE, reset everything if replay == TRUE
         if ball.score.get_score(CLASSICAL_COMPUTER) >= WIN_SCORE:
             scene.gameover(screen, CLASSICAL_COMPUTER)
-            scene.replay(screen, ball.score, level.circuit_grid_model, level.circuit_grid)
+            scene.replay(
+                screen, ball.score, level.circuit_grid_model, level.circuit_grid
+            )
             input.update_paddle(level, screen, scene)
 
         if ball.score.get_score(QUANTUM_COMPUTER) >= WIN_SCORE:
             scene.gameover(screen, QUANTUM_COMPUTER)
-            scene.replay(screen, ball.score, level.circuit_grid_model, level.circuit_grid)
+            scene.replay(
+                screen, ball.score, level.circuit_grid_model, level.circuit_grid
+            )
             input.update_paddle(level, screen, scene)
 
         # computer paddle movement
         if pygame.time.get_ticks() - old_clock > 300:
-            level.left_paddle.rect.y = ball.get_ypos() - level.statevector_grid.block_size/2 \
-                                    + random.randint(-WIDTH_UNIT*4, WIDTH_UNIT*4)
+            level.left_paddle.rect.y = (
+                ball.get_ypos()
+                - level.statevector_grid.block_size / 2
+                + random.randint(-WIDTH_UNIT * 4, WIDTH_UNIT * 4)
+            )
             old_clock = pygame.time.get_ticks()
 
         # handle input events
@@ -118,12 +146,14 @@ def main():
         ball.action()
 
         if ball.ball_action == MEASURE_RIGHT:
-            circuit = level.circuit_grid_model.compute_circuit()
-            pos = level.statevector_grid.paddle_after_measurement(circuit, scene.qubit_num, 1)
+            circuit = level.circuit_grid_model.construct_circuit()
+            pos = level.statevector_grid.paddle_after_measurement(
+                circuit, scene.qubit_num, 1
+            )
             level.right_statevector.arrange()
 
             # paddle after measurement
-            level.right_paddle.rect.y = pos * ball.screenheight/(2**scene.qubit_num)
+            level.right_paddle.rect.y = pos * ball.screenheight / (2**scene.qubit_num)
             measure_time = pygame.time.get_ticks()
 
         if pygame.sprite.spritecollide(level.right_paddle, balls, False):
@@ -144,5 +174,5 @@ def main():
     pygame.quit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

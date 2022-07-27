@@ -1,0 +1,110 @@
+name: Qiskit tests
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  stable:
+    runs-on: ubuntu-latest
+    env:
+      python-version: "3.9"
+      DISPLAY: ":0"
+      SDL_VIDEODRIVER: "dummy"
+      SDL_AUDIODRIVER: "disk"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check if Qiskit
+      run: |
+        echo "PASS=True" >> $GITHUB_ENV
+        qiskit=$(cat ecosystem.json | jq .qiskit)
+        if [[ "${qiskit}" == "false" ]]; then
+            echo "PASS=False" >> $GITHUB_ENV
+            echo "::notice file=ecosystem.json::Qiskit is not use here !"
+        else
+            echo "::notice file=ecosystem.json::Qiskit is using here !"
+        fi
+    - name: Set up Python ${{ env.python-version }}
+      if: ${{ env.PASS == 'True' }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ env.python-version }}
+    - name: Set up tox env
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        pver=${{ env.python-version }}
+        tox_env="-epy${pver/./}"
+        echo tox_env
+        echo TOX_ENV=$tox_env >> $GITHUB_ENV
+    - name: Install dependencies
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        pip install qiskit --upgrade
+    - name: Install xvfb and pulseaudio
+      if: ${{ env.PASS == 'True' }}
+      run: |
+          sudo apt-get install xvfb pulseaudio
+    - name: Test using tox envs under xvfb
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        pulseaudio -D --start
+        xvfb-run --auto-servernum python -m unittest -v
+    - name: Run coverage under xvfb
+      run: |
+        pulseaudio -D --start
+        xvfb-run --auto-servernum coverage3 run -m pytest
+        coverage3 report --fail-under=80
+
+  dev:
+    runs-on: ubuntu-latest
+    env:
+      python-version: "3.9"
+      DISPLAY: ":0"
+      SDL_VIDEODRIVER: "dummy"
+      SDL_AUDIODRIVER: "disk"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check if Qiskit
+      run: |
+        echo "PASS=True" >> $GITHUB_ENV
+        qiskit=$(cat ecosystem.json | jq .qiskit)
+        if [[ "${qiskit}" == "false" ]]; then
+            echo "PASS=False" >> $GITHUB_ENV
+            echo "::notice file=ecosystem.json::Qiskit is not use here !"
+        else
+            echo "::notice file=ecosystem.json::Qiskit is using here !"
+        fi
+    - name: Set up Python ${{ env.python-version }}
+      if: ${{ env.PASS == 'True' }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ env.python-version }}
+    - name: Set up tox env
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        pver=${{ env.python-version }}
+        tox_env="-epy${pver/./}"
+        echo tox_env
+        echo TOX_ENV=$tox_env >> $GITHUB_ENV
+    - name: Install dependencies
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        pip install git+https://github.com/Qiskit/qiskit-terra.git
+    - name: Install xvfb and pulseaudio
+      if: ${{ env.PASS == 'True' }}
+      run: |
+          sudo apt-get install xvfb pulseaudio
+    - name: Test using tox envs under xvfb
+      if: ${{ env.PASS == 'True' }}
+      run: |
+        pulseaudio -D --start
+        xvfb-run --auto-servernum python -m unittest -v
+    - name: Run coverage under xvfb
+      run: |
+        pulseaudio -D --start
+        xvfb-run --auto-servernum coverage3 run -m pytest
+        coverage3 report --fail-under=80
