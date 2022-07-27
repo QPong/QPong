@@ -120,7 +120,7 @@ class TestLevel(unittest.TestCase):
         qubit gates on circuit grid
         """
 
-        # 0 X Y Z H
+        # 0 X-Y-Z-H--
         # 1 ---------
         # 2 ---------
 
@@ -204,9 +204,9 @@ class TestLevel(unittest.TestCase):
         Test handling key events placing for multi
         qubit gates on circuit grid
         """
-        # 0 X Y Z H
-        # 1 | | | |
-        # 2 -------
+        # 0 X-Y-Z-H--
+        # 1 |-|-|-|--
+        # 2 ---------
 
         # cx
         self.inject_event(pygame.KEYDOWN, key=pygame.K_x)
@@ -250,9 +250,9 @@ class TestLevel(unittest.TestCase):
         self.assertEqual(1, node4.ctrl_a)
         self.assertEqual(-1, node4.ctrl_b)
 
-        # 0 X Y Z H
-        # 1 | | | |
-        # 2 | | | |
+        # 0 X-Y-Z-H--
+        # 1 |-|-|-|--
+        # 2 |-|-|-|--
 
         self.inject_event(pygame.KEYDOWN, key=pygame.K_DOWN)
         self.inject_event(pygame.KEYDOWN, key=pygame.K_a)
