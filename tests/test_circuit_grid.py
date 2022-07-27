@@ -117,8 +117,8 @@ class TestCircuitGrid(unittest.TestCase):
         Test getting gate on currently selected node
         """
 
-        node1 = CircuitGridNode(node_types.Y)
-        node2 = CircuitGridNode(node_types.X)
+        node1 = CircuitGridNode(node_types.X)
+        node2 = CircuitGridNode(node_types.Y)
         node3 = CircuitGridNode(node_types.Z)
 
         self.circuit_grid_model.set_node(0, 1, node1)
@@ -147,10 +147,10 @@ class TestCircuitGrid(unittest.TestCase):
         qubit gates on circuit grid
         """
 
-        # 0 X-------
-        # 1 Y------
-        # 2 Z------
-        # 3 H------
+        # 0 X--------
+        # 1 Y--------
+        # 2 Z--------
+        # 3 H--------
 
         self.grid.handle_input_x()
         self.grid.move_to_adjacent_node(MOVE_DOWN)
@@ -197,10 +197,10 @@ class TestCircuitGrid(unittest.TestCase):
         qubit gates on circuit grid
         """
 
-        # 0 | | | |
-        # 1 X Y Z H
-        # 2 -------
-        # 3 -------
+        # 0 |-----|--
+        # 1 X-----H--
+        # 2 --Y-Z----
+        # 3 --|-|----
 
         self.grid.move_to_adjacent_node(MOVE_DOWN)
 
@@ -208,23 +208,27 @@ class TestCircuitGrid(unittest.TestCase):
         self.grid.handle_input_ctrl()
 
         self.grid.move_to_adjacent_node(MOVE_RIGHT)
+        self.grid.move_to_adjacent_node(MOVE_DOWN)
 
         self.grid.handle_input_y()
         self.grid.handle_input_ctrl()
+        self.grid.handle_input_move_ctrl(MOVE_DOWN)
 
         self.grid.move_to_adjacent_node(MOVE_RIGHT)
 
         self.grid.handle_input_z()
         self.grid.handle_input_ctrl()
+        self.grid.handle_input_move_ctrl(MOVE_DOWN)
 
         self.grid.move_to_adjacent_node(MOVE_RIGHT)
+        self.grid.move_to_adjacent_node(MOVE_UP)
 
         self.grid.handle_input_h()
         self.grid.handle_input_ctrl()
 
         node1 = self.circuit_grid_model.get_node(1, 0)
-        node2 = self.circuit_grid_model.get_node(1, 1)
-        node3 = self.circuit_grid_model.get_node(1, 2)
+        node2 = self.circuit_grid_model.get_node(2, 1)
+        node3 = self.circuit_grid_model.get_node(2, 2)
         node4 = self.circuit_grid_model.get_node(1, 3)
 
         self.assertEqual(node_types.X, node1.node_type)
@@ -232,11 +236,11 @@ class TestCircuitGrid(unittest.TestCase):
         self.assertEqual(-1, node1.ctrl_b)
 
         self.assertEqual(node_types.Y, node2.node_type)
-        self.assertEqual(0, node2.ctrl_a)
+        self.assertEqual(3, node2.ctrl_a)
         self.assertEqual(-1, node2.ctrl_b)
 
         self.assertEqual(node_types.Z, node3.node_type)
-        self.assertEqual(0, node3.ctrl_a)
+        self.assertEqual(3, node3.ctrl_a)
         self.assertEqual(-1, node3.ctrl_b)
 
         self.assertEqual(node_types.H, node4.node_type)
