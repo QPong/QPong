@@ -82,10 +82,12 @@ class TestScene(unittest.TestCase):
         self.scene.start(self.screen, self.ball)
         self.assertEqual(self.ball.initial_speed_factor, EASY)
 
+        # select normal mode
         self.inject_event(pygame.KEYDOWN, key=pygame.K_b)
         self.scene.start(self.screen, self.ball)
         self.assertEqual(self.ball.initial_speed_factor, NORMAL)
 
+        # select expert mode
         self.inject_event(pygame.KEYDOWN, key=pygame.K_x)
         self.scene.start(self.screen, self.ball)
         self.assertEqual(self.ball.initial_speed_factor, EXPERT)
