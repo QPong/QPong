@@ -61,6 +61,8 @@ jobs:
     env:
       python-version: "3.9"
       DISPLAY: ":0"
+      SDL_VIDEODRIVER: "dummy"
+      SDL_AUDIODRIVER: "disk"
     steps:
     - uses: actions/checkout@v2
     - name: Check if Qiskit
@@ -91,11 +93,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-        git clone https://github.com/Qiskit/qiskit-terra.git
-        cd qiskit-terra
-        pip install cython
-        pip uninstall qiskit-terra --yes
-        pip install .
+        pip install git+https://github.com/Qiskit/qiskit-terra.git
     - name: Install xvfb and pulseaudio
       if: ${{ env.PASS == 'True' }}
       run: |
