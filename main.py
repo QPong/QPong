@@ -38,6 +38,7 @@ from qpong.utils.parameters import (
 )
 from qpong.utils.colors import BLACK
 
+
 def main():
     """
     Main game loop
