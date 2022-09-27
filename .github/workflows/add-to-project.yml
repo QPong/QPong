@@ -15,6 +15,6 @@ jobs:
           # You can target a repository in a different organization
           # to the issue
           project-url: https://github.com/orgs/QPong/projects/1
-          github-token: ${{ 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 }}
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
           labeled: bug, needs-triage
           label-operator: OR
