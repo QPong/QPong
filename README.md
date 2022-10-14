@@ -33,11 +33,11 @@ Change the directory to the downloaded files. (Downloads/QPong-master)
 
 On Windows, run the following code to change your directory to the QPong folder:
 ```console
-cd C:\users\[your username]\downloads\QPong-master\
+cd C:\users\[your username]\downloads\QPong-main\
 ```
 On macOS, run the following code to change your directory to the QPong folder:
 ```console
-cd Downloads/QPong-master/
+cd Downloads/QPong-main/
 ```
 
 On both Windows and macOS, run the following command to start the game: 
