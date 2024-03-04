@@ -148,7 +148,7 @@ def main():
         if ball.ball_action == MEASURE_RIGHT:
             circuit = level.circuit_grid_model.construct_circuit()
             pos = level.statevector_grid.paddle_after_measurement(
-                circuit, scene.qubit_num, 1
+                circuit, scene.qubit_num
             )
             level.right_statevector.arrange()
 

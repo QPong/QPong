@@ -52,7 +52,7 @@ class Level:
         self.circuit_grid_model = CircuitGridModel(scene.qubit_num, CIRCUIT_DEPTH)
 
         self.circuit = self.circuit_grid_model.construct_circuit()
-        self.statevector_grid = StatevectorGrid(self.circuit, scene.qubit_num, 100)
+        self.statevector_grid = StatevectorGrid(self.circuit, scene.qubit_num)
         self.right_statevector = VBox(
             WIDTH_UNIT * 90, WIDTH_UNIT * 0, self.statevector_grid
         )

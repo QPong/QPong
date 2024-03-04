@@ -269,7 +269,7 @@ class Input:
         statevector_grid = level.statevector_grid
 
         circuit = circuit_grid_model.construct_circuit()
-        statevector_grid.paddle_before_measurement(circuit, scene.qubit_num, 100)
+        statevector_grid.paddle_before_measurement(circuit, scene.qubit_num)
         right_statevector.arrange()
         circuit_grid.draw(screen)
         pygame.display.flip()
