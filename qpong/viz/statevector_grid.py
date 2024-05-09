@@ -22,7 +22,6 @@ from copy import deepcopy
 
 import pygame
 
-from qiskit import ClassicalRegister
 from qiskit.quantum_info import Statevector
 
 from qpong.utils.colors import WHITE, BLACK
