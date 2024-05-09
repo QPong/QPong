@@ -18,8 +18,6 @@
 Statevector grid for quantum player
 """
 
-from copy import deepcopy
-
 import pygame
 
 from qiskit.quantum_info import Statevector
@@ -89,9 +87,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
         measurement_int = int(measurement_bitstring, 2)
 
         self.paddle.set_alpha(255)
-        self.image.blit(
-            self.paddle, (0, measurement_int * self.block_size)
-        )
+        self.image.blit(self.paddle, (0, measurement_int * self.block_size))
 
         return measurement_int
 
