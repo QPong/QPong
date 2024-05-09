@@ -18,11 +18,9 @@
 Statevector grid for quantum player
 """
 
-from copy import deepcopy
-
 import pygame
 
-from qiskit import BasicAer, execute, ClassicalRegister
+from qiskit.quantum_info import Statevector
 
 from qpong.utils.colors import WHITE, BLACK
 from qpong.utils.parameters import WIDTH_UNIT
@@ -36,7 +34,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
     Displays a statevector grid
     """
 
-    def __init__(self, circuit, qubit_num, num_shots):
+    def __init__(self, circuit, qubit_num):
         pygame.sprite.Sprite.__init__(self)
         self.image = None
         self.rect = None
@@ -50,7 +48,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
         self.paddle.fill(WHITE)
         self.paddle.convert()
 
-        self.paddle_before_measurement(circuit, qubit_num, num_shots)
+        self.paddle_before_measurement(circuit, qubit_num)
 
     def display_statevector(self, qubit_num):
         """
@@ -65,7 +63,7 @@ class StatevectorGrid(pygame.sprite.Sprite):
             y_offset = self.block_size * 0.5 - text_height * 0.5
             self.image.blit(text, (2 * WIDTH_UNIT, qb_idx * self.block_size + y_offset))
 
-    def paddle_before_measurement(self, circuit, qubit_num, shot_num):
+    def paddle_before_measurement(self, circuit, qubit_num):
         """
         Get statevector from circuit, and set the
         paddle(s) alpha values according to basis
@@ -73,40 +71,25 @@ class StatevectorGrid(pygame.sprite.Sprite):
         """
         self.update()
         self.display_statevector(qubit_num)
-
-        backend_sv_sim = BasicAer.get_backend("statevector_simulator")
-        job_sim = execute(circuit, backend_sv_sim, shots=shot_num)
-        result_sim = job_sim.result()
-        quantum_state = result_sim.get_statevector(circuit, decimals=3)
+        quantum_state = Statevector(circuit)
 
         for basis_state, ampl in enumerate(quantum_state):
             self.paddle.set_alpha(int(round(abs(ampl) ** 2 * 255)))
             self.image.blit(self.paddle, (0, basis_state * self.block_size))
 
-    def paddle_after_measurement(self, circuit, qubit_num, shot_num):
+    def paddle_after_measurement(self, circuit, qubit_num):
         """
         Measure all qubits on circuit
         """
         self.update()
         self.display_statevector(qubit_num)
-
-        backend_sv_sim = BasicAer.get_backend("qasm_simulator")
-        creg = ClassicalRegister(qubit_num)
-        measure_circuit = deepcopy(circuit)  # make a copy of circuit
-        measure_circuit.add_register(
-            creg
-        )  # add classical registers for measurement readout
-        measure_circuit.measure(measure_circuit.qregs[0], measure_circuit.cregs[0])
-        job_sim = execute(measure_circuit, backend_sv_sim, shots=shot_num)
-        result_sim = job_sim.result()
-        counts = result_sim.get_counts(circuit)
+        measurement_bitstring = Statevector(circuit).sample_memory(1)[0]
+        measurement_int = int(measurement_bitstring, 2)
 
         self.paddle.set_alpha(255)
-        self.image.blit(
-            self.paddle, (0, int(list(counts.keys())[0], 2) * self.block_size)
-        )
+        self.image.blit(self.paddle, (0, measurement_int * self.block_size))
 
-        return int(list(counts.keys())[0], 2)
+        return measurement_int
 
     def update(self):
         """
